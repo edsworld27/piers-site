@@ -12,12 +12,9 @@ const SERVICES = [
 ];
 
 export default function Navbar() {
-  const [scrolled,       setScrolled]       = useState(false);
-  const [menuOpen,       setMenuOpen]        = useState(false);
-  const [dropOpen,       setDropOpen]        = useState(false);
-  const [mobileServOpen, setMobileServOpen]  = useState(false);
+  const [scrolled,  setScrolled]  = useState(false);
+  const [menuOpen,  setMenuOpen]  = useState(false);
   const pathname = usePathname();
-  const dropTimeout = useRef(null);
   const rafId = useRef(null);
 
   useEffect(() => {
@@ -43,11 +40,9 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  useEffect(() => { setDropOpen(false); setMenuOpen(false); }, [pathname]);
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
 
-  const openDrop  = useCallback(() => { clearTimeout(dropTimeout.current); setDropOpen(true);  }, []);
-  const closeDrop = useCallback(() => { dropTimeout.current = setTimeout(() => setDropOpen(false), 120); }, []);
-  const close     = useCallback(() => { setMenuOpen(false); setMobileServOpen(false); }, []);
+  const close = useCallback(() => { setMenuOpen(false); }, []);
 
   const isServicesActive = pathname.startsWith("/services");
 
@@ -73,58 +68,12 @@ export default function Navbar() {
           {/* Desktop nav */}
           <nav className="nav-links" aria-label="Main navigation">
 
-            {/* Services dropdown trigger */}
-            <div
-              className="nav-drop-wrap"
-              onMouseEnter={openDrop}
-              onMouseLeave={closeDrop}
+            <Link
+              href="/services"
+              className={`nav-link${isServicesActive ? " nav-link-active" : ""}`}
             >
-              <Link
-                href="/services"
-                className={`nav-link nav-drop-trigger${isServicesActive ? " nav-link-active" : ""}${dropOpen ? " nav-link-hover" : ""}`}
-                aria-haspopup="menu"
-                aria-expanded={dropOpen}
-              >
-                Services
-                <svg className={`drop-chevron${dropOpen ? " drop-chevron-open" : ""}`} width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                  <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-
-              {/* Dropdown panel */}
-              <div
-                className={`drop-panel${dropOpen ? " drop-panel-open" : ""}`}
-                onMouseEnter={openDrop}
-                onMouseLeave={closeDrop}
-                role="menu"
-                aria-label="Services submenu"
-              >
-                <div className="drop-panel-inner">
-                  <p className="drop-eyebrow">What we treat</p>
-                  <ul className="drop-list">
-                    {SERVICES.map(({ href, label, desc }) => (
-                      <li key={href}>
-                        <Link
-                          href={href}
-                          className={`drop-item${pathname === href ? " drop-item-active" : ""}`}
-                          onClick={close}
-                          role="menuitem"
-                        >
-                          <span className="drop-item-accent" aria-hidden="true" />
-                          <span className="drop-item-text">
-                            <span className="drop-item-label">{label}</span>
-                            <span className="drop-item-desc">{desc}</span>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href="/services" className="drop-all" onClick={close} role="menuitem">
-                    View all services →
-                  </Link>
-                </div>
-              </div>
-            </div>
+              How I Can Help
+            </Link>
 
             {/* Regular links */}
             {links.map(({ href, label }) => (
@@ -165,31 +114,14 @@ export default function Navbar() {
       >
         <nav className="nav-overlay-links" aria-label="Mobile navigation">
 
-          {/* Services — expandable */}
-          <div className="mob-services-wrap">
-            <button
-              className="nav-overlay-link mob-services-btn"
-              onClick={() => setMobileServOpen(o => !o)}
-              aria-expanded={mobileServOpen}
-              aria-controls="mobile-services-menu"
-              style={{ animationDelay: menuOpen ? "0.05s" : "0s" }}
-            >
-              Services
-              <svg className={`mob-chevron${mobileServOpen ? " mob-chevron-open" : ""}`} width="14" height="14" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            <div id="mobile-services-menu" className={`mob-sub${mobileServOpen ? " mob-sub-open" : ""}`}>
-              {SERVICES.map(({ href, label }) => (
-                <Link key={href} href={href} className="mob-sub-link" onClick={close}>
-                  {label}
-                </Link>
-              ))}
-              <Link href="/services" className="mob-sub-link mob-sub-all" onClick={close}>
-                All Services
-              </Link>
-            </div>
-          </div>
+          <Link
+            href="/services"
+            className="nav-overlay-link"
+            style={{ animationDelay: menuOpen ? "0.05s" : "0s" }}
+            onClick={close}
+          >
+            How I Can Help
+          </Link>
 
           {/* Other links */}
           {links.map(({ href, label }, i) => (
