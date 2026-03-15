@@ -1,0 +1,361 @@
+/* ── Contact Page ─────────────────────────────────────────────── */
+
+/* HERO — dark, full-bleed */
+.hero {
+  padding: 10rem 0 8rem;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  /* subtle gold radial behind the headline */
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 600px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+
+.heroEyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9a84c;
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.heroTitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  color: #ffffff;
+  line-height: 1.05;
+  margin: 0 0 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.1s ease forwards;
+}
+
+.heroSub {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.65);
+  margin: 0;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s ease forwards;
+}
+
+/* WHITE SHEET — lifts up over the hero */
+.sheet {
+  background: #faf9f7;          /* warm off-white */
+  border-radius: 28px 28px 0 0;
+  margin-top: -3rem;            /* overlap the hero bottom */
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 -4px 60px rgba(0, 0, 0, 0.35);
+  padding: 4rem 0 6rem;
+}
+
+/* inner max-width grid */
+.sheetInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* ── LEFT COLUMN ─────────────────────────────── */
+.leftCol {
+  position: sticky;
+  top: 7rem;          /* stays in view while form scrolls */
+}
+
+.leftLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9a84c;
+  margin-bottom: 0.75rem;
+}
+
+.leftTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: #0d1526;
+  line-height: 1.25;
+  margin: 0 0 0.75rem;
+}
+
+.leftSub {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.7;
+  margin: 0 0 2.5rem;
+}
+
+/* Contact method cards */
+.contactMethods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.methodCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #0d1526;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.methodCard:hover {
+  border-color: #c9a84c;
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.15);
+  transform: translateY(-2px);
+}
+
+.methodIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #fdf8ef;
+  border: 1px solid #f0e4c3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.methodText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.methodLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.methodValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0d1526;
+}
+
+/* Location block */
+.locationBlock {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.locationHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.locationDot {
+  width: 8px;
+  height: 8px;
+  background: #c9a84c;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.locationTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.locationLines {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.8;
+  margin: 0 0 1rem;
+}
+
+.locationLines strong {
+  color: #0d1526;
+  font-weight: 600;
+}
+
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #c9a84c;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.mapLink:hover {
+  border-color: #c9a84c;
+}
+
+.mapArrow {
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.mapLink:hover .mapArrow {
+  transform: translateX(3px);
+}
+
+/* Trust note */
+.trustNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+}
+
+.trustIcon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.trustText {
+  font-size: 0.88rem;
+  color: #166534;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── RIGHT COLUMN ─────────────────────────────── */
+.rightCol {
+  /* breathing room so the form is framed */
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9a84c;
+  margin-bottom: 0.75rem;
+}
+
+.formTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #0d1526;
+  margin: 0 0 2rem;
+}
+
+.formWrapper {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+}
+
+.formWrapper iframe {
+  display: block;
+  width: 100%;
+  border: none;
+}
+
+.formFooter {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.formFooterLink {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.formFooterLink:hover {
+  color: #c9a84c;
+}
+
+/* ── ANIMATIONS ──────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 900px) {
+  .sheetInner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .leftCol {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 8rem 0 5rem;
+  }
+
+  .sheet {
+    border-radius: 18px 18px 0 0;
+    padding: 2.5rem 0 4rem;
+  }
+
+  .sheetInner {
+    padding: 0 1.25rem;
+  }
+}
