@@ -38,12 +38,11 @@ export default function TestimonialsPage() {
 
         {visibleCount < allTestimonials.length && (
           <div className="load-more-container flex justify-center mt-16 fade-in-up">
-            <button 
+            <button
               onClick={handleLoadMore}
-              className="btn-primary px-12 py-5 font-bold tracking-widest text-sm uppercase flex items-center gap-3 active:scale-95 transition-all shadow-[0_0_20px_rgba(244,162,97,0.3)]"
+              className="btn btn-secondary"
             >
-              Discover More Success Stories
-              <span className="text-xl">↓</span>
+              Discover More Stories ↓
             </button>
           </div>
         )}
