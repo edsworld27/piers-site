@@ -382,7 +382,21 @@
 .stakesEmphasis { margin-top: var(--space-6); margin-bottom: 0 !important; }
 .stakesEmphasis strong { color: #3A2A1A; }
 
-.stakesVisual { display: flex; justify-content: center; }
+.stakesVisual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hourglassHint {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: rgba(122, 59, 30, 0.45);
+  font-weight: 600;
+  margin: 0;
+}
 
 .stakesVisual svg {
   width: 84px;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Script from "next/script";
 import styles from "./home.module.css";
 import TestimonialsScroller from "./components/TestimonialsScroller";
+import AnimatedHourglass from "./components/AnimatedHourglass";
 
 export const metadata = {
   title: "Piers Day | Hypnotherapy for Anxiety, Stress & More | Suffolk & Online",
@@ -23,194 +24,226 @@ export const metadata = {
 };
 
 /* ─────────────────────────────────────────────────────────────────
-   SVG ILLUSTRATIONS — colours tuned for light backgrounds
+   SVG ILLUSTRATIONS — therapeutic, organic, warm
 ───────────────────────────────────────────────────────────────── */
 
-function NeuralOrb() {
+/* Hero — Lotus of Calm: concentric petal rings, deeply therapeutic */
+function LotusHero() {
+  const outer  = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
+  const middle = [0, 45, 90, 135, 180, 225, 270, 315];
+  const inner  = [0, 60, 120, 180, 240, 300];
   return (
     <svg viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <radialGradient id="orbCore" cx="50%" cy="50%" r="50%">
-          <stop offset="0%"   stopColor="#6BAE8A" stopOpacity="0.38"/>
-          <stop offset="100%" stopColor="#6BAE8A" stopOpacity="0"/>
-        </radialGradient>
-      </defs>
-      {/* Atmosphere halos */}
-      <circle cx="240" cy="240" r="232" stroke="rgba(107,174,138,0.14)" strokeWidth="1"/>
-      <circle cx="240" cy="240" r="212" stroke="rgba(107,174,138,0.20)" strokeWidth="1"/>
-      {/* Globe parallels */}
-      <ellipse cx="240" cy="240" rx="192" ry="57"  stroke="rgba(107,174,138,0.22)" strokeWidth="1"/>
-      <ellipse cx="240" cy="240" rx="192" ry="115" stroke="rgba(107,174,138,0.22)" strokeWidth="1"/>
-      <ellipse cx="240" cy="240" rx="192" ry="172" stroke="rgba(107,174,138,0.22)" strokeWidth="1"/>
-      {/* Globe meridians */}
-      <ellipse cx="240" cy="240" rx="57"  ry="192" stroke="rgba(107,174,138,0.22)" strokeWidth="1"/>
-      <ellipse cx="240" cy="240" rx="115" ry="192" stroke="rgba(107,174,138,0.22)" strokeWidth="1"/>
-      <ellipse cx="240" cy="240" rx="172" ry="192" stroke="rgba(107,174,138,0.22)" strokeWidth="1"/>
-      {/* Main equator */}
-      <circle cx="240" cy="240" r="192" stroke="rgba(107,174,138,0.42)" strokeWidth="1.5"/>
-      {/* Highlight arc */}
-      <path d="M 98 190 Q 240 108 382 190" stroke="rgba(107,174,138,0.68)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-      {/* Inner rings */}
-      <circle cx="240" cy="240" r="115" stroke="rgba(107,174,138,0.45)" strokeWidth="1.5" strokeDasharray="4 8"/>
-      <circle cx="240" cy="240" r="57"  stroke="rgba(107,174,138,0.65)" strokeWidth="2"/>
-      {/* Core glow + nucleus */}
-      <circle cx="240" cy="240" r="32" fill="url(#orbCore)"/>
-      <circle cx="240" cy="240" r="15" fill="rgba(107,174,138,0.18)" stroke="#6BAE8A" strokeWidth="2"/>
-      <circle cx="240" cy="240" r="5.5" fill="#6BAE8A"/>
-      {/* Pole nodes */}
-      <circle cx="240" cy="48"  r="5"   fill="rgba(107,174,138,0.75)"/>
-      <circle cx="240" cy="432" r="4"   fill="rgba(107,174,138,0.50)"/>
-      <circle cx="48"  cy="240" r="4.5" fill="rgba(107,174,138,0.62)"/>
-      <circle cx="432" cy="240" r="4.5" fill="rgba(107,174,138,0.62)"/>
-      {/* Diagonal nodes */}
-      <circle cx="108" cy="108" r="3.5" fill="rgba(107,174,138,0.58)"/>
-      <circle cx="372" cy="108" r="3.5" fill="rgba(107,174,138,0.58)"/>
-      <circle cx="372" cy="372" r="3"   fill="rgba(107,174,138,0.42)"/>
-      <circle cx="108" cy="372" r="3"   fill="rgba(107,174,138,0.42)"/>
-      {/* Pole connectors */}
-      <line x1="240" y1="48"  x2="240" y2="130" stroke="rgba(107,174,138,0.32)"  strokeWidth="1"/>
-      <line x1="240" y1="350" x2="240" y2="432" stroke="rgba(107,174,138,0.26)" strokeWidth="1"/>
-      <line x1="48"  y1="240" x2="130" y2="240" stroke="rgba(107,174,138,0.28)" strokeWidth="1"/>
-      <line x1="350" y1="240" x2="432" y2="240" stroke="rgba(107,174,138,0.28)" strokeWidth="1"/>
+      {/* Soft atmospheric halos */}
+      <circle cx="240" cy="240" r="220" stroke="rgba(107,174,138,0.06)" strokeWidth="1.5"/>
+      <circle cx="240" cy="240" r="195" stroke="rgba(107,174,138,0.09)" strokeWidth="1"/>
+      <circle cx="240" cy="240" r="168" stroke="rgba(107,174,138,0.12)" strokeWidth="1"/>
+
+      {/* Outermost petal layer — 8 petals, offset 22.5° */}
+      {outer.map((a, i) => (
+        <ellipse key={i} cx="240" cy="96" rx="15" ry="44"
+          fill="rgba(107,174,138,0.07)" stroke="rgba(107,174,138,0.22)" strokeWidth="1"
+          transform={`rotate(${a}, 240, 240)`}/>
+      ))}
+
+      {/* Middle petal layer — 8 petals */}
+      {middle.map((a, i) => (
+        <ellipse key={i} cx="240" cy="148" rx="13" ry="36"
+          fill="rgba(107,174,138,0.11)" stroke="rgba(107,174,138,0.36)" strokeWidth="1.2"
+          transform={`rotate(${a}, 240, 240)`}/>
+      ))}
+
+      {/* Inner petal layer — 6 petals */}
+      {inner.map((a, i) => (
+        <ellipse key={i} cx="240" cy="188" rx="10" ry="27"
+          fill="rgba(107,174,138,0.18)" stroke="rgba(107,174,138,0.55)" strokeWidth="1.5"
+          transform={`rotate(${a}, 240, 240)`}/>
+      ))}
+
+      {/* Centre rings */}
+      <circle cx="240" cy="240" r="42" fill="rgba(107,174,138,0.06)" stroke="rgba(107,174,138,0.28)" strokeWidth="1.5"/>
+      <circle cx="240" cy="240" r="24" fill="rgba(107,174,138,0.14)" stroke="#6BAE8A" strokeWidth="1.8"/>
+      <circle cx="240" cy="240" r="9"  fill="#6BAE8A"/>
     </svg>
   );
 }
 
-function IcebergSVG() {
+/* Empathy — Tree of Awareness: trunk/branches above ground = conscious, roots below = subconscious */
+function TreeSVG() {
   return (
     <svg viewBox="0 0 260 368" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Water line */}
-      <line x1="0" y1="108" x2="260" y2="108" stroke="rgba(107,174,138,0.55)" strokeWidth="1.5"/>
-      <line x1="0" y1="115" x2="260" y2="115" stroke="rgba(107,174,138,0.2)" strokeWidth="1"/>
+      {/* Ground line */}
+      <line x1="0" y1="122" x2="260" y2="122" stroke="rgba(107,174,138,0.55)" strokeWidth="1.5"/>
+      <line x1="0" y1="129" x2="260" y2="129" stroke="rgba(107,174,138,0.18)" strokeWidth="1"/>
+
       {/* Labels */}
-      <text x="8" y="97"  fill="rgba(45,106,79,0.85)" fontSize="9.5" fontFamily="Inter,sans-serif" fontWeight="700" letterSpacing="1.8">CONSCIOUS — 10%</text>
-      <text x="8" y="250" fill="rgba(45,106,79,0.65)" fontSize="9.5" fontFamily="Inter,sans-serif" fontWeight="700" letterSpacing="1.8">SUBCONSCIOUS — 90%</text>
-      {/* Above-water tip */}
-      <polygon points="130,14 178,108 82,108" fill="rgba(107,174,138,0.22)" stroke="rgba(107,174,138,0.70)" strokeWidth="1.5" strokeLinejoin="round"/>
-      <polygon points="130,30 164,108 96,108" fill="rgba(107,174,138,0.10)"/>
-      {/* Below-water mass */}
-      <polygon points="82,108 178,108 222,264 172,356 88,356 38,264"
-               fill="rgba(45,106,79,0.14)" stroke="rgba(107,174,138,0.45)" strokeWidth="1.5" strokeLinejoin="round"/>
-      <polygon points="92,124 168,124 210,258 166,344 94,344 50,258" fill="rgba(107,174,138,0.06)"/>
-      {/* Depth lines */}
-      <line x1="44"  y1="178" x2="216" y2="178" stroke="rgba(107,174,138,0.18)"  strokeWidth="1"/>
-      <line x1="40"  y1="224" x2="220" y2="224" stroke="rgba(107,174,138,0.14)" strokeWidth="1"/>
-      <line x1="50"  y1="270" x2="210" y2="270" stroke="rgba(107,174,138,0.10)" strokeWidth="1"/>
-      <line x1="66"  y1="316" x2="194" y2="316" stroke="rgba(107,174,138,0.07)" strokeWidth="1"/>
+      <text x="8" y="112" fill="rgba(45,106,79,0.85)" fontSize="9.5" fontFamily="Inter,sans-serif" fontWeight="700" letterSpacing="1.8">CONSCIOUS — 10%</text>
+      <text x="8" y="272" fill="rgba(45,106,79,0.65)" fontSize="9.5" fontFamily="Inter,sans-serif" fontWeight="700" letterSpacing="1.8">SUBCONSCIOUS — 90%</text>
+
+      {/* Trunk */}
+      <line x1="130" y1="122" x2="130" y2="76" stroke="rgba(107,174,138,0.75)" strokeWidth="3.5" strokeLinecap="round"/>
+
+      {/* Primary branches */}
+      <path d="M 130 96 C 118 89 104 83 90 73" stroke="rgba(107,174,138,0.60)" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      <path d="M 130 89 C 142 81 156 75 170 65" stroke="rgba(107,174,138,0.60)" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      <path d="M 130 82 C 126 69 122 56 119 42" stroke="rgba(107,174,138,0.54)" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+      <path d="M 130 82 C 135 69 140 55 143 40" stroke="rgba(107,174,138,0.54)" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+
+      {/* Secondary branches */}
+      <path d="M 90 73 C 81 66 72 60 62 55" stroke="rgba(107,174,138,0.42)" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+      <path d="M 170 65 C 180 58 188 52 196 47" stroke="rgba(107,174,138,0.42)" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+      <path d="M 119 42 C 113 33 107 25 103 17" stroke="rgba(107,174,138,0.36)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+      <path d="M 143 40 C 149 31 156 23 160 15" stroke="rgba(107,174,138,0.36)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+
+      {/* Leaf clusters */}
+      <circle cx="90"  cy="71"  r="10" fill="rgba(107,174,138,0.17)" stroke="rgba(107,174,138,0.50)" strokeWidth="1.2"/>
+      <circle cx="62"  cy="53"  r="8"  fill="rgba(107,174,138,0.14)" stroke="rgba(107,174,138,0.44)" strokeWidth="1"/>
+      <circle cx="170" cy="63"  r="10" fill="rgba(107,174,138,0.17)" stroke="rgba(107,174,138,0.50)" strokeWidth="1.2"/>
+      <circle cx="196" cy="45"  r="8"  fill="rgba(107,174,138,0.14)" stroke="rgba(107,174,138,0.44)" strokeWidth="1"/>
+      <circle cx="119" cy="40"  r="9"  fill="rgba(107,174,138,0.16)" stroke="rgba(107,174,138,0.47)" strokeWidth="1.1"/>
+      <circle cx="143" cy="38"  r="9"  fill="rgba(107,174,138,0.16)" stroke="rgba(107,174,138,0.47)" strokeWidth="1.1"/>
+      <circle cx="103" cy="15"  r="11" fill="rgba(107,174,138,0.20)" stroke="rgba(107,174,138,0.54)" strokeWidth="1.3"/>
+      <circle cx="160" cy="13"  r="11" fill="rgba(107,174,138,0.20)" stroke="rgba(107,174,138,0.54)" strokeWidth="1.3"/>
+
+      {/* Main roots */}
+      <path d="M 130 122 C 126 148 118 168 108 190 C 98 212 83 230 68 248" stroke="rgba(107,174,138,0.48)" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      <path d="M 130 122 C 134 150 142 172 153 194 C 163 216 180 234 194 250" stroke="rgba(107,174,138,0.48)" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+      <path d="M 130 122 C 130 150 128 178 130 204 C 132 228 130 250 130 272" stroke="rgba(107,174,138,0.52)" strokeWidth="3" fill="none" strokeLinecap="round"/>
+
+      {/* Secondary roots */}
+      <path d="M 108 158 C 92 165 76 168 58 172" stroke="rgba(107,174,138,0.34)" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+      <path d="M 153 162 C 169 168 185 172 202 178" stroke="rgba(107,174,138,0.34)" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+      <path d="M 98 192 C 80 200 62 204 44 208" stroke="rgba(107,174,138,0.26)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M 162 196 C 180 204 198 208 216 212" stroke="rgba(107,174,138,0.26)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M 68 246 C 54 254 40 258 26 262" stroke="rgba(107,174,138,0.20)" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+      <path d="M 194 250 C 208 258 222 262 236 266" stroke="rgba(107,174,138,0.20)" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+
+      {/* Fine root tendrils */}
+      <path d="M 58 170 C 44 178 32 181 18 184" stroke="rgba(107,174,138,0.18)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+      <path d="M 202 176 C 216 184 228 186 242 188" stroke="rgba(107,174,138,0.18)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+      <path d="M 130 270 C 126 284 122 298 120 310" stroke="rgba(107,174,138,0.22)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M 130 270 C 134 284 138 298 140 312" stroke="rgba(107,174,138,0.22)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
     </svg>
   );
 }
 
-/* Bento card icons — boosted opacity for white card backgrounds */
-function AnxietyIcon() {
+/* Service card icons — organic, warm, therapeutic */
+
+function CalmIcon() {
   return (
     <svg viewBox="0 0 72 44" fill="none" aria-hidden="true">
-      <polyline points="0,22 7,8 13,36 19,4 25,38 31,14 36,22"
-        stroke="rgba(94,155,181,0.75)" strokeWidth="2" strokeLinejoin="round" fill="none"/>
-      <line x1="36" y1="0" x2="36" y2="44" stroke="rgba(0,0,0,0.06)" strokeWidth="1"/>
-      <path d="M 38 22 Q 47 13 56 22 Q 65 31 72 22"
-        stroke="rgba(107,174,138,0.92)" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      {/* Concentric calm ripples */}
+      <circle cx="22" cy="22" r="18" stroke="rgba(107,174,138,0.14)" strokeWidth="1"   fill="none"/>
+      <circle cx="22" cy="22" r="13" stroke="rgba(107,174,138,0.28)" strokeWidth="1.2" fill="none"/>
+      <circle cx="22" cy="22" r="8"  stroke="rgba(107,174,138,0.50)" strokeWidth="1.4" fill="none"/>
+      <circle cx="22" cy="22" r="3"  fill="rgba(107,174,138,0.88)"/>
+      {/* Breath wave */}
+      <path d="M 40 22 Q 46 14 52 22 Q 58 30 64 22"
+        stroke="#6BAE8A" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
     </svg>
   );
 }
 
-function SmokingIcon() {
+function GrowthIcon() {
   return (
     <svg viewBox="0 0 72 44" fill="none" aria-hidden="true">
-      <rect x="4"  y="16" width="16" height="12" rx="6" stroke="rgba(107,174,138,0.75)" strokeWidth="1.5" fill="none"/>
-      <rect x="26" y="16" width="16" height="12" rx="6" stroke="rgba(107,174,138,0.70)" strokeWidth="1.5" fill="none"/>
-      <line x1="20" y1="22" x2="26" y2="22" stroke="rgba(201,144,106,0.55)" strokeWidth="1.5" strokeDasharray="2 2"/>
-      <line x1="46" y1="19" x2="50" y2="25" stroke="rgba(201,144,106,0.95)" strokeWidth="2" strokeLinecap="round"/>
-      <line x1="50" y1="19" x2="46" y2="25" stroke="rgba(201,144,106,0.95)" strokeWidth="2" strokeLinecap="round"/>
-      <rect x="52" y="16" width="16" height="12" rx="6" stroke="rgba(107,174,138,0.45)" strokeWidth="1.5" fill="none" strokeDasharray="3 2"/>
+      {/* Stem */}
+      <line x1="36" y1="42" x2="36" y2="8" stroke="rgba(107,174,138,0.70)" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Left leaf */}
+      <path d="M 36 30 C 36 30 22 22 24 10 C 30 12 37 22 36 30 Z"
+        fill="rgba(107,174,138,0.16)" stroke="rgba(107,174,138,0.62)" strokeWidth="1.2"/>
+      {/* Right leaf */}
+      <path d="M 36 20 C 36 20 50 12 48 2 C 42 4 35 14 36 20 Z"
+        fill="rgba(107,174,138,0.16)" stroke="rgba(107,174,138,0.62)" strokeWidth="1.2"/>
+      {/* Bud */}
+      <ellipse cx="36" cy="6" rx="4" ry="5"
+        fill="rgba(107,174,138,0.24)" stroke="rgba(107,174,138,0.70)" strokeWidth="1.3"/>
+      {/* Tiny soil roots */}
+      <path d="M 36 42 C 30 42 24 44 20 44" stroke="rgba(107,174,138,0.32)" strokeWidth="1" fill="none" strokeLinecap="round"/>
+      <path d="M 36 42 C 42 42 48 44 52 44" stroke="rgba(107,174,138,0.32)" strokeWidth="1" fill="none" strokeLinecap="round"/>
     </svg>
   );
 }
 
-function WeightIcon() {
+function BalanceIcon() {
   return (
     <svg viewBox="0 0 72 44" fill="none" aria-hidden="true">
-      <line x1="36" y1="8"  x2="36" y2="24" stroke="rgba(107,174,138,0.85)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="10" y1="24" x2="62" y2="24" stroke="rgba(107,174,138,0.85)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="14" y1="24" x2="12" y2="32" stroke="rgba(107,174,138,0.65)"  strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="58" y1="24" x2="60" y2="32" stroke="rgba(107,174,138,0.65)"  strokeWidth="1.5" strokeLinecap="round"/>
-      <ellipse cx="12" cy="34" rx="9" ry="3" fill="none" stroke="rgba(107,174,138,0.75)" strokeWidth="1.5"/>
-      <ellipse cx="60" cy="34" rx="9" ry="3" fill="none" stroke="rgba(107,174,138,0.75)" strokeWidth="1.5"/>
-      <polygon points="36,4 39.5,10 32.5,10" fill="rgba(107,174,138,0.60)"/>
+      {/* Central pillar */}
+      <line x1="36" y1="8" x2="36" y2="38" stroke="rgba(107,174,138,0.68)" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Balance beam — slightly tilted left (harmony, not perfection) */}
+      <path d="M 9 20 Q 36 16 63 20" stroke="rgba(107,174,138,0.78)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      {/* Left bowl */}
+      <path d="M 9 20 Q 8 30 14 32 Q 20 34 22 30 Q 24 26 20 20"
+        stroke="rgba(107,174,138,0.58)" strokeWidth="1.3" fill="rgba(107,174,138,0.09)"/>
+      {/* Right bowl */}
+      <path d="M 63 20 Q 64 30 58 32 Q 52 34 50 30 Q 48 26 52 20"
+        stroke="rgba(107,174,138,0.58)" strokeWidth="1.3" fill="rgba(107,174,138,0.09)"/>
+      {/* Small heart in left bowl */}
+      <path d="M 13 26 C 13 24 15 23 16 25 C 17 23 19 24 19 26 C 19 28 16 30 16 30 C 16 30 13 28 13 26 Z"
+        fill="rgba(107,174,138,0.60)"/>
     </svg>
   );
 }
 
-function ConfidenceIcon() {
+function SunriseIcon() {
   return (
     <svg viewBox="0 0 72 44" fill="none" aria-hidden="true">
-      <rect x="8"  y="6"  width="24" height="32" rx="2" stroke="rgba(107,174,138,0.55)"  strokeWidth="1.5" fill="rgba(107,174,138,0.05)"/>
-      <path d="M 32 6 L 44 10 L 44 38 L 32 38"   stroke="rgba(107,174,138,0.82)" strokeWidth="1.5" fill="rgba(107,174,138,0.08)"/>
-      <line x1="47" y1="22" x2="63" y2="16" stroke="rgba(201,144,106,0.75)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="47" y1="24" x2="65" y2="24" stroke="rgba(201,144,106,0.88)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="47" y1="26" x2="63" y2="32" stroke="rgba(201,144,106,0.75)" strokeWidth="1.5" strokeLinecap="round"/>
-      <circle cx="29" cy="24" r="2.5" fill="none" stroke="rgba(107,174,138,0.72)" strokeWidth="1.5"/>
+      {/* Background mountain */}
+      <path d="M 28 42 L 46 22 L 64 42 Z"
+        fill="rgba(107,174,138,0.07)" stroke="rgba(107,174,138,0.38)" strokeWidth="1.2" strokeLinejoin="round"/>
+      {/* Foreground mountain */}
+      <path d="M 2 42 L 24 12 L 46 42 Z"
+        fill="rgba(107,174,138,0.12)" stroke="rgba(107,174,138,0.62)" strokeWidth="1.5" strokeLinejoin="round"/>
+      {/* Rising sun at peak */}
+      <circle cx="24" cy="11" r="5.5"
+        fill="rgba(201,144,106,0.32)" stroke="rgba(201,144,106,0.72)" strokeWidth="1.3"/>
+      {/* Sun rays */}
+      <line x1="24" y1="4"  x2="24" y2="2"   stroke="rgba(201,144,106,0.62)" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="30" y1="7"  x2="32" y2="5"   stroke="rgba(201,144,106,0.52)" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="18" y1="7"  x2="16" y2="5"   stroke="rgba(201,144,106,0.52)" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="32" y1="12" x2="34" y2="12"  stroke="rgba(201,144,106,0.48)" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="16" y1="12" x2="14" y2="12"  stroke="rgba(201,144,106,0.48)" strokeWidth="1.2" strokeLinecap="round"/>
     </svg>
   );
 }
 
 /* Step icons */
-function ReachOutIcon() {
+function HeartHandIcon() {
   return (
     <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <rect x="6" y="10" width="36" height="24" rx="6" stroke="#6BAE8A" strokeWidth="1.5" fill="rgba(107,174,138,0.08)"/>
-      <path d="M 14 34 L 10 42" stroke="#6BAE8A" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="16" y1="20" x2="32" y2="20" stroke="rgba(107,174,138,0.65)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="16" y1="26" x2="26" y2="26" stroke="rgba(107,174,138,0.45)" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M 24 38 C 10 27 8 20 8 16 C 8 11 12 8 16 8 C 19 8 22 10 24 13 C 26 10 29 8 32 8 C 36 8 40 11 40 16 C 40 20 38 27 24 38 Z"
+        fill="rgba(107,174,138,0.12)" stroke="#6BAE8A" strokeWidth="1.5" strokeLinejoin="round"/>
+      {/* Small inner heart highlight */}
+      <path d="M 24 32 C 16 26 15 22 15 20 C 15 18 17 17 19 19 C 21 17 23 18 24 20 C 25 18 27 17 29 19 C 31 17 33 18 33 20 C 33 22 32 26 24 32 Z"
+        fill="rgba(107,174,138,0.22)"/>
     </svg>
   );
 }
 
-function ReviewIcon() {
+function ConnectionIcon() {
   return (
     <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <circle cx="20" cy="20" r="13" stroke="#6BAE8A" strokeWidth="1.5" fill="rgba(107,174,138,0.08)"/>
-      <line x1="30" y1="30" x2="42" y2="42" stroke="#6BAE8A" strokeWidth="2" strokeLinecap="round"/>
-      <line x1="14" y1="20" x2="26" y2="20" stroke="rgba(107,174,138,0.65)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="20" y1="14" x2="20" y2="26" stroke="rgba(107,174,138,0.65)" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Two interlocking circles — meeting of minds */}
+      <circle cx="17" cy="24" r="13" stroke="#6BAE8A" strokeWidth="1.5" fill="rgba(107,174,138,0.07)"/>
+      <circle cx="31" cy="24" r="13" stroke="#6BAE8A" strokeWidth="1.5" fill="rgba(107,174,138,0.07)"/>
+      {/* Vesica overlap — shared space */}
+      <path d="M 24 12 Q 31 18 31 24 Q 31 30 24 36 Q 17 30 17 24 Q 17 18 24 12 Z"
+        fill="rgba(107,174,138,0.22)"/>
     </svg>
   );
 }
 
-function PlanIcon() {
+function PathStarIcon() {
   return (
     <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <circle cx="24" cy="24" r="16" stroke="#6BAE8A" strokeWidth="1.5" fill="rgba(107,174,138,0.08)"/>
-      <line x1="24" y1="8"  x2="24" y2="16" stroke="#6BAE8A"              strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="24" y1="32" x2="24" y2="40" stroke="rgba(107,174,138,0.5)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="8"  y1="24" x2="16" y2="24" stroke="rgba(107,174,138,0.5)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="32" y1="24" x2="40" y2="24" stroke="rgba(107,174,138,0.5)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="24" y1="24" x2="32" y2="16" stroke="#6BAE8A"               strokeWidth="1.5" strokeLinecap="round"/>
-      <circle cx="24" cy="24" r="3.5" fill="#6BAE8A"/>
-    </svg>
-  );
-}
-
-function HourglassSVG() {
-  return (
-    <svg viewBox="0 0 80 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Caps */}
-      <rect x="5"  y="4"   width="70" height="10" rx="5" fill="rgba(201,144,106,0.22)" stroke="rgba(201,144,106,0.55)" strokeWidth="1.5"/>
-      <rect x="5"  y="126" width="70" height="10" rx="5" fill="rgba(201,144,106,0.22)" stroke="rgba(201,144,106,0.55)" strokeWidth="1.5"/>
-      {/* Top chamber */}
-      <path d="M 8 14 L 72 14 L 42 66 L 38 66 Z" fill="rgba(196,144,106,0.08)" stroke="rgba(201,144,106,0.32)" strokeWidth="1"/>
-      {/* Remaining sand — top */}
-      <path d="M 8 14 L 28 14 L 41 42 L 38 42 Z" fill="rgba(201,144,106,0.28)"/>
-      {/* Neck */}
-      <rect x="37" y="66" width="6" height="8" fill="rgba(201,144,106,0.52)"/>
-      {/* Bottom chamber */}
-      <path d="M 38 74 L 42 74 L 72 126 L 8 126 Z" fill="rgba(196,144,106,0.08)" stroke="rgba(201,144,106,0.32)" strokeWidth="1"/>
-      {/* Sand pile — bottom */}
-      <path d="M 15 110 Q 40 98 65 110 L 72 126 L 8 126 Z" fill="rgba(201,144,106,0.30)"/>
-      {/* Falling stream */}
-      <line x1="40" y1="66" x2="40" y2="78" stroke="rgba(201,144,106,0.72)" strokeWidth="1.5" strokeDasharray="2 3"/>
-      {/* Depth line */}
-      <line x1="16" y1="96" x2="64" y2="96" stroke="rgba(201,144,106,0.14)" strokeWidth="1"/>
+      {/* Journey path */}
+      <path d="M 8 40 Q 18 30 28 22 Q 36 16 40 10"
+        stroke="#6BAE8A" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeDasharray="3 3"/>
+      {/* Start */}
+      <circle cx="8" cy="40" r="3.5" fill="rgba(107,174,138,0.45)" stroke="#6BAE8A" strokeWidth="1"/>
+      {/* Destination star */}
+      <polygon points="40,4 41.8,9 47,9 43,12.5 44.8,17.5 40,14 35.2,17.5 37,12.5 33,9 38.2,9"
+        fill="rgba(107,174,138,0.55)" stroke="#6BAE8A" strokeWidth="1"/>
     </svg>
   );
 }
@@ -258,7 +291,7 @@ export default function Home() {
 
             <div className={`${styles.heroVisual} fade-in-up`} style={{ animationDelay: "0.2s" }}>
               <div className={styles.orbWrapper}>
-                <NeuralOrb />
+                <LotusHero />
               </div>
             </div>
 
@@ -288,7 +321,7 @@ export default function Home() {
         <section className={styles.empathySection}>
           <div className={`container ${styles.empathyInner}`}>
             <div className={`${styles.empathyVisual} fade-in-up`}>
-              <IcebergSVG />
+              <TreeSVG />
             </div>
             <div className={`${styles.empathyText} fade-in-up`} style={{ animationDelay: "0.15s" }}>
               <h2>You shouldn&rsquo;t have to fight your own mind every day.</h2>
@@ -312,7 +345,7 @@ export default function Home() {
 
             <div className={styles.bentoGrid}>
               <Link href="/services/anxiety" className={`${styles.bentoCard} ${styles.bentoWide} glass-panel fade-in-up`}>
-                <div className={styles.bentoIcon}><AnxietyIcon /></div>
+                <div className={styles.bentoIcon}><CalmIcon /></div>
                 <div className={styles.bentoBody}>
                   <span className="eyebrow">If you struggle with:</span>
                   <h3>Anxiety &amp; Trauma</h3>
@@ -322,7 +355,7 @@ export default function Home() {
               </Link>
 
               <Link href="/services/stop-smoking" className={`${styles.bentoCard} glass-panel fade-in-up`} style={{ animationDelay: "0.1s" }}>
-                <div className={styles.bentoIcon}><SmokingIcon /></div>
+                <div className={styles.bentoIcon}><GrowthIcon /></div>
                 <div className={styles.bentoBody}>
                   <span className="eyebrow">If you struggle with:</span>
                   <h3>Smoking &amp; Addictions</h3>
@@ -332,7 +365,7 @@ export default function Home() {
               </Link>
 
               <Link href="/services/weight-loss" className={`${styles.bentoCard} glass-panel fade-in-up`} style={{ animationDelay: "0.2s" }}>
-                <div className={styles.bentoIcon}><WeightIcon /></div>
+                <div className={styles.bentoIcon}><BalanceIcon /></div>
                 <div className={styles.bentoBody}>
                   <span className="eyebrow">If you struggle with:</span>
                   <h3>Weight &amp; Eating</h3>
@@ -342,7 +375,7 @@ export default function Home() {
               </Link>
 
               <Link href="/services/confidence" className={`${styles.bentoCard} ${styles.bentoWide} glass-panel fade-in-up`} style={{ animationDelay: "0.3s" }}>
-                <div className={styles.bentoIcon}><ConfidenceIcon /></div>
+                <div className={styles.bentoIcon}><SunriseIcon /></div>
                 <div className={styles.bentoBody}>
                   <span className="eyebrow">If you struggle with:</span>
                   <h3>Confidence &amp; Focus</h3>
@@ -367,7 +400,8 @@ export default function Home() {
               </p>
             </div>
             <div className={`${styles.stakesVisual} fade-in-up`} style={{ animationDelay: "0.2s" }}>
-              <HourglassSVG />
+              <AnimatedHourglass />
+              <p className={styles.hourglassHint}>tap to flip</p>
             </div>
           </div>
         </section>
@@ -393,7 +427,7 @@ export default function Home() {
 
             <div className={styles.planGrid}>
               <div className={`${styles.planCard} glass-panel fade-in-up`}>
-                <div className={styles.planIcon}><ReachOutIcon /></div>
+                <div className={styles.planIcon}><HeartHandIcon /></div>
                 <div className={styles.planNum}>01</div>
                 <h3>Reach Out Your Way</h3>
                 <p>Fill out a quick form, call, or email. Choose the method that feels easiest for you. Zero pressure.</p>
@@ -407,7 +441,7 @@ export default function Home() {
               </div>
 
               <div className={`${styles.planCard} glass-panel fade-in-up`} style={{ animationDelay: "0.2s" }}>
-                <div className={styles.planIcon}><ReviewIcon /></div>
+                <div className={styles.planIcon}><ConnectionIcon /></div>
                 <div className={styles.planNum}>02</div>
                 <h3>Free Intake Review</h3>
                 <p>We figure out exactly what your problem is, why you are stuck, and how we can solve it for you.</p>
@@ -421,7 +455,7 @@ export default function Home() {
               </div>
 
               <div className={`${styles.planCard} glass-panel fade-in-up`} style={{ animationDelay: "0.4s" }}>
-                <div className={styles.planIcon}><PlanIcon /></div>
+                <div className={styles.planIcon}><PathStarIcon /></div>
                 <div className={styles.planNum}>03</div>
                 <h3>Get Your Plan &amp; Tools</h3>
                 <p>You&rsquo;ll walk away with a clear plan and the mental equipment to support you so you can finally thrive.</p>

@@ -12,23 +12,19 @@
   pointer-events: none;
 }
 
-/* Root */
+/* Root — solid dark navy always, mirroring the footer */
 .nav-root {
   position: fixed;
   top: 0; left: 0;
   width: 100%;
   z-index: var(--z-nav);
-  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-  background: transparent;
-  border-bottom: 1px solid transparent;
+  transition: box-shadow 0.4s ease;
+  background: var(--color-bg-base);
+  border-bottom: 1px solid var(--accent-10);
 }
 
 .nav-scrolled {
-  background: var(--color-nav-bg);
-  backdrop-filter: var(--glass-blur-heavy);
-  -webkit-backdrop-filter: var(--glass-blur-heavy);
-  border-bottom-color: var(--accent-10);
-  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 40px rgba(0, 0, 0, 0.35);
 }
 
 /* Inner */
