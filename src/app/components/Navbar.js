@@ -197,7 +197,7 @@ export default function Navbar() {
           top: 0; left: 0;
           width: 100%;
           height: 1px;
-          background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.5) 40%, rgba(201,168,76,0.5) 60%, transparent 100%);
+          background: linear-gradient(90deg, transparent 0%, rgba(107,174,138,0.5) 40%, rgba(107,174,138,0.5) 60%, transparent 100%);
           z-index: 1001;
           pointer-events: none;
         }
@@ -217,7 +217,7 @@ export default function Navbar() {
           background: rgba(9, 15, 34, 0.88);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border-bottom-color: rgba(201, 168, 76, 0.1);
+          border-bottom-color: rgba(107, 174, 138, 0.1);
           box-shadow: 0 1px 40px rgba(0, 0, 0, 0.4);
         }
 
@@ -285,7 +285,7 @@ export default function Navbar() {
           width: 3px;
           height: 3px;
           border-radius: 50%;
-          background: rgba(201, 168, 76, 0.8);
+          background: rgba(107, 174, 138, 0.8);
         }
 
         /* ── Dropdown wrapper ────────────────────────── */
@@ -310,7 +310,7 @@ export default function Navbar() {
           background: rgba(9, 15, 34, 0.96);
           backdrop-filter: blur(24px);
           -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(201, 168, 76, 0.14);
+          border: 1px solid rgba(107, 174, 138, 0.14);
           border-radius: 12px;
           box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
           opacity: 0;
@@ -344,7 +344,7 @@ export default function Navbar() {
           font-weight: 700;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: rgba(201, 168, 76, 0.7);
+          color: rgba(107, 174, 138, 0.7);
           margin: 0 0 0.85rem 0.5rem;
         }
 
@@ -378,14 +378,14 @@ export default function Navbar() {
           width: 2px;
           height: 28px;
           border-radius: 2px;
-          background: rgba(201,168,76,0.2);
+          background: rgba(107,174,138,0.2);
           flex-shrink: 0;
           transition: background 0.18s ease;
         }
 
         .drop-item:hover .drop-item-accent,
         .drop-item-active .drop-item-accent {
-          background: rgba(201,168,76,0.8);
+          background: rgba(107,174,138,0.8);
         }
 
         .drop-item-text {
@@ -420,13 +420,13 @@ export default function Navbar() {
           font-weight: 600;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: rgba(201,168,76,0.6);
+          color: rgba(107,174,138,0.6);
           text-decoration: none;
           padding: 0.75rem 0.75rem 0;
           border-top: 1px solid rgba(255,255,255,0.06);
           transition: color 0.18s ease;
         }
-        .drop-all:hover { color: #c9a84c; }
+        .drop-all:hover { color: #6BAE8A; }
 
         /* ── CTA ─────────────────────────────────────── */
         .nav-cta {
@@ -435,19 +435,19 @@ export default function Navbar() {
           font-weight: 600;
           letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: #c9a84c;
+          color: #6BAE8A;
           text-decoration: none;
           padding: 0.55rem 1.3rem;
-          border: 1px solid rgba(201,168,76,0.45);
+          border: 1px solid rgba(107,174,138,0.45);
           border-radius: 2px;
           white-space: nowrap;
           flex-shrink: 0;
           transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
         }
         .nav-cta:hover {
-          color: #0a1120;
-          background: #c9a84c;
-          border-color: #c9a84c;
+          color: #0C1B2E;
+          background: #6BAE8A;
+          border-color: #6BAE8A;
         }
 
         /* ── Hamburger ───────────────────────────────── */
@@ -482,7 +482,7 @@ export default function Navbar() {
           position: fixed;
           inset: 0;
           z-index: 999;
-          background: #090f22;
+          background: #0C1B2E;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -560,8 +560,8 @@ export default function Navbar() {
           transition: color 0.2s ease;
         }
         .mob-sub-link:hover { color: rgba(240,235,224,0.9); }
-        .mob-sub-all { color: rgba(201,168,76,0.6); }
-        .mob-sub-all:hover { color: #c9a84c; }
+        .mob-sub-all { color: rgba(107,174,138,0.6); }
+        .mob-sub-all:hover { color: #6BAE8A; }
 
         .nav-overlay-cta {
           font-family: 'Inter', system-ui, sans-serif;
@@ -569,10 +569,10 @@ export default function Navbar() {
           font-weight: 600;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: #c9a84c;
+          color: #6BAE8A;
           text-decoration: none;
           padding: 0.7rem 2rem;
-          border: 1px solid rgba(201,168,76,0.4);
+          border: 1px solid rgba(107,174,138,0.4);
           border-radius: 2px;
           margin-top: 1.5rem;
           opacity: 0;
@@ -581,7 +581,7 @@ export default function Navbar() {
           transition: color 0.2s ease, background 0.2s ease;
         }
         .nav-overlay.is-open .nav-overlay-cta { animation: overlayLinkIn 0.45s ease forwards; }
-        .nav-overlay-cta:hover { color: #0a1120; background: #c9a84c; }
+        .nav-overlay-cta:hover { color: #0C1B2E; background: #6BAE8A; }
 
         @keyframes overlayLinkIn {
           to { opacity: 1; transform: translateY(0); }

@@ -63,9 +63,9 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <style dangerouslySetInnerHTML={{ __html: `
-          :root { --color-bg: #0d1526; }
+          :root { --color-bg: #0C1B2E; }
           body { background: var(--color-bg); color: #f5f0e8; margin: 0; }
-          .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0d1526; }
+          .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0C1B2E; }
           .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
         `}} />
       </head>

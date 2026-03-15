@@ -59,8 +59,8 @@ export default function ServicesPage() {
               <article className="service-card">
                 <div className="icon">
                   <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="22" cy="22" r="18" stroke="#c9a84c" strokeWidth="1.5"/>
-                    <path d="M22 10V22L30 30" stroke="#c9a84c" strokeWidth="1.5" strokeLinecap="round"/>
+                    <circle cx="22" cy="22" r="18" stroke="#6BAE8A" strokeWidth="1.5"/>
+                    <path d="M22 10V22L30 30" stroke="#6BAE8A" strokeWidth="1.5" strokeLinecap="round"/>
                   </svg>
                 </div>
                 <span className="card-tag">MENTAL HEALTH</span>
@@ -79,8 +79,8 @@ export default function ServicesPage() {
               <article className="service-card">
                 <div className="icon">
                   <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="8" y="8" width="28" height="28" rx="2" stroke="#c9a84c" strokeWidth="1.5"/>
-                    <path d="M14 22H30M22 14V30" stroke="#c9a84c" strokeWidth="1.5" strokeLinecap="round"/>
+                    <rect x="8" y="8" width="28" height="28" rx="2" stroke="#6BAE8A" strokeWidth="1.5"/>
+                    <path d="M14 22H30M22 14V30" stroke="#6BAE8A" strokeWidth="1.5" strokeLinecap="round"/>
                   </svg>
                 </div>
                 <span className="card-tag">BEHAVIOUR</span>
@@ -99,7 +99,7 @@ export default function ServicesPage() {
               <article className="service-card">
                 <div className="icon">
                   <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 34L22 10L34 34H10Z" stroke="#c9a84c" strokeWidth="1.5" strokeLinejoin="round"/>
+                    <path d="M10 34L22 10L34 34H10Z" stroke="#6BAE8A" strokeWidth="1.5" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <span className="card-tag">MINDSET</span>
@@ -117,7 +117,7 @@ export default function ServicesPage() {
               <article className="service-card">
                 <div className="icon">
                   <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 6L40 22L22 38L4 22L22 6Z" stroke="#c9a84c" strokeWidth="1.5" strokeLinejoin="round"/>
+                    <path d="M22 6L40 22L22 38L4 22L22 6Z" stroke="#6BAE8A" strokeWidth="1.5" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <span className="card-tag">PERFORMANCE</span>
@@ -135,7 +135,7 @@ export default function ServicesPage() {
               <article className="service-card">
                 <div className="icon">
                   <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 38L18 34C10 26 4 20 4 13C4 7 8 3 13 3C16 3 19 5 22 7C25 5 28 3 31 3C36 3 40 7 40 13C40 20 34 26 26 34L22 38Z" stroke="#c9a84c" strokeWidth="1.5"/>
+                    <path d="M22 38L18 34C10 26 4 20 4 13C4 7 8 3 13 3C16 3 19 5 22 7C25 5 28 3 31 3C36 3 40 7 40 13C40 20 34 26 26 34L22 38Z" stroke="#6BAE8A" strokeWidth="1.5"/>
                   </svg>
                 </div>
                 <span className="card-tag">RELATIONSHIPS</span>
@@ -153,8 +153,8 @@ export default function ServicesPage() {
               <article className="service-card">
                 <div className="icon">
                   <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 34C6 34 10 26 22 26C34 26 38 34 38 34" stroke="#c9a84c" strokeWidth="1.5" strokeLinecap="round"/>
-                    <circle cx="22" cy="14" r="6" stroke="#c9a84c" strokeWidth="1.5"/>
+                    <path d="M6 34C6 34 10 26 22 26C34 26 38 34 38 34" stroke="#6BAE8A" strokeWidth="1.5" strokeLinecap="round"/>
+                    <circle cx="22" cy="14" r="6" stroke="#6BAE8A" strokeWidth="1.5"/>
                   </svg>
                 </div>
                 <span className="card-tag">MENTAL HEALTH</span>
@@ -196,7 +196,7 @@ export default function ServicesPage() {
               <div className="shift-indicator">
                 <div className="arrow-wrap">
                   <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 12H38M38 12L28 2M38 12L28 22" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M1 12H38M38 12L28 2M38 12L28 22" stroke="#6BAE8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <span className="shift-label">The Shift</span>

@@ -1047,7 +1047,7 @@ export default function BlogIndex() {
           <div className="load-more-container flex justify-center mt-12 pb-12 fade-in-up">
             <button 
               onClick={() => setVisibleLimit(prev => prev + incrementCount)}
-              className="btn-primary px-10 py-4 font-bold tracking-widest text-sm uppercase flex items-center gap-3 active:scale-95 transition-all shadow-[0_0_20px_rgba(244,162,97,0.2)]"
+              className="btn-primary px-10 py-4 font-bold tracking-widest text-sm uppercase flex items-center gap-3 active:scale-95 transition-all shadow-[0_0_20px_rgba(107,174,138,0.2)]"
             >
               Load More Resources
               <span className="text-lg">↓</span>
@@ -1107,8 +1107,8 @@ export default function BlogIndex() {
         .border { border-width: 1px; }
         .border-white\\/10 { border-color: rgba(255, 255, 255, 0.1); }
         .border-gray-200 { border-color: #E5E7EB; }
-        .border-accent-gold\\/20 { border-color: rgba(244,162,97,0.2); }
-        .border-accent-gold\\/30 { border-color: rgba(244,162,97,0.3); }
+        .border-accent-gold\\/20 { border-color: rgba(107,174,138,0.2); }
+        .border-accent-gold\\/30 { border-color: rgba(107,174,138,0.3); }
         .bg-white\\/5 { background-color: rgba(255, 255, 255, 0.05); }
         .bg-accent-gold\\/5 { background-color: rgba(244,162,97,0.05); }
         .bg-\\[\\#f8f9fc\\] { background-color: #f8f9fc; }
@@ -1184,10 +1184,10 @@ export default function BlogIndex() {
            letter-spacing: 0.5px;
         }
         .mega-card:hover {
-          border-color: rgba(244, 162, 97, 0.4);
+          border-color: rgba(107, 174, 138, 0.4);
         }
         .tag-badge {
-          background: rgba(244, 162, 97, 0.1);
+          background: rgba(107, 174, 138, 0.1);
           color: var(--color-accent-gold);
           padding: 0.25rem 0.75rem;
           border-radius: var(--radius-full);
@@ -1195,7 +1195,7 @@ export default function BlogIndex() {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 1px;
-          border: 1px solid rgba(244, 162, 97, 0.2);
+          border: 1px solid rgba(107, 174, 138, 0.2);
         }
         
         .read-more-btn {
@@ -1264,10 +1264,10 @@ export default function BlogIndex() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.2), rgba(244, 162, 97, 0.1));
-          border: 1px solid rgba(244, 162, 97, 0.3);
+          background: linear-gradient(135deg, rgba(107, 174, 138, 0.2), rgba(107, 174, 138, 0.1));
+          border: 1px solid rgba(107, 174, 138, 0.3);
           border-radius: 12px;
-          color: #f4a261;
+          color: #6BAE8A;
           font-size: 1.5rem;
           font-weight: 700;
         }
@@ -1305,7 +1305,7 @@ export default function BlogIndex() {
           transition: all 0.3s ease;
         }
         .faq-accordion-wrapper:hover {
-          border-color: rgba(244, 162, 97, 0.3);
+          border-color: rgba(107, 174, 138, 0.3);
           background: rgba(15, 23, 42, 0.8);
         }
         .faq-accordion-wrapper:last-child {
@@ -1329,8 +1329,8 @@ export default function BlogIndex() {
           background: rgba(255, 255, 255, 0.03);
         }
         .faq-question-btn.is-open {
-          background: rgba(244, 162, 97, 0.05);
-          border-bottom: 1px solid rgba(244, 162, 97, 0.15);
+          background: rgba(107, 174, 138, 0.05);
+          border-bottom: 1px solid rgba(107, 174, 138, 0.15);
         }
 
         .faq-question-content {
@@ -1347,10 +1347,10 @@ export default function BlogIndex() {
           width: 28px;
           height: 28px;
           min-width: 28px;
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.2), rgba(244, 162, 97, 0.1));
-          border: 1px solid rgba(244, 162, 97, 0.4);
+          background: linear-gradient(135deg, rgba(107, 174, 138, 0.2), rgba(107, 174, 138, 0.1));
+          border: 1px solid rgba(107, 174, 138, 0.4);
           border-radius: 6px;
-          color: #f4a261;
+          color: #6BAE8A;
           font-weight: 700;
           font-size: 0.8rem;
           margin-top: 2px;
@@ -1365,7 +1365,7 @@ export default function BlogIndex() {
         }
 
         .faq-chevron {
-          color: rgba(244, 162, 97, 0.8);
+          color: rgba(107, 174, 138, 0.8);
           flex-shrink: 0;
           transition: transform 0.3s ease;
           display: flex;
@@ -1374,11 +1374,11 @@ export default function BlogIndex() {
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          background: rgba(244, 162, 97, 0.1);
+          background: rgba(107, 174, 138, 0.1);
         }
         .faq-chevron.rotated {
           transform: rotate(180deg);
-          background: rgba(244, 162, 97, 0.2);
+          background: rgba(107, 174, 138, 0.2);
         }
 
         .faq-answer-panel {
@@ -1407,10 +1407,10 @@ export default function BlogIndex() {
           width: 28px;
           height: 28px;
           min-width: 28px;
-          background: rgba(100, 180, 255, 0.15);
-          border: 1px solid rgba(100, 180, 255, 0.3);
+          background: rgba(94, 155, 181, 0.15);
+          border: 1px solid rgba(94, 155, 181, 0.3);
           border-radius: 6px;
-          color: #64b4ff;
+          color: #5E9BB5;
           font-weight: 700;
           font-size: 0.8rem;
           margin-top: 2px;
@@ -1427,7 +1427,7 @@ export default function BlogIndex() {
 
         /* FAQ Section Header */
         .faq-header-box {
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.1), rgba(244, 162, 97, 0.05));
+          background: linear-gradient(135deg, rgba(107, 174, 138, 0.1), rgba(107, 174, 138, 0.05));
           border: 1px solid rgba(244, 162, 97, 0.25);
         }
 

@@ -1,5 +1,5 @@
 .bgDarker { background-color: rgba(0,0,0,0.2); }
-.textRed400 { color: #f87171; }
+.textRed400 { color: #C4906A; }
 .pb0 { padding-bottom: 0; }
 .maxWidth5xl { max-width: 64rem; margin-inline: auto; }
 .maxWidth4xl { max-width: 56rem; margin-inline: auto; }
@@ -63,7 +63,7 @@
   margin: calc(var(--space-8) * -1) var(--space-4) var(--space-16) var(--space-4);
   position: relative;
   z-index: 10;
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(12, 27, 46, 0.78);
   border-top: 2px solid var(--color-accent-gold);
 }
 .statsGrid {

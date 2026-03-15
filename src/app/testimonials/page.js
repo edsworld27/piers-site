@@ -83,7 +83,7 @@ export default function TestimonialsPage() {
         
         .testimonial-card:hover {
           transform: translateY(-5px);
-          border-color: rgba(244,162,97,0.3);
+          border-color: rgba(107,174,138,0.3);
         }
 
         .stars { color: var(--color-accent-gold); font-size: 1.25rem; margin-bottom: var(--space-4); letter-spacing: 2px; }

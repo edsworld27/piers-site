@@ -15,7 +15,7 @@
   left: -5%;
   width: 600px;
   height: 500px;
-  background: radial-gradient(circle, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(107, 174, 138, 0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -32,7 +32,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #c9a84c;
+  color: #6BAE8A;
   margin-bottom: 1.25rem;
   opacity: 0;
   animation: fadeUp 0.7s ease forwards;
@@ -93,14 +93,14 @@
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   text-decoration: none;
-  color: #0d1526;
+  color: #0C1B2E;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   flex: 1;
   min-width: 200px;
 }
 
 .methodCard:hover {
-  border-color: #c9a84c;
+  border-color: #6BAE8A;
   box-shadow: 0 4px 20px rgba(201, 168, 76, 0.12);
   transform: translateY(-2px);
 }
@@ -135,7 +135,7 @@
 .methodValue {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #0d1526;
+  color: #0C1B2E;
 }
 
 /* ── SECTION HEADING ────────────────────────────── */
@@ -145,7 +145,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #c9a84c;
+  color: #6BAE8A;
   margin-bottom: 0.6rem;
 }
 
@@ -153,7 +153,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.9rem;
   font-weight: 500;
-  color: #0d1526;
+  color: #0C1B2E;
   margin: 0 0 1.75rem;
 }
 
@@ -162,7 +162,7 @@
   background: rgba(248, 250, 255, 0.75);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(201, 168, 76, 0.18);
+  border: 1px solid rgba(107, 174, 138, 0.18);
   border-radius: 20px;
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
@@ -197,7 +197,7 @@
 }
 
 .glassFooterLink:hover {
-  color: #c9a84c;
+  color: #6BAE8A;
 }
 
 /* ── LOCATION / TRUST ROW ───────────────────────── */
@@ -223,14 +223,14 @@
 }
 
 .infoChip:hover {
-  border-color: #c9a84c;
-  color: #0d1526;
+  border-color: #6BAE8A;
+  color: #0C1B2E;
 }
 
 .chipDot {
   width: 7px;
   height: 7px;
-  background: #c9a84c;
+  background: #6BAE8A;
   border-radius: 50%;
   flex-shrink: 0;
 }

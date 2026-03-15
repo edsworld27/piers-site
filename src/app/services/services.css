@@ -1,5 +1,5 @@
 .services-page-wrap {
-  background-color: #0d1526;
+  background-color: #0C1B2E;
   color: #f5f0e8;
   font-family: 'DM Sans', sans-serif;
   overflow-x: hidden;
@@ -20,7 +20,7 @@
 
 .eyebrow-label {
   display: block;
-  color: #e8724a;
+  color: #6BAE8A;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -34,7 +34,7 @@
 }
 
 .services-page-wrap h1 {
-  color: #c9a84c;
+  color: #6BAE8A;
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
   font-weight: 600;
@@ -56,7 +56,7 @@
 .gold-hr {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+  background: linear-gradient(90deg, transparent, #6BAE8A, transparent);
   width: 100%;
   margin: 0 auto;
 }
@@ -64,11 +64,11 @@
 /* Sections */
 .page-header {
   padding: 5rem 0;
-  background-color: #0d1526;
+  background-color: #0C1B2E;
 }
 
 .how-it-works {
-  background-color: #111e34;
+  background-color: #0F1E30;
   padding: 6rem 0;
   width: 100%;
 }
@@ -90,7 +90,7 @@
   left: 10%;
   right: 10%;
   height: 1px;
-  background-color: #c9a84c;
+  background-color: #6BAE8A;
   z-index: 1;
   opacity: 0.5;
 }
@@ -110,14 +110,14 @@
 .circle {
   width: 76px;
   height: 76px;
-  border: 1px solid #c9a84c;
+  border: 1px solid #6BAE8A;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 2rem;
-  background-color: #111e34;
-  color: #c9a84c;
+  background-color: #0F1E30;
+  color: #6BAE8A;
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
   font-weight: 600;
@@ -148,8 +148,8 @@
 }
 
 .service-card {
-  background-color: #15243d;
-  border: 1px solid rgba(201,168,76,0.12);
+  background-color: #122034;
+  border: 1px solid rgba(107,174,138,0.12);
   border-radius: 4px;
   padding: 2.5rem 2rem;
   position: relative;
@@ -165,7 +165,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #e8724a;
+  background-color: #6BAE8A;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -180,7 +180,7 @@
 }
 
 .card-tag {
-  color: #e8724a;
+  color: #6BAE8A;
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -212,15 +212,15 @@
 
 .pills span {
   font-size: 11px;
-  color: #c9a84c;
-  border: 1px solid rgba(201,168,76,0.3);
+  color: #6BAE8A;
+  border: 1px solid rgba(107,174,138,0.3);
   padding: 3px 10px;
   border-radius: 100px;
   font-weight: 500;
 }
 
 .learn-more {
-  color: #e8724a;
+  color: #6BAE8A;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 700;
@@ -240,7 +240,7 @@
 
 /* Transformation Section */
 .transformation-section {
-  background-color: #111e34;
+  background-color: #0F1E30;
   padding: 8rem 0;
 }
 
@@ -309,7 +309,7 @@
 }
 
 .after-col li::before {
-  background-color: #e8724a;
+  background-color: #6BAE8A;
 }
 
 .shift-indicator {
@@ -321,7 +321,7 @@
 }
 
 .shift-label {
-  color: #c9a84c;
+  color: #6BAE8A;
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 800;

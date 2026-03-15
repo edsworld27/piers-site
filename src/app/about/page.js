@@ -108,10 +108,10 @@ export default function AboutPage() {
 
             <div className={styles.methodGrid}>
               <div className={`${styles.methodCard} ${styles.methodCardConscious} glass-panel fade-in-up`}>
-                <div className={styles.methodPercent} style={{ color: "rgba(100,180,255,0.9)" }}>10%</div>
+                <div className={styles.methodPercent} style={{ color: "rgba(94,155,181,0.9)" }}>10%</div>
                 <h3 className={styles.methodCardTitle}>Your Conscious Mind</h3>
                 <p>Logic. Willpower. Rational thought. This is where your "I should stop smoking" lives. It is small, exhausting to maintain, and easily overpowered.</p>
-                <div className={styles.methodTag} style={{ borderColor: "rgba(100,180,255,0.3)", color: "rgba(100,180,255,0.8)" }}>The Tip of the Iceberg</div>
+                <div className={styles.methodTag} style={{ borderColor: "rgba(94,155,181,0.3)", color: "rgba(94,155,181,0.8)" }}>The Tip of the Iceberg</div>
               </div>
 
               <div className={`${styles.methodVs} fade-in-up`} style={{ animationDelay: "0.1s" }}>
@@ -124,7 +124,7 @@ export default function AboutPage() {
                 <div className={styles.methodPercent} style={{ color: "var(--color-accent-gold)" }}>90%</div>
                 <h3 className={styles.methodCardTitle}>Your Subconscious Mind</h3>
                 <p>Survival drive. Deep habits. Emotional memory. This is what tells you social situations are dangerous, or that cigarettes mean safety. It will win every time — unless we change what it believes.</p>
-                <div className={styles.methodTag} style={{ borderColor: "rgba(244,162,97,0.3)", color: "rgba(244,162,97,0.8)" }}>The Mass of the Iceberg</div>
+                <div className={styles.methodTag} style={{ borderColor: "rgba(107,174,138,0.3)", color: "rgba(107,174,138,0.8)" }}>The Mass of the Iceberg</div>
               </div>
             </div>
 
