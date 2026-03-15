@@ -7,28 +7,28 @@ function FAQAccordion({ faq }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="faq-accordion bg-[#f8f9fc] rounded-md overflow-hidden transition-all duration-300 mb-3 shadow-sm">
+    <div className={`faq-accordion rounded-lg overflow-hidden transition-all duration-300 mb-4 border ${isOpen ? 'bg-white/5 border-[rgba(201,168,76,0.5)] shadow-[0_0_20px_rgba(201,168,76,0.1)]' : 'bg-white/[0.02] border-[rgba(201,168,76,0.15)]'} hover:border-[rgba(201,168,76,0.3)]`}>
       <button 
         onClick={() => setIsOpen(!isOpen)} 
-        className="faq-header w-full flex justify-between items-center p-5 text-left focus:outline-none cursor-pointer"
+        className="faq-header w-full flex justify-between items-center p-5 text-left focus:outline-none cursor-pointer group"
         style={{ background: 'transparent', border: 'none' }}
       >
-        <span className="text-[#1A202C] font-medium text-lg pr-4">
-          <span className="font-bold mr-2">Q:</span> 
+        <span className="text-white font-semibold text-base md:text-lg pr-4 transition-colors group-hover:text-white">
+          <span className="text-[#c9a84c] mr-2">Q:</span> 
           {faq.question}
         </span>
-        <span className="text-gray-600 flex-shrink-0 transition-transform duration-300" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <span className="text-[#c9a84c] flex-shrink-0 transition-transform duration-300" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </span>
       </button>
       
       {isOpen && (
-        <div className="faq-content p-5 pt-0 mt-1 fade-in-up text-left" style={{ animationDuration: '0.3s' }}>
-          <div className="text-gray-700 text-base m-0 leading-relaxed border-t border-gray-200 pt-4 flex">
-            <span className="font-bold mr-2 mt-1">A:</span> 
-            <p className="m-0 flex-1">{faq.answer}</p>
+        <div className="faq-content p-5 pt-0 fade-in-up text-left" style={{ animationDuration: '0.4s' }}>
+          <div className="text-white text-base m-0 leading-relaxed border-t border-[rgba(201,168,76,0.15)] pt-5 flex">
+            <span className="font-bold mr-3 text-[#c9a84c] mt-0.5">A:</span> 
+            <p className="m-0 flex-1 text-white/90 font-light">{faq.answer}</p>
           </div>
         </div>
       )}
@@ -928,13 +928,13 @@ export default function BlogIndex() {
             currentItems.map((item) => (
               <div key={item.id} className={`mega-card glass-panel mb-8 transition-all duration-500 ${expandedCards[item.id] ? 'expanded' : 'collapsed'}`}>
                 <div 
-                  className="card-header border-b pb-6 mb-2 cursor-pointer flex justify-between items-center group"
+                  className={`card-header border-b pb-6 mb-2 cursor-pointer transition-all duration-500 flex justify-between items-center group ${expandedCards[item.id] ? 'items-start' : 'items-center'}`}
                   onClick={() => toggleCardExpansion(item.id)}
                 >
-                  <div className="flex flex-wrap items-center gap-3">
+                  <div className={`flex transition-all duration-500 ${expandedCards[item.id] ? 'flex-col items-start gap-3' : 'flex-row items-center gap-3'}`}>
                     <span className="tag-badge text-[10px] md:text-xs py-1 px-3 bg-accent-gold/5 border-accent-gold/20 leading-none">{item.tag}</span>
-                    <span className="text-gray-500 font-light opacity-50 hidden md:inline">—</span>
-                    <h2 className="title text-gradient-light text-base md:text-lg lg:text-xl m-0 group-hover:text-gold transition-colors leading-tight">
+                    {!expandedCards[item.id] && <span className="text-gray-500 font-light opacity-50 hidden md:inline">—</span>}
+                    <h2 className={`title text-gradient-light m-0 group-hover:text-gold transition-all duration-500 leading-tight ${expandedCards[item.id] ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg lg:text-xl'}`}>
                       {item.title}
                     </h2>
                   </div>
@@ -1011,7 +1011,9 @@ export default function BlogIndex() {
                         {/* Layer 3: FAQs (Conditional) */}
                         {item.faqs && item.faqs.length > 0 && (
                           <div className="faq-section max-w-4xl mx-auto mt-12 pt-10 border-t border-white/10 text-left">
-                            <h4 className="text-sm uppercase tracking-widest text-accent-gold mb-8 font-bold">Frequently Asked Questions</h4>
+                            <div className="faq-header-box mb-8 p-3 px-5 bg-white/5 border border-white/10 rounded-lg inline-block">
+                              <h4 className="text-sm uppercase tracking-widest text-white m-0 font-bold">Frequently Asked Questions</h4>
+                            </div>
                             <div className="faq-list flex flex-col">
                               {item.faqs.map((faq, idx) => (
                                  <FAQAccordion key={idx} faq={faq} />

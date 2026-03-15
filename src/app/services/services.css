@@ -1,0 +1,375 @@
+.services-page-wrap {
+  background-color: #0d1526;
+  color: #f5f0e8;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  padding-top: 80px; /* Offset for existing nav */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow-label {
+  display: block;
+  color: #e8724a;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.services-page-wrap h1, .services-page-wrap h2, .services-page-wrap h3 {
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+}
+
+.services-page-wrap h1 {
+  color: #c9a84c;
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.services-page-wrap h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.muted-text {
+  color: rgba(245,240,232,0.55);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.gold-hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Sections */
+.page-header {
+  padding: 5rem 0;
+  background-color: #0d1526;
+}
+
+.how-it-works {
+  background-color: #111e34;
+  padding: 6rem 0;
+  width: 100%;
+}
+
+.section-intro {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+/* Method Steps */
+.method-steps-container {
+  position: relative;
+  padding: 0 1rem;
+}
+
+.method-line {
+  position: absolute;
+  top: 38px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background-color: #c9a84c;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.step-item {
+  text-align: center;
+}
+
+.circle {
+  width: 76px;
+  height: 76px;
+  border: 1px solid #c9a84c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  background-color: #111e34;
+  color: #c9a84c;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.step-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: #f5f0e8;
+}
+
+.step-item p {
+  font-size: 0.9rem;
+  color: rgba(245,240,232,0.55);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Service Grid */
+.service-grid-section {
+  padding: 8rem 0;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+.service-card {
+  background-color: #15243d;
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 4px;
+  padding: 2.5rem 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #e8724a;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.icon {
+  margin-bottom: 1.5rem;
+}
+
+.card-tag {
+  color: #e8724a;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+.service-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: 500;
+}
+
+.description {
+  color: rgba(245,240,232,0.55);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.pills span {
+  font-size: 11px;
+  color: #c9a84c;
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 500;
+}
+
+.learn-more {
+  color: #e8724a;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.learn-more .arrow {
+  transition: transform 0.3s ease;
+}
+
+.learn-more:hover .arrow {
+  transform: translateX(5px);
+}
+
+/* Transformation Section */
+.transformation-section {
+  background-color: #111e34;
+  padding: 8rem 0;
+}
+
+.transformation-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.trans-col {
+  flex: 1;
+  padding: 3rem;
+  border-radius: 4px;
+}
+
+.trans-col h3 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.trans-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.trans-col li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  font-size: 1.05rem;
+}
+
+.trans-col li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.before-col h3 {
+   color: rgba(245,240,232,0.55);
+}
+
+.before-col li {
+  color: rgba(245,240,232,0.55);
+}
+
+.before-col li::before {
+  background-color: rgba(245,240,232,0.25);
+}
+
+.after-col h3 {
+   color: #f5f0e8;
+}
+
+.after-col li {
+  color: #f5f0e8;
+}
+
+.after-col li::before {
+  background-color: #e8724a;
+}
+
+.shift-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 6rem;
+}
+
+.shift-label {
+  color: #c9a84c;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .method-line {
+    display: none;
+  }
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .transformation-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .shift-indicator {
+    padding-top: 0;
+    margin: 2rem 0;
+  }
+  .shift-indicator svg {
+    transform: rotate(90deg);
+  }
+  .trans-col {
+    width: 100%;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .services-page-wrap h1 { font-size: 2.75rem; }
+  .services-page-wrap h2 { font-size: 2rem; }
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .page-header, .how-it-works, .service-grid-section, .transformation-section {
+    padding: 4rem 0;
+  }
+  .transformation-content {
+    margin-top: 2rem;
+  }
+}

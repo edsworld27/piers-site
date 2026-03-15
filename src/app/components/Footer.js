@@ -35,7 +35,7 @@ export default function Footer() {
       </div>
       <style>{`
         .footer {
-          margin-top: var(--space-24);
+          margin-top: var(--space-12); /* Tightened from space-24 */
           border-bottom-left-radius: 0;
           border-bottom-right-radius: 0;
           border-bottom: none;
@@ -43,17 +43,18 @@ export default function Footer() {
         .footer-grid {
           display: grid;
           grid-template-columns: 2fr 1fr 1fr 1fr;
-          gap: var(--space-8);
+          gap: var(--space-4); /* Tightened from space-8 */
         }
-        h3, h4 { margin-bottom: var(--space-4); }
-        .footer-brand p { margin-bottom: var(--space-2); }
+        h3, h4 { margin-bottom: var(--space-2); } /* Tightened margin */
+        .footer-brand p { margin-bottom: var(--space-1); font-size: 0.9375rem; }
         .footer-links {
           display: flex;
           flex-direction: column;
-          gap: var(--space-2);
+          gap: var(--space-1); /* Tighter vertical links */
         }
         .footer-links a {
           color: var(--color-text-muted);
+          font-size: 0.9375rem;
         }
         .footer-links a:hover {
           color: var(--color-accent-gold);
@@ -64,11 +65,23 @@ export default function Footer() {
           opacity: 0.6;
         }
         @media (max-width: 768px) {
-          .footer-grid { grid-template-columns: 1fr 1fr; }
-          .footer-brand { grid-column: 1 / -1; }
+          .footer-grid { 
+            grid-template-columns: 1fr; 
+            text-align: center;
+            gap: var(--space-8);
+          }
+          .footer-brand { 
+            grid-column: 1 / -1; 
+            max-width: 400px;
+            margin: 0 auto;
+          }
+          .footer-links {
+            align-items: center;
+          }
         }
         @media (max-width: 480px) {
-          .footer-grid { grid-template-columns: 1fr; }
+          .footer { padding-top: var(--space-12); }
+          .footer-grid { gap: var(--space-6); }
         }
       `}</style>
     </footer>
