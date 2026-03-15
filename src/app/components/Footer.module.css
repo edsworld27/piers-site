@@ -1,0 +1,67 @@
+/* ── Footer ────────────────────────────────────────────────────── */
+
+.footer {
+  margin-top: var(--space-12);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.footerBrand h3,
+.footerLinks h4 {
+  margin-bottom: var(--space-2);
+}
+
+.footerBrand p {
+  margin-bottom: var(--space-1);
+  font-size: 0.9375rem;
+}
+
+.footerLinks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.footerLinks a {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.footerLinks a:hover {
+  color: var(--color-accent-gold);
+}
+
+.copyright {
+  margin-top: var(--space-4);
+  font-size: 0.875rem;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .footerGrid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--space-8);
+  }
+  .footerBrand {
+    grid-column: 1 / -1;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .footerLinks {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer { padding-top: var(--space-12); }
+  .footerGrid { gap: var(--space-6); }
+}

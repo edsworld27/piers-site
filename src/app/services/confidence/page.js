@@ -2,8 +2,16 @@ import Link from "next/link";
 import Script from "next/script";
 
 export const metadata = {
-  title: "Hypnotherapy for Confidence & Phobias UK | Elevate Hypnotherapy",
-  description: "Overcome imposter syndrome, public speaking fears, and specific phobias with specialized online hypnotherapy across the UK.",
+  title: "Confidence Hypnotherapy UK | Overcome Phobias & Imposter Syndrome | Piers Day",
+  description: "Overcome imposter syndrome, public speaking fears, and specific phobias with specialized online hypnotherapy. Build unshakeable confidence.",
+  alternates: { canonical: "https://www.piersday.com/services/confidence" },
+  openGraph: {
+    title: "Confidence Hypnotherapy UK | Overcome Phobias",
+    description: "Overcome imposter syndrome, public speaking fears, and phobias with online hypnotherapy.",
+    url: "https://www.piersday.com/services/confidence",
+    type: "website",
+  },
+  twitter: { card: "summary", title: "Confidence Hypnotherapy UK", description: "Overcome imposter syndrome, phobias, and build unshakeable confidence with hypnotherapy." },
 };
 
 export default function ConfidencePage() {

@@ -2,8 +2,16 @@ import Link from "next/link";
 import Script from "next/script";
 
 export const metadata = {
-  title: "Weight Management Hypnotherapy UK | Elevate Hypnotherapy",
-  description: "End emotional eating, master portion control, and reshape your relationship with food through advanced weight loss hypnotherapy.",
+  title: "Weight Loss Hypnotherapy UK | End Emotional Eating | Piers Day",
+  description: "End emotional eating, master portion control, and reshape your relationship with food through advanced weight loss hypnotherapy. Online & in-person.",
+  alternates: { canonical: "https://www.piersday.com/services/weight-loss" },
+  openGraph: {
+    title: "Weight Loss Hypnotherapy UK | End Emotional Eating",
+    description: "End emotional eating and reshape your relationship with food through advanced weight loss hypnotherapy.",
+    url: "https://www.piersday.com/services/weight-loss",
+    type: "website",
+  },
+  twitter: { card: "summary", title: "Weight Loss Hypnotherapy UK", description: "End emotional eating and reshape your relationship with food through hypnotherapy." },
 };
 
 export default function WeightLossPage() {

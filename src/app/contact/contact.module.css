@@ -1,0 +1,245 @@
+/* ── Contact Page — all values via brand tokens ───────────────── */
+
+/* HERO — dark, full-bleed */
+.hero {
+  padding: var(--space-32) 0 var(--space-24);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 60%, #0F1E30 100%);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -10%; left: -5%;
+  width: 600px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent-7) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroInner {
+  position: relative;
+  z-index: var(--z-raised);
+  max-width: var(--max-width-hero-left);
+}
+
+.heroEyebrow {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-5);
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.heroTitle {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  color: var(--color-white);
+  line-height: 1.05;
+  margin: 0 0 var(--space-6);
+  opacity: 0;
+  animation: fadeUp 0.7s 0.1s ease forwards;
+}
+
+.heroSub {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-loose);
+  color: var(--color-text-65);
+  margin: 0;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s ease forwards;
+}
+
+/* WHITE SHEET — lifts up over the hero */
+.sheet {
+  background: var(--color-surface-white);
+  border-radius: 28px 28px 0 0;
+  margin-top: -3rem;
+  position: relative;
+  z-index: var(--z-raised);
+  box-shadow: 0 -4px 60px rgba(0, 0, 0, 0.3);
+  padding: var(--space-16) 0 var(--space-24);
+}
+
+.sheetInner {
+  max-width: var(--max-width-narrow);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+/* ── CONTACT METHODS ─────────────────────────────── */
+.contactRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-12);
+}
+
+.methodCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.85rem var(--space-5);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-chip-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--color-bg-base);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  flex: 1;
+  min-width: 200px;
+}
+.methodCard:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 20px var(--accent-12);
+  transform: translateY(-2px);
+}
+
+.methodIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: var(--color-surface-light);
+  border: 1px solid var(--color-surface-warm-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.methodText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.methodLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted-label);
+}
+
+.methodValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-bg-base);
+}
+
+/* ── SECTION HEADING ─────────────────────────────── */
+.formLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.formTitle {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-2xl);
+  font-weight: 500;
+  color: var(--color-bg-base);
+  margin: 0 0 var(--space-6);
+}
+
+/* ── GLASS FORM CONTAINER ────────────────────────── */
+.glassCard {
+  background: var(--color-surface-form);
+  backdrop-filter: var(--glass-blur-heavy);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  border: 1px solid var(--accent-18);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
+    0 8px 40px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.glassCard iframe {
+  display: block;
+  width: 100%;
+  border: none;
+}
+
+.glassFooter {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.glassFooterLink {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-label);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.glassFooterLink:hover { color: var(--color-accent); }
+
+/* ── LOCATION / TRUST ROW ────────────────────────── */
+.bottomRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.infoChip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-chip-bg);
+  border: 1px solid var(--color-chip-border);
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  color: var(--color-chip-text);
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.infoChip:hover {
+  border-color: var(--color-accent);
+  color: var(--color-bg-base);
+}
+
+.chipDot {
+  width: 7px;
+  height: 7px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── ANIMATIONS ──────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 640px) {
+  .hero { padding: var(--space-32) 0 var(--space-20); }
+  .sheet { border-radius: 18px 18px 0 0; padding: var(--space-12) 0 var(--space-16); }
+  .sheetInner { padding: 0 var(--space-5); }
+  .contactRow { flex-direction: column; }
+  .methodCard { min-width: unset; }
+}

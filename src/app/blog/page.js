@@ -3,37 +3,54 @@
 import Link from "next/link";
 import { useState } from "react";
 
-function FAQAccordion({ faq }) {
+function FAQAccordion({ faq, index }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="faq-accordion-wrapper">
+    <div className={`faq-item${isOpen ? ' faq-item--open' : ''}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`faq-question-btn ${isOpen ? 'is-open' : ''}`}
+        className="faq-trigger"
+        aria-expanded={isOpen}
       >
-        <div className="faq-question-content">
-          <span className="faq-q-badge">Q</span>
-          <span className="faq-question-text">{faq.question}</span>
-        </div>
-        <span className={`faq-chevron ${isOpen ? 'rotated' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+        <span className="faq-num">{String(index + 1).padStart(2, '0')}</span>
+        <span className="faq-q">{faq.question}</span>
+        <span className="faq-icon" aria-hidden="true">
+          {isOpen ? (
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M1 1L11 11M11 1L1 11"/>
+            </svg>
+          ) : (
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M6 1V11M1 6H11"/>
+            </svg>
+          )}
         </span>
       </button>
 
-      {isOpen && (
-        <div className="faq-answer-panel fade-in-up">
-          <div className="faq-answer-content">
-            <span className="faq-a-badge">A</span>
-            <p className="faq-answer-text">{faq.answer}</p>
-          </div>
+      <div className="faq-panel" aria-hidden={!isOpen}>
+        <div className="faq-answer-content">
+          <span className="faq-a-badge">A</span>
+          <p className="faq-answer-text">{faq.answer}</p>
         </div>
-      )}
+      </div>
     </div>
   );
 }
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Piers Day Hypnotherapy Resources",
+  "description": "Evidence-based articles and FAQs on hypnotherapy, anxiety, smoking cessation, weight loss, and subconscious change.",
+  "url": "https://www.piersday.com/blog",
+  "publisher": {
+    "@type": "Person",
+    "name": "Piers Day",
+    "jobTitle": "Clinical Hypnotherapist",
+    "url": "https://www.piersday.com/about"
+  }
+};
 
 export default function BlogIndex() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -865,6 +882,9 @@ export default function BlogIndex() {
   // New state to track which cards are expanded (summary view vs collapsed view)
   const [expandedCards, setExpandedCards] = useState({});
 
+  // Content filter: 'all' | 'video' | 'article' | 'faq'
+  const [contentFilter, setContentFilter] = useState('all');
+
   const toggleCardExpansion = (id) => {
     setExpandedCards(prev => ({
       ...prev,
@@ -899,6 +919,7 @@ export default function BlogIndex() {
 
   return (
     <main className="pt-32 pb-24 relative z-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
       <div className="container max-w-5xl">
         <div className="text-center mb-16 fade-in-up">
           <h1 className="mb-4 text-gradient-gold">Resources & Freebies</h1>
@@ -921,6 +942,25 @@ export default function BlogIndex() {
           </div>
         </div>
 
+        {/* Content Filter Tabs */}
+        <div className="filter-tabs fade-in-up" style={{animationDelay: "0.15s"}}>
+          {[
+            { key: 'all',     icon: '✦', label: 'All'     },
+            { key: 'video',   icon: '▶', label: 'Video'   },
+            { key: 'article', icon: '✎', label: 'Article' },
+            { key: 'faq',     icon: '?', label: 'FAQ'     },
+          ].map(({ key, icon, label }) => (
+            <button
+              key={key}
+              onClick={() => setContentFilter(key)}
+              className={`filter-tab${contentFilter === key ? ' filter-tab--active' : ''}`}
+            >
+              <span className="filter-tab-icon">{icon}</span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+
         {/* Results Stream (Mega Cards) */}
         <div className="topic-stream fade-in-up" style={{animationDelay: "0.2s"}}>
           {currentItems.length > 0 ? (
@@ -933,10 +973,17 @@ export default function BlogIndex() {
                   <div className={`flex transition-all duration-500 ${expandedCards[item.id] ? 'flex-col items-start gap-3' : 'flex-row items-center gap-3'}`}>
                     <span className="tag-badge text-[10px] md:text-xs py-1 px-3 bg-accent-gold/5 border-accent-gold/20 leading-none">{item.tag}</span>
                     {!expandedCards[item.id] && <span className="text-gray-500 font-light opacity-50 hidden md:inline">—</span>}
-                    <h2 className={`title text-gradient-light m-0 group-hover:text-gold transition-all duration-500 leading-tight ${expandedCards[item.id] ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg lg:text-xl'}`}>
+                    <h2 className={`title text-gradient-sage m-0 group-hover:text-gold transition-all duration-500 leading-tight ${expandedCards[item.id] ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg lg:text-xl'}`}>
                       {item.title}
                     </h2>
                   </div>
+                  {!expandedCards[item.id] && (
+                    <div className="content-chips">
+                      {item.videoId && <span className="content-chip content-chip--video">▶ Video</span>}
+                      {item.article && <span className="content-chip content-chip--article">✎ Article</span>}
+                      {item.faqs && item.faqs.length > 0 && <span className="content-chip content-chip--faq">? FAQ</span>}
+                    </div>
+                  )}
                   <div className={`expand-indicator text-accent-gold transition-transform duration-300 ${expandedCards[item.id] ? 'rotate-180' : ''}`}>
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="6 9 12 15 18 9"></polyline>
@@ -976,7 +1023,7 @@ export default function BlogIndex() {
                     ) : (
                       <div className="layered-summary-view">
                         {/* Layer 1: Video (Conditional) */}
-                        {item.videoId && (
+                        {item.videoId && (contentFilter === 'all' || contentFilter === 'video') && (
                           <div className="video-section mb-10 max-w-4xl mx-auto text-left">
                             <div className="video-embed rounded-xl overflow-hidden border border-white/10" style={{ position: 'relative', paddingBottom: '56.25%', height: 0, boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.5)' }}>
                               <iframe 
@@ -992,7 +1039,7 @@ export default function BlogIndex() {
                         )}
                         
                         {/* Layer 2: Article Excerpt (Conditional) */}
-                        {item.article && (
+                        {item.article && (contentFilter === 'all' || contentFilter === 'article') && (
                           <div className="article-section mb-12 text-left max-w-4xl mx-auto">
                              <h3 className="text-xl text-white mb-4">{item.article.headline}</h3>
                              <p className="text-gray text-base mb-8 leading-relaxed max-w-3xl">
@@ -1008,20 +1055,28 @@ export default function BlogIndex() {
                         )}
                         
                         {/* Layer 3: FAQs (Conditional) */}
-                        {item.faqs && item.faqs.length > 0 && (
+                        {item.faqs && item.faqs.length > 0 && (contentFilter === 'all' || contentFilter === 'faq') && (
                           <div className="faq-section-container">
                             <div className="faq-section-header">
                               <div className="faq-section-icon">?</div>
                               <div className="faq-section-title-group">
-                                <h4 className="faq-section-title">Frequently Asked Questions</h4>
+                                <h3 className="faq-section-title">Frequently Asked Questions</h3>
                                 <p className="faq-section-subtitle">Quick answers about this topic</p>
                               </div>
                             </div>
                             <div className="faq-list">
                               {item.faqs.map((faq, idx) => (
-                                 <FAQAccordion key={idx} faq={faq} />
+                                 <FAQAccordion key={idx} faq={faq} index={idx} />
                               ))}
                             </div>
+                          </div>
+                        )}
+
+                        {/* No-content notice when filter is 'video' but card has no video */}
+                        {contentFilter === 'video' && !item.videoId && (
+                          <div className="filter-empty-notice">
+                            <span className="filter-empty-icon">▶</span>
+                            <p>No video available for this topic.</p>
                           </div>
                         )}
                       </div>
@@ -1033,7 +1088,7 @@ export default function BlogIndex() {
           ) : (
             <div className="no-results max-w-3xl mx-auto mt-12 p-10 rounded-2xl border border-accent-gold/30 bg-[rgba(10,17,40,0.8)] flex flex-col items-center text-center fade-in-up">
               <span className="text-4xl mb-6">🔍</span>
-              <h3 className="text-3xl text-gradient-light mb-4">No specific resources found.</h3>
+              <h2 className="text-3xl text-gradient-light mb-4">No specific resources found.</h2>
               <p className="text-gray text-lg mb-8 max-w-xl leading-relaxed">If you can't find the exact topic you're looking for, contact Piers directly below.</p>
               <Link href="/contact" className="btn-primary inline-flex items-center gap-2 px-8 py-4 font-bold tracking-wide">
                 Ask Piers Directly
@@ -1045,12 +1100,11 @@ export default function BlogIndex() {
         {/* Load More Control */}
         {visibleLimit < filteredTopics.length && (
           <div className="load-more-container flex justify-center mt-12 pb-12 fade-in-up">
-            <button 
+            <button
               onClick={() => setVisibleLimit(prev => prev + incrementCount)}
-              className="btn-primary px-10 py-4 font-bold tracking-widest text-sm uppercase flex items-center gap-3 active:scale-95 transition-all shadow-[0_0_20px_rgba(244,162,97,0.2)]"
+              className="btn btn-primary"
             >
-              Load More Resources
-              <span className="text-lg">↓</span>
+              Load More Resources &darr;
             </button>
           </div>
         )}
@@ -1107,10 +1161,10 @@ export default function BlogIndex() {
         .border { border-width: 1px; }
         .border-white\\/10 { border-color: rgba(255, 255, 255, 0.1); }
         .border-gray-200 { border-color: #E5E7EB; }
-        .border-accent-gold\\/20 { border-color: rgba(244,162,97,0.2); }
-        .border-accent-gold\\/30 { border-color: rgba(244,162,97,0.3); }
+        .border-accent-gold\\/20 { border-color: rgba(107,174,138,0.2); }
+        .border-accent-gold\\/30 { border-color: rgba(107,174,138,0.3); }
         .bg-white\\/5 { background-color: rgba(255, 255, 255, 0.05); }
-        .bg-accent-gold\\/5 { background-color: rgba(244,162,97,0.05); }
+        .bg-accent-gold\\/5 { background-color: rgba(107,174,138,0.05); }
         .bg-\\[\\#f8f9fc\\] { background-color: #f8f9fc; }
         .text-\\[\\#1A202C\\] { color: #1A202C; }
         .text-gray-600 { color: #4B5563; }
@@ -1184,10 +1238,10 @@ export default function BlogIndex() {
            letter-spacing: 0.5px;
         }
         .mega-card:hover {
-          border-color: rgba(244, 162, 97, 0.4);
+          border-color: rgba(107, 174, 138, 0.4);
         }
         .tag-badge {
-          background: rgba(244, 162, 97, 0.1);
+          background: rgba(107, 174, 138, 0.1);
           color: var(--color-accent-gold);
           padding: 0.25rem 0.75rem;
           border-radius: var(--radius-full);
@@ -1195,7 +1249,7 @@ export default function BlogIndex() {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 1px;
-          border: 1px solid rgba(244, 162, 97, 0.2);
+          border: 1px solid rgba(107, 174, 138, 0.2);
         }
         
         .read-more-btn {
@@ -1223,7 +1277,7 @@ export default function BlogIndex() {
           transition: color 0.2s ease;
         }
         .back-btn:hover {
-          color: white;
+          color: var(--color-white);
         }
         
         .prose p {
@@ -1264,10 +1318,10 @@ export default function BlogIndex() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.2), rgba(244, 162, 97, 0.1));
-          border: 1px solid rgba(244, 162, 97, 0.3);
+          background: linear-gradient(135deg, var(--accent-20), var(--accent-10));
+          border: 1px solid var(--accent-30);
           border-radius: 12px;
-          color: #f4a261;
+          color: var(--color-accent);
           font-size: 1.5rem;
           font-weight: 700;
         }
@@ -1280,14 +1334,14 @@ export default function BlogIndex() {
           margin: 0 0 0.25rem 0;
           font-size: 1.1rem;
           font-weight: 600;
-          color: #ffffff;
+          color: var(--color-white);
           letter-spacing: 0.02em;
         }
 
         .faq-section-subtitle {
           margin: 0;
           font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--color-text-55);
         }
 
         .faq-list {
@@ -1295,109 +1349,127 @@ export default function BlogIndex() {
           flex-direction: column;
         }
 
-        /* ===== REDESIGNED FAQ STYLES ===== */
-        .faq-accordion-wrapper {
-          margin-bottom: 1rem;
-          border-radius: 12px;
+        /* ===== FAQ ITEMS ===== */
+        .faq-item {
+          position: relative;
+          margin-bottom: 0.6rem;
+          border-radius: 14px;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          background: rgba(12, 27, 46, 0.45);
           overflow: hidden;
-          background: rgba(15, 23, 42, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          transition: all 0.3s ease;
+          transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
-        .faq-accordion-wrapper:hover {
-          border-color: rgba(244, 162, 97, 0.3);
-          background: rgba(15, 23, 42, 0.8);
+        .faq-item:last-child { margin-bottom: 0; }
+
+        /* left accent bar */
+        .faq-item::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          width: 3px;
+          background: transparent;
+          transition: background 0.3s ease;
+          border-radius: 14px 0 0 14px;
         }
-        .faq-accordion-wrapper:last-child {
-          margin-bottom: 0;
+        .faq-item:hover { border-color: rgba(107,174,138,0.18); background: rgba(12,27,46,0.6); }
+        .faq-item:hover::before { background: rgba(107,174,138,0.3); }
+        .faq-item.faq-item--open {
+          border-color: rgba(107,174,138,0.28);
+          background: rgba(12,27,46,0.65);
+          box-shadow: 0 8px 32px rgba(107,174,138,0.07);
+        }
+        .faq-item.faq-item--open::before {
+          background: linear-gradient(to bottom, #6BAE8A, rgba(107,174,138,0.35));
         }
 
-        .faq-question-btn {
+        /* trigger button */
+        .faq-trigger {
           width: 100%;
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          padding: 1.25rem 1.5rem;
+          gap: 1rem;
+          padding: 1.35rem 1.4rem 1.35rem 1.6rem;
           background: transparent;
           border: none;
           cursor: pointer;
           text-align: left;
-          gap: 1rem;
-          transition: background 0.2s ease;
         }
-        .faq-question-btn:hover {
-          background: rgba(255, 255, 255, 0.03);
-        }
-        .faq-question-btn.is-open {
-          background: rgba(244, 162, 97, 0.05);
-          border-bottom: 1px solid rgba(244, 162, 97, 0.15);
+        .faq-item.faq-item--open .faq-trigger {
+          border-bottom: 1px solid rgba(107,174,138,0.1);
+          padding-bottom: 1.1rem;
         }
 
-        .faq-question-content {
-          display: flex;
-          align-items: flex-start;
-          gap: 1rem;
-          flex: 1;
-        }
-
-        .faq-q-badge {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-          min-width: 28px;
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.2), rgba(244, 162, 97, 0.1));
-          border: 1px solid rgba(244, 162, 97, 0.4);
-          border-radius: 6px;
-          color: #f4a261;
+        /* number label */
+        .faq-num {
+          font-size: 0.62rem;
           font-weight: 700;
-          font-size: 0.8rem;
-          margin-top: 2px;
-        }
-
-        .faq-question-text {
-          color: #ffffff;
-          font-size: 1.05rem;
-          font-weight: 500;
-          line-height: 1.5;
-          letter-spacing: 0.01em;
-        }
-
-        .faq-chevron {
-          color: rgba(244, 162, 97, 0.8);
+          letter-spacing: 0.1em;
+          color: rgba(107,174,138,0.4);
           flex-shrink: 0;
-          transition: transform 0.3s ease;
+          font-variant-numeric: tabular-nums;
+          align-self: flex-start;
+          padding-top: 4px;
+          transition: color 0.25s ease;
+        }
+        .faq-item:hover .faq-num,
+        .faq-item.faq-item--open .faq-num { color: rgba(107,174,138,0.85); }
+
+        /* question text — Playfair italic */
+        .faq-q {
+          flex: 1;
+          font-family: 'Playfair Display', serif;
+          font-style: italic;
+          font-weight: 400;
+          font-size: 1.05rem;
+          line-height: 1.55;
+          color: rgba(237,233,227,0.6);
+          letter-spacing: 0.01em;
+          transition: color 0.25s ease;
+        }
+        .faq-item:hover .faq-q,
+        .faq-item.faq-item--open .faq-q { color: #EDE9E3; }
+
+        /* + / × toggle icon */
+        .faq-icon {
+          flex-shrink: 0;
+          width: 30px;
+          height: 30px;
+          border-radius: 8px;
+          border: 1px solid rgba(107,174,138,0.2);
+          background: rgba(107,174,138,0.05);
+          color: rgba(107,174,138,0.55);
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: rgba(244, 162, 97, 0.1);
+          transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
         }
-        .faq-chevron.rotated {
-          transform: rotate(180deg);
-          background: rgba(244, 162, 97, 0.2);
+        .faq-item:hover .faq-icon {
+          border-color: rgba(107,174,138,0.4);
+          color: rgba(107,174,138,0.9);
+          background: rgba(107,174,138,0.1);
         }
-
-        .faq-answer-panel {
-          padding: 0 1.5rem 1.5rem 1.5rem;
-          animation: fadeInAnswer 0.3s ease;
-        }
-        @keyframes fadeInAnswer {
-          from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
+        .faq-item.faq-item--open .faq-icon {
+          border-color: rgba(107,174,138,0.5);
+          color: #6BAE8A;
+          background: rgba(107,174,138,0.14);
         }
 
+        /* answer slide panel */
+        .faq-panel {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .faq-item.faq-item--open .faq-panel { max-height: 600px; }
+
+        /* answer content — keep existing design */
         .faq-answer-content {
           display: flex;
           align-items: flex-start;
-          gap: 1rem;
-          padding: 1.25rem;
-          background: rgba(0, 0, 0, 0.25);
-          border-radius: 10px;
-          border-left: 3px solid rgba(244, 162, 97, 0.5);
+          gap: 0.875rem;
+          padding: 1.1rem 1.4rem 1.4rem 1.6rem;
+          background: rgba(0,0,0,0.18);
+          border-left: 3px solid rgba(94,155,181,0.4);
         }
 
         .faq-a-badge {
@@ -1407,47 +1479,139 @@ export default function BlogIndex() {
           width: 28px;
           height: 28px;
           min-width: 28px;
-          background: rgba(100, 180, 255, 0.15);
-          border: 1px solid rgba(100, 180, 255, 0.3);
-          border-radius: 6px;
-          color: #64b4ff;
+          background: rgba(94,155,181,0.12);
+          border: 1px solid rgba(94,155,181,0.3);
+          border-radius: 8px;
+          color: #5E9BB5;
           font-weight: 700;
-          font-size: 0.8rem;
-          margin-top: 2px;
+          font-size: 0.75rem;
+          margin-top: 1px;
         }
 
         .faq-answer-text {
-          color: #e2e8f0;
-          font-size: 1rem;
-          line-height: 1.75;
+          color: #8AAAB8;
+          font-size: 0.975rem;
+          line-height: 1.8;
           margin: 0;
           font-weight: 400;
           letter-spacing: 0.01em;
         }
 
-        /* FAQ Section Header */
         .faq-header-box {
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.1), rgba(244, 162, 97, 0.05));
-          border: 1px solid rgba(244, 162, 97, 0.25);
+          background: linear-gradient(135deg, rgba(107,174,138,0.1), rgba(107,174,138,0.05));
+          border: 1px solid rgba(107,174,138,0.2);
         }
 
         @media (max-width: 640px) {
-          .faq-question-btn {
-            padding: 1rem 1.25rem;
-          }
-          .faq-question-text {
-            font-size: 0.95rem;
-          }
-          .faq-answer-text {
-            font-size: 0.9rem;
-            line-height: 1.7;
-          }
-          .faq-q-badge, .faq-a-badge {
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            font-size: 0.7rem;
-          }
+          .faq-trigger { padding: 1.1rem 1.2rem 1.1rem 1.3rem; }
+          .faq-q { font-size: 0.97rem; }
+          .faq-answer-text { font-size: 0.875rem; line-height: 1.7; }
+          .faq-a-badge { width: 24px; height: 24px; min-width: 24px; font-size: 0.65rem; }
+        }
+
+        /* ===== CONTENT FILTER TABS ===== */
+        .filter-tabs {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-bottom: 2.5rem;
+          flex-wrap: wrap;
+        }
+
+        .filter-tab {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          padding: 0.55rem 1.2rem;
+          border-radius: var(--radius-full);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.04);
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .filter-tab:hover {
+          border-color: rgba(107, 174, 138, 0.35);
+          background: rgba(107, 174, 138, 0.07);
+          color: rgba(255, 255, 255, 0.8);
+        }
+        .filter-tab--active {
+          border-color: rgba(107, 174, 138, 0.6);
+          background: rgba(107, 174, 138, 0.14);
+          color: #6BAE8A;
+          box-shadow: 0 0 16px rgba(107, 174, 138, 0.12);
+        }
+        .filter-tab-icon {
+          font-style: normal;
+          font-size: 0.7rem;
+          opacity: 0.85;
+        }
+
+        /* ===== CLOSED CARD CONTENT CHIPS ===== */
+        .content-chips {
+          display: flex;
+          gap: 0.35rem;
+          align-items: center;
+          flex-shrink: 0;
+          margin-left: auto;
+          margin-right: 0.75rem;
+        }
+
+        .content-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          padding: 0.22rem 0.6rem;
+          border-radius: var(--radius-full);
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+        .content-chip--video {
+          border: 1px solid rgba(94, 155, 181, 0.35);
+          background: rgba(94, 155, 181, 0.08);
+          color: #5E9BB5;
+        }
+        .content-chip--article {
+          border: 1px solid rgba(201, 144, 106, 0.35);
+          background: rgba(201, 144, 106, 0.08);
+          color: #C4906A;
+        }
+        .content-chip--faq {
+          border: 1px solid rgba(107, 174, 138, 0.35);
+          background: rgba(107, 174, 138, 0.08);
+          color: #6BAE8A;
+        }
+
+        /* ===== FILTER EMPTY NOTICE ===== */
+        .filter-empty-notice {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 2.5rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.3);
+        }
+        .filter-empty-icon {
+          font-size: 1.5rem;
+          opacity: 0.4;
+        }
+        .filter-empty-notice p {
+          margin: 0;
+          font-size: 0.9rem;
+        }
+
+        @media (max-width: 640px) {
+          .content-chips { display: none; }
+          .filter-tabs { gap: 0.4rem; }
+          .filter-tab { padding: 0.5rem 0.9rem; font-size: 0.72rem; }
         }
 
         @media (min-width: 768px) {

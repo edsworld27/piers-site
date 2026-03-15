@@ -2,8 +2,16 @@ import Link from "next/link";
 import Script from "next/script";
 
 export const metadata = {
-  title: "Stop Smoking Hypnotherapy UK | Elevate Hypnotherapy",
-  description: "Quit smoking for good in a single session with our advanced online hypnotherapy method. No cravings, no patches, just freedom.",
+  title: "Stop Smoking Hypnotherapy | Quit in One Session | Piers Day",
+  description: "Quit smoking for good in a single session with advanced online hypnotherapy. No cravings, no patches, just freedom. Book your session today.",
+  alternates: { canonical: "https://www.piersday.com/services/stop-smoking" },
+  openGraph: {
+    title: "Stop Smoking Hypnotherapy | Quit in One Session",
+    description: "Quit smoking for good in a single session with advanced online hypnotherapy. No cravings, no patches.",
+    url: "https://www.piersday.com/services/stop-smoking",
+    type: "website",
+  },
+  twitter: { card: "summary", title: "Stop Smoking Hypnotherapy", description: "Quit smoking for good in a single session with advanced online hypnotherapy." },
 };
 
 export default function StopSmokingPage() {
