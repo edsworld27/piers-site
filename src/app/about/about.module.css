@@ -1,0 +1,432 @@
+/* About Page - Premium Design Module */
+
+/* Hero Section */
+.heroSection {
+  padding: var(--space-32) 0 var(--space-16);
+  text-align: center;
+  position: relative;
+}
+
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(244, 162, 97, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.heroTitle {
+  margin-bottom: var(--space-8);
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Stats Banner */
+.statsBanner {
+  margin: 0 auto var(--space-24);
+  max-width: 900px;
+  border-top: 2px solid var(--color-accent-gold);
+  border-radius: var(--radius-lg);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  gap: var(--space-4);
+}
+
+.statItem {
+  padding: var(--space-4);
+  position: relative;
+}
+
+.statItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--glass-border), transparent);
+}
+
+.statNumber {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--color-accent-gold);
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.statLabel {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Introduction Card */
+.introSection {
+  padding: 0 0 var(--space-24);
+}
+
+.introCard {
+  padding: var(--space-12);
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.introCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--color-accent-gold), transparent);
+}
+
+.introText {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+}
+
+.introText:last-child {
+  margin-bottom: 0;
+}
+
+.highlight {
+  color: var(--color-accent-gold);
+  font-weight: 600;
+}
+
+/* Iceberg Section */
+.icebergSection {
+  padding: var(--space-16) 0 var(--space-24);
+  background: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.sectionTitle {
+  margin-bottom: var(--space-4);
+}
+
+.sectionSubtitle {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+}
+
+/* Iceberg Visual */
+.icebergContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.icebergVisual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: var(--space-8) 0;
+}
+
+.waterLine {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(100, 180, 255, 0.6), transparent);
+  position: relative;
+  margin: var(--space-8) 0;
+}
+
+.waterLine::before {
+  content: 'WATER LINE';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-bg-base);
+  padding: 0 var(--space-4);
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: rgba(100, 180, 255, 0.8);
+  font-weight: 600;
+}
+
+.icebergGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+.icebergCard {
+  padding: var(--space-8);
+  position: relative;
+}
+
+.icebergCardTip {
+  border: 1px solid rgba(100, 180, 255, 0.3);
+}
+
+.icebergCardMass {
+  border: 1px solid rgba(244, 162, 97, 0.4);
+  background: linear-gradient(135deg, rgba(244, 162, 97, 0.05), transparent);
+}
+
+.icebergIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  font-size: 1.5rem;
+}
+
+.icebergIconTip {
+  background: linear-gradient(135deg, rgba(100, 180, 255, 0.2), rgba(100, 180, 255, 0.05));
+  border: 1px solid rgba(100, 180, 255, 0.3);
+}
+
+.icebergIconMass {
+  background: linear-gradient(135deg, rgba(244, 162, 97, 0.2), rgba(244, 162, 97, 0.05));
+  border: 1px solid rgba(244, 162, 97, 0.3);
+}
+
+.icebergPercentage {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.icebergPercentageTip {
+  color: rgba(100, 180, 255, 0.9);
+}
+
+.icebergPercentageMass {
+  color: var(--color-accent-gold);
+}
+
+.icebergLabel {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+  font-weight: 600;
+}
+
+.icebergTitle {
+  font-size: 1.4rem;
+  color: white;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.icebergDescription {
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* Solution Banner */
+.solutionBanner {
+  padding: var(--space-8);
+  text-align: center;
+  margin-top: var(--space-8);
+  border: 1px solid rgba(244, 162, 97, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.solutionBanner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-gold), transparent);
+}
+
+.solutionIcon {
+  font-size: 2rem;
+  margin-bottom: var(--space-4);
+  display: block;
+}
+
+.solutionText {
+  font-size: 1.15rem;
+  color: white;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Credentials Section */
+.credentialsSection {
+  padding: var(--space-24) 0;
+}
+
+.credentialsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.credentialCard {
+  padding: var(--space-6);
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.credentialCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(244, 162, 97, 0.3);
+}
+
+.credentialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(244, 162, 97, 0.15), rgba(244, 162, 97, 0.05));
+  border: 1px solid rgba(244, 162, 97, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+  font-size: 1.4rem;
+}
+
+.credentialTitle {
+  font-size: 1rem;
+  color: white;
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+
+.credentialDesc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* CTA Section */
+.ctaSection {
+  padding: var(--space-24) 0;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse at center bottom, rgba(244, 162, 97, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ctaContent {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaTitle {
+  margin-bottom: var(--space-6);
+}
+
+.ctaText {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin-bottom: var(--space-8);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .credentialsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: var(--space-24) 0 var(--space-12);
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .statItem:not(:last-child)::after {
+    display: none;
+  }
+
+  .statItem:not(:last-child) {
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: var(--space-6);
+  }
+
+  .introCard {
+    padding: var(--space-8);
+  }
+
+  .icebergGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .credentialsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .credentialCard {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .credentialsGrid {
+    grid-template-columns: 1fr;
+  }
+}
