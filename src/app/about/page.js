@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import styles from "./about.module.css";
@@ -21,149 +22,147 @@ export default function AboutPage() {
       <Script id="person-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
 
       <main>
-        {/* Hero Section */}
+
+        {/* ── HERO: Split layout ── */}
         <section className={styles.heroSection}>
-          <div className="container">
-            <div className="fade-in-up">
+          <div className={`container ${styles.heroInner}`}>
+
+            {/* Photo column */}
+            <div className={`${styles.heroPhoto} fade-in-up`}>
+              <div className={styles.photoFrame}>
+                <Image
+                  src="/piers-photo.svg"
+                  alt="Piers Day – Clinical Hypnotherapist"
+                  width={480}
+                  height={560}
+                  className={styles.photo}
+                  priority
+                />
+              </div>
+              {/* Floating credential badge */}
+              <div className={`${styles.badge} glass-panel`}>
+                <span className={styles.badgeNumber}>25+</span>
+                <span className={styles.badgeLabel}>Years of Practice</span>
+              </div>
+            </div>
+
+            {/* Text column */}
+            <div className={`${styles.heroText} fade-in-up`} style={{ animationDelay: "0.15s" }}>
+              <span className="eyebrow">Meet Your Guide</span>
               <h1 className={`${styles.heroTitle} text-gradient-gold`}>
-                You shouldn't have to fight yourself.
+                I'm Piers Day.
               </h1>
-              <p className={styles.heroSubtitle}>
-                For over 25 years, I've watched people try to use sheer willpower to overcome crushing anxiety, deep trauma, and stubborn addictions. It rarely works. Why? Because you are fighting your own survival instincts.
+              <p className={styles.heroLead}>
+                I've spent over 25 years doing one thing: giving people back control of their own minds. Not through willpower or talking therapy alone, but by going directly to the source — the subconscious beliefs that run your life without your permission.
               </p>
+              <p className={styles.heroBody}>
+                I work from my clinic in Bury St Edmunds, Suffolk, and online via Zoom — with complete confidentiality and zero judgment. If you feel stuck, broken, or exhausted from fighting yourself, you're exactly who I work with.
+              </p>
+              <Link href="/contact" className="btn btn-primary">
+                Talk to Piers
+              </Link>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── STORY: Why I do this ── */}
+        <section className={`${styles.storySection}`}>
+          <div className="container">
+            <div className={styles.storyGrid}>
+
+              <div className={`${styles.storyQuote} glass-panel fade-in-up`}>
+                <span className={styles.quoteMarks}>&ldquo;</span>
+                <blockquote className={styles.quoteText}>
+                  I have never once met a person who is broken. I have only ever met people whose subconscious is doing exactly what it was programmed to do — protect them. My job is to update that programming.
+                </blockquote>
+                <cite className={styles.quoteCite}>— Piers Day</cite>
+              </div>
+
+              <div className={`${styles.storyContent} fade-in-up`} style={{ animationDelay: "0.2s" }}>
+                <h2 className={`${styles.storyTitle} text-gradient-light`}>Why I Do This</h2>
+                <p>
+                  I became a hypnotherapist because I kept watching intelligent, capable people suffer — not because they were weak, but because no one had ever addressed the real problem. Talking about anxiety doesn't make the subconscious feel safe. Willpower doesn't override a survival mechanism. You need the right key for the right lock.
+                </p>
+                <p>
+                  Clinical hypnotherapy is that key. It's not stage hypnosis. It's not mysticism. It's a clinically grounded method for communicating directly with the part of your brain that controls fear, habit, and automatic response — and changing what it believes.
+                </p>
+                <p>
+                  I've refined this approach over hundreds of sessions. The result is a method that is direct, respectful, and genuinely effective. My clients don't just feel better temporarily — they change at the root.
+                </p>
+              </div>
+
             </div>
           </div>
         </section>
 
-        {/* Stats Banner */}
-        <section className="container">
-          <div className={`${styles.statsBanner} glass-panel fade-in-up`}>
-            <div className={styles.statsGrid}>
-              <div className={styles.statItem}>
-                <div className={styles.statNumber}>25+</div>
-                <div className={styles.statLabel}>Years Experience</div>
-              </div>
-              <div className={styles.statItem}>
-                <div className={styles.statNumber}>100s</div>
-                <div className={styles.statLabel}>Lives Changed</div>
-              </div>
-              <div className={styles.statItem}>
-                <div className={styles.statNumber}>1</div>
-                <div className={styles.statLabel}>Proven Method</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Introduction */}
-        <section className={`${styles.introSection} container`}>
-          <div className={`${styles.introCard} glass-panel fade-in-up`}>
-            <p className={styles.introText}>
-              My name is <span className={styles.highlight}>Piers Day</span>. I do exactly one thing: I give you back control of your mind by erasing limiting beliefs. But I can apply this one skill in hundreds of ways to drastically improve your life.
-            </p>
-            <p className={styles.introText}>
-              Whether you visit my clinic in Bury St Edmunds, Suffolk, or we work together online via Zoom, my approach is the same: absolute zero judgment, and a clear, clinical method for reprogramming the subconscious mind.
-            </p>
-          </div>
-        </section>
-
-        {/* Iceberg Section */}
-        <section className={styles.icebergSection}>
+        {/* ── THE METHOD ── */}
+        <section className={styles.methodSection}>
           <div className="container">
             <div className={`${styles.sectionHeader} fade-in-up`}>
-              <h2 className={`${styles.sectionTitle} text-gradient-light`}>
-                How We Fix It: The Iceberg
-              </h2>
+              <h2 className="text-gradient-light">The Method</h2>
               <p className={styles.sectionSubtitle}>
-                Stop using 10% of your brain to fight the other 90%.
+                Stop fighting your survival brain. Let's change what it believes.
               </p>
             </div>
 
-            <div className={styles.icebergContainer}>
-              {/* Visual Iceberg Representation */}
-              <div className={styles.icebergVisual}>
-                <div className={styles.icebergGrid}>
-                  {/* Tip - 10% */}
-                  <div className={`${styles.icebergCard} ${styles.icebergCardTip} glass-panel fade-in-up`}>
-                    <div className={`${styles.icebergIcon} ${styles.icebergIconTip}`}>
-                      <span>&#9651;</span>
-                    </div>
-                    <div className={`${styles.icebergPercentage} ${styles.icebergPercentageTip}`}>10%</div>
-                    <div className={styles.icebergLabel}>The Tip</div>
-                    <h3 className={styles.icebergTitle}>Your Conscious Mind</h3>
-                    <p className={styles.icebergDescription}>
-                      This is your logic, your willpower, and your rational thoughts. When you say "I shouldn't be anxious" or "I need to quit smoking", that is the tip of the iceberg talking. It is small, and it burns a lot of calories to maintain.
-                    </p>
-                  </div>
-
-                  {/* Mass - 90% */}
-                  <div className={`${styles.icebergCard} ${styles.icebergCardMass} glass-panel fade-in-up`} style={{animationDelay: "0.2s"}}>
-                    <div className={`${styles.icebergIcon} ${styles.icebergIconMass}`}>
-                      <span>&#9660;</span>
-                    </div>
-                    <div className={`${styles.icebergPercentage} ${styles.icebergPercentageMass}`}>90%</div>
-                    <div className={styles.icebergLabel}>The Mass</div>
-                    <h3 className={styles.icebergTitle}>Your Subconscious Mind</h3>
-                    <p className={styles.icebergDescription}>
-                      This is your survival drive, your emotions, and your deep habits. If your subconscious believes smoking keeps you safe from stress, or that social situations are dangerous, it will overpower your rational mind every single time. It is massive and relentless.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Water Line Visual */}
-                <div className={styles.waterLine}></div>
-
-                {/* Solution Banner */}
-                <div className={`${styles.solutionBanner} glass-panel fade-in-up`} style={{animationDelay: "0.3s"}}>
-                  <span className={styles.solutionIcon}>&#10024;</span>
-                  <p className={styles.solutionText}>
-                    <strong>Clinical Hypnotherapy</strong> bypasses the exhausting 10% and speaks directly to the 90%. We update your survival software so you no longer need the anxiety or the addiction to feel safe.
-                  </p>
-                </div>
+            <div className={styles.methodGrid}>
+              <div className={`${styles.methodCard} ${styles.methodCardConscious} glass-panel fade-in-up`}>
+                <div className={styles.methodPercent} style={{ color: "rgba(100,180,255,0.9)" }}>10%</div>
+                <h3 className={styles.methodCardTitle}>Your Conscious Mind</h3>
+                <p>Logic. Willpower. Rational thought. This is where your "I should stop smoking" lives. It is small, exhausting to maintain, and easily overpowered.</p>
+                <div className={styles.methodTag} style={{ borderColor: "rgba(100,180,255,0.3)", color: "rgba(100,180,255,0.8)" }}>The Tip of the Iceberg</div>
               </div>
+
+              <div className={`${styles.methodVs} fade-in-up`} style={{ animationDelay: "0.1s" }}>
+                <div className={styles.vsLine}></div>
+                <span className={styles.vsLabel}>vs</span>
+                <div className={styles.vsLine}></div>
+              </div>
+
+              <div className={`${styles.methodCard} ${styles.methodCardSub} glass-panel fade-in-up`} style={{ animationDelay: "0.2s" }}>
+                <div className={styles.methodPercent} style={{ color: "var(--color-accent-gold)" }}>90%</div>
+                <h3 className={styles.methodCardTitle}>Your Subconscious Mind</h3>
+                <p>Survival drive. Deep habits. Emotional memory. This is what tells you social situations are dangerous, or that cigarettes mean safety. It will win every time — unless we change what it believes.</p>
+                <div className={styles.methodTag} style={{ borderColor: "rgba(244,162,97,0.3)", color: "rgba(244,162,97,0.8)" }}>The Mass of the Iceberg</div>
+              </div>
+            </div>
+
+            <div className={`${styles.methodSolution} glass-panel fade-in-up`} style={{ animationDelay: "0.3s" }}>
+              <p className={styles.methodSolutionText}>
+                <strong>Hypnotherapy bypasses the 10% and speaks directly to the 90%.</strong> We update your survival software so the anxiety, the craving, or the block simply no longer needs to exist.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Credentials Section */}
+        {/* ── CREDENTIALS ── */}
         <section className={`${styles.credentialsSection} container`}>
           <div className={`${styles.sectionHeader} fade-in-up`}>
-            <h2 className={`${styles.sectionTitle} text-gradient-light`}>
-              Why Trust Us
-            </h2>
-            <p className={styles.sectionSubtitle}>
-              Decades of experience. Hundreds of success stories.
-            </p>
+            <h2 className="text-gradient-light">What I Bring to Every Session</h2>
           </div>
 
           <div className={styles.credentialsGrid}>
-            <div className={`${styles.credentialCard} glass-panel fade-in-up`}>
-              <div className={styles.credentialIcon}>&#127891;</div>
-              <h4 className={styles.credentialTitle}>Certified Clinical</h4>
-              <p className={styles.credentialDesc}>Fully qualified clinical hypnotherapist</p>
-            </div>
-
-            <div className={`${styles.credentialCard} glass-panel fade-in-up`} style={{animationDelay: "0.1s"}}>
-              <div className={styles.credentialIcon}>&#128337;</div>
-              <h4 className={styles.credentialTitle}>25+ Years</h4>
-              <p className={styles.credentialDesc}>Over two decades of dedicated practice</p>
-            </div>
-
-            <div className={`${styles.credentialCard} glass-panel fade-in-up`} style={{animationDelay: "0.2s"}}>
-              <div className={styles.credentialIcon}>&#127760;</div>
-              <h4 className={styles.credentialTitle}>In-Person & Online</h4>
-              <p className={styles.credentialDesc}>Suffolk clinic or Zoom sessions worldwide</p>
-            </div>
-
-            <div className={`${styles.credentialCard} glass-panel fade-in-up`} style={{animationDelay: "0.3s"}}>
-              <div className={styles.credentialIcon}>&#128170;</div>
-              <h4 className={styles.credentialTitle}>Results Focused</h4>
-              <p className={styles.credentialDesc}>We target the root cause, not symptoms</p>
-            </div>
+            {[
+              { icon: "🎓", title: "Certified Clinical", desc: "Fully qualified clinical hypnotherapist" },
+              { icon: "⏱", title: "25+ Years", desc: "Over two decades of dedicated practice" },
+              { icon: "🌐", title: "In-Person & Online", desc: "Suffolk clinic or Zoom sessions worldwide" },
+              { icon: "💪", title: "Root Cause Focus", desc: "We fix the source, not just the symptom" },
+            ].map((c, i) => (
+              <div
+                key={c.title}
+                className={`${styles.credentialCard} glass-panel fade-in-up`}
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <div className={styles.credentialIcon}>{c.icon}</div>
+                <h4 className={styles.credentialTitle}>{c.title}</h4>
+                <p className={styles.credentialDesc}>{c.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* ── CTA ── */}
         <section className={styles.ctaSection}>
           <div className="container">
             <div className={`${styles.ctaContent} fade-in-up`}>
@@ -171,7 +170,7 @@ export default function AboutPage() {
                 It's time to stop surviving and start thriving.
               </h2>
               <p className={styles.ctaText}>
-                Let's have a quick, zero-pressure chat about what's going on. We will tell you exactly whether this approach is right for you.
+                Let's have a quick, zero-pressure chat about what's going on. I'll tell you honestly whether this approach is right for you.
               </p>
               <Link href="/contact" className="btn btn-primary pulse">
                 Get Support
@@ -179,6 +178,7 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
       </main>
     </>
   );
