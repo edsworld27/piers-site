@@ -305,7 +305,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── 3. EMPATHY ── */}
+        {/* ── 3. PROBLEM + HOW WE SOLVE IT ── */}
         <section className={styles.empathySection}>
           <div className={`container ${styles.empathyInner}`}>
             <div className={`${styles.empathyVisual} fade-in-up`}>
@@ -314,10 +314,10 @@ export default function Home() {
             <div className={`${styles.empathyText} fade-in-up`} style={{ animationDelay: "0.15s" }}>
               <h2>You shouldn&rsquo;t have to fight your own mind every day.</h2>
               <p>
-                If you are struggling with anxiety, addiction, or self-doubt, we know exactly how exhausting it feels to try and use willpower to fix it. Your brain is stuck in survival mode, and it feels impossible to turn off.
+                If you are struggling with anxiety, addiction, or self-doubt, we know exactly how exhausting it feels to try and use willpower to fix it. Your brain is stuck in survival mode — running a faulty subconscious program — and no amount of positive thinking will turn it off.
               </p>
               <p className={styles.emphasisText}>
-                <strong>You are not alone, and you are not broken.</strong> As clinical hypnotherapists, we have helped hundreds of people solve this exact problem and take back control of their lives.
+                <strong>You are not alone, and you are not broken.</strong> As clinical hypnotherapists, we bypass the conscious mind entirely and update the subconscious program at the root. That&rsquo;s why our clients see change fast — and it lasts.
               </p>
             </div>
           </div>
@@ -327,8 +327,8 @@ export default function Home() {
         <section className={styles.servicesSection}>
           <div className="container">
             <div className={`${styles.sectionHeader} fade-in-up`}>
-              <h2>Common Problems We Help Solve</h2>
-              <p>We do one thing: we give you back control of your mind. Here are the most common ways we apply this to help you win.</p>
+              <h2>What We Can Help You With</h2>
+              <p>One method, applied to hundreds of challenges. Here are the most common ways people use hypnotherapy to take back control.</p>
             </div>
 
             <div className={styles.bentoGrid}>
@@ -375,45 +375,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── 5. STAKES ── */}
-        <section className={styles.stakesSection}>
-          <div className={`container ${styles.stakesInner}`}>
-            <div className={`${styles.stakesText} fade-in-up`}>
-              <h2 className={styles.stakesTitle}>What happens if you do nothing?</h2>
-              <p>
-                I have seen far too many people stop their lives and fail to reach their potential because they let their primal fears dictate their future. They lose time, they damage their health, and they accept a life of just &lsquo;surviving&rsquo;.
-              </p>
-              <p className={styles.stakesEmphasis}>
-                <strong>We cannot let this happen anymore. Let&rsquo;s get serious about your mental health and take back control right now.</strong>
-              </p>
-              <Link href="/contact" className={styles.stakesCta}>
-                I Don&rsquo;t Want to Wait Any Longer
-              </Link>
-            </div>
-            <div className={`${styles.stakesVisual} fade-in-up`} style={{ animationDelay: "0.2s" }}>
-              <AnimatedHourglass />
-              <p className={styles.hourglassHint}>tap to flip</p>
-            </div>
-          </div>
-        </section>
-
-        {/* ── 6. TESTIMONIALS ── */}
-        <section className={styles.testimonialsSection}>
-          <div className="container">
-            <div className={`${styles.sectionHeader} fade-in-up`}>
-              <h2>Proof That This Works</h2>
-              <p>Don&rsquo;t just take our word for it. Here is what happens when you decide to take control.</p>
-            </div>
-          </div>
-          <TestimonialsScroller />
-        </section>
-
-        {/* ── 7. THREE-STEP PLAN ── */}
+        {/* ── 5. THE PROCESS ── */}
         <section className={styles.planSection}>
           <div className="container">
             <div className={`${styles.sectionHeader} fade-in-up`}>
-              <h2>Three Steps to Reclaim Your Life</h2>
-              <p>Taking back control is incredibly simple.</p>
+              <h2>How It Works</h2>
+              <p>Getting started is easier than you think. Three simple steps stand between you and a calmer, freer mind.</p>
             </div>
 
             <div className={styles.planGrid}>
@@ -454,7 +421,40 @@ export default function Home() {
             </div>
 
             <div className={`${styles.planCta} fade-in-up`} style={{ animationDelay: "0.6s" }}>
-              <Link href="/contact" className="btn btn-primary pulse">Let&rsquo;s Talk Today</Link>
+              <Link href="/contact" className="btn btn-primary pulse">Book Your Free Consultation</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 6. PROOF ── */}
+        <section className={styles.testimonialsSection}>
+          <div className="container">
+            <div className={`${styles.sectionHeader} fade-in-up`}>
+              <h2>Real People. Real Results.</h2>
+              <p>Don&rsquo;t just take our word for it. Here is what happens when you decide to take control.</p>
+            </div>
+          </div>
+          <TestimonialsScroller />
+        </section>
+
+        {/* ── 7. STAKES ── */}
+        <section className={styles.stakesSection}>
+          <div className={`container ${styles.stakesInner}`}>
+            <div className={`${styles.stakesText} fade-in-up`}>
+              <h2 className={styles.stakesTitle}>What happens if you do nothing?</h2>
+              <p>
+                I have seen far too many people stop their lives and fail to reach their potential because they let their primal fears dictate their future. They lose time, they damage their health, and they accept a life of just &lsquo;surviving&rsquo;.
+              </p>
+              <p className={styles.stakesEmphasis}>
+                <strong>We cannot let this happen anymore. Let&rsquo;s get serious about your mental health and take back control right now.</strong>
+              </p>
+              <Link href="/contact" className={styles.stakesCta}>
+                I Don&rsquo;t Want to Wait Any Longer
+              </Link>
+            </div>
+            <div className={`${styles.stakesVisual} fade-in-up`} style={{ animationDelay: "0.2s" }}>
+              <AnimatedHourglass />
+              <p className={styles.hourglassHint}>tap to flip</p>
             </div>
           </div>
         </section>
