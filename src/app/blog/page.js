@@ -973,7 +973,7 @@ export default function BlogIndex() {
                   <div className={`flex transition-all duration-500 ${expandedCards[item.id] ? 'flex-col items-start gap-3' : 'flex-row items-center gap-3'}`}>
                     <span className="tag-badge text-[10px] md:text-xs py-1 px-3 bg-accent-gold/5 border-accent-gold/20 leading-none">{item.tag}</span>
                     {!expandedCards[item.id] && <span className="text-gray-500 font-light opacity-50 hidden md:inline">—</span>}
-                    <h2 className={`title text-gradient-light m-0 group-hover:text-gold transition-all duration-500 leading-tight ${expandedCards[item.id] ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg lg:text-xl'}`}>
+                    <h2 className={`title text-gradient-sage m-0 group-hover:text-gold transition-all duration-500 leading-tight ${expandedCards[item.id] ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg lg:text-xl'}`}>
                       {item.title}
                     </h2>
                   </div>

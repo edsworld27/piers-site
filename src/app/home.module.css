@@ -53,13 +53,6 @@
   background: none;
 }
 
-/* Override the global gradient span on a light background */
-.heroHeadline :global(.text-gradient-gold) {
-  background: linear-gradient(135deg, #2D6A4F 0%, #6BAE8A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
 
 .heroSub {
   font-size: 1.18rem;
@@ -69,35 +62,23 @@
   margin-bottom: var(--space-10);
 }
 
+.heroAccent {
+  background: linear-gradient(135deg, #2D6A4F 0%, #6BAE8A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .heroVisual {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.orbWrapper {
+.chairWrapper {
   width: 100%;
-  max-width: 460px;
+  max-width: 500px;
   position: relative;
-}
-
-.orbWrapper svg {
-  width: 100%;
-  height: auto;
-  animation: orbSpin 80s linear infinite;
-  filter: drop-shadow(0 0 40px rgba(107,174,138,0.22));
-  will-change: transform;
-  transform: translateZ(0);
-  contain: paint;
-}
-
-@keyframes orbSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orbWrapper svg { animation: none; }
 }
 
 /* ── Stats Band ────────────────────────────────────────────────── */
@@ -712,4 +693,4 @@
   .planConnector { transform: rotate(90deg); margin: 0.25rem 0; }
 }
 
-@media (max-width: 480px) { .orbWrapper { max-width: 280px; } }
+@media (max-width: 480px) { .chairWrapper { max-width: 280px; } }

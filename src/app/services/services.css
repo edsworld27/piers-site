@@ -189,7 +189,7 @@
 .service-card h3 {
   font-size: var(--font-size-2xl);
   margin-bottom: var(--space-4);
-  color: var(--color-white);
+  color: #1A2B3C;
   font-weight: 500;
 }
 

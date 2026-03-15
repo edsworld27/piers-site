@@ -385,7 +385,7 @@ export default function ShopPage() {
         <div className={`container ${styles.aboutInner}`}>
           <div className={`${styles.aboutText} fade-in-up`}>
             <span className="eyebrow">Why audio sessions work</span>
-            <h2 className="text-gradient-light">Clinical technique. Your own home.</h2>
+            <h2 className="text-gradient-sage">Clinical technique. Your own home.</h2>
             <p>Every recording follows the same therapeutic protocol Piers uses in his Suffolk clinic. In a relaxed hypnotic state, your subconscious becomes receptive — meaning the session reaches the 90% of your mind that logic and willpower can&rsquo;t touch.</p>
             <p>No special equipment. No experience needed. Just find a quiet 20–45 minutes, put in your headphones, and let the session do the work.</p>
             <Link href="/about" className="btn btn-secondary" style={{ marginTop: "0.5rem", display: "inline-flex" }}>
@@ -414,7 +414,7 @@ export default function ShopPage() {
       {/* ── CTA ── */}
       <section className={styles.ctaSection}>
         <div className={`container ${styles.ctaInner} fade-in-up`}>
-          <h2 className="text-gradient-light">Prefer a live session?</h2>
+          <h2 className="text-gradient-sage">Prefer a live session?</h2>
           <p>Audio recordings are powerful — but nothing replaces working directly with Piers. If you&rsquo;d like a personalised in-person or Zoom session, get in touch.</p>
           <Link href="/contact" className="btn btn-primary pulse">Book a Session with Piers</Link>
         </div>

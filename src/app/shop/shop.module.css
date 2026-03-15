@@ -294,7 +294,7 @@
 /* ── About section ─────────────────────────────────────────────── */
 .aboutSection {
   padding: var(--space-20) 0;
-  background: rgba(0, 0, 0, 0.18);
+  background: #EFF7F3;
 }
 
 .aboutInner {

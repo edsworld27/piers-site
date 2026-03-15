@@ -3,6 +3,7 @@ import Script from "next/script";
 import styles from "./home.module.css";
 import TestimonialsScroller from "./components/TestimonialsScroller";
 import AnimatedHourglass from "./components/AnimatedHourglass";
+import TherapyChairHero from "./components/TherapyChairHero";
 
 export const metadata = {
   title: "Piers Day | Hypnotherapy for Anxiety, Stress & More | Suffolk & Online",
@@ -26,47 +27,6 @@ export const metadata = {
 /* ─────────────────────────────────────────────────────────────────
    SVG ILLUSTRATIONS — therapeutic, organic, warm
 ───────────────────────────────────────────────────────────────── */
-
-/* Hero — Lotus of Calm: concentric petal rings, deeply therapeutic */
-function LotusHero() {
-  const outer  = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
-  const middle = [0, 45, 90, 135, 180, 225, 270, 315];
-  const inner  = [0, 60, 120, 180, 240, 300];
-  return (
-    <svg viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Soft atmospheric halos */}
-      <circle cx="240" cy="240" r="220" stroke="rgba(107,174,138,0.06)" strokeWidth="1.5"/>
-      <circle cx="240" cy="240" r="195" stroke="rgba(107,174,138,0.09)" strokeWidth="1"/>
-      <circle cx="240" cy="240" r="168" stroke="rgba(107,174,138,0.12)" strokeWidth="1"/>
-
-      {/* Outermost petal layer — 8 petals, offset 22.5° */}
-      {outer.map((a, i) => (
-        <ellipse key={i} cx="240" cy="96" rx="15" ry="44"
-          fill="rgba(107,174,138,0.07)" stroke="rgba(107,174,138,0.22)" strokeWidth="1"
-          transform={`rotate(${a}, 240, 240)`}/>
-      ))}
-
-      {/* Middle petal layer — 8 petals */}
-      {middle.map((a, i) => (
-        <ellipse key={i} cx="240" cy="148" rx="13" ry="36"
-          fill="rgba(107,174,138,0.11)" stroke="rgba(107,174,138,0.36)" strokeWidth="1.2"
-          transform={`rotate(${a}, 240, 240)`}/>
-      ))}
-
-      {/* Inner petal layer — 6 petals */}
-      {inner.map((a, i) => (
-        <ellipse key={i} cx="240" cy="188" rx="10" ry="27"
-          fill="rgba(107,174,138,0.18)" stroke="rgba(107,174,138,0.55)" strokeWidth="1.5"
-          transform={`rotate(${a}, 240, 240)`}/>
-      ))}
-
-      {/* Centre rings */}
-      <circle cx="240" cy="240" r="42" fill="rgba(107,174,138,0.06)" stroke="rgba(107,174,138,0.28)" strokeWidth="1.5"/>
-      <circle cx="240" cy="240" r="24" fill="rgba(107,174,138,0.14)" stroke="#6BAE8A" strokeWidth="1.8"/>
-      <circle cx="240" cy="240" r="9"  fill="#6BAE8A"/>
-    </svg>
-  );
-}
 
 /* Empathy — Tree of Awareness: trunk/branches above ground = conscious, roots below = subconscious */
 function TreeSVG() {
@@ -278,20 +238,20 @@ export default function Home() {
             <div className={`${styles.heroText} fade-in-up`}>
               <span className="eyebrow">Clinical Hypnotherapy · Bury St Edmunds</span>
               <h1 className={styles.heroHeadline}>
-                Take Back Control<br/>
-                <span className="text-gradient-gold">Of Your Mind.</span>
+                The thoughts that hold you back<br/>
+                <span className={styles.heroAccent}>can be changed.</span>
               </h1>
               <p className={`${styles.heroSub} fade-in-up`} style={{ animationDelay: "0.3s" }}>
-                Stop fighting yourself. We rewire your subconscious mind so you can quickly overcome limiting beliefs and start improving your life.
+                Sit with us. We work directly with your subconscious mind to dissolve what weighs you down — and let the real you emerge.
               </p>
               <div className="fade-in-up" style={{ animationDelay: "0.5s" }}>
-                <Link href="/contact" className="btn btn-primary pulse">Get Support Now</Link>
+                <Link href="/contact" className="btn btn-primary pulse">Begin Your Transformation</Link>
               </div>
             </div>
 
             <div className={`${styles.heroVisual} fade-in-up`} style={{ animationDelay: "0.2s" }}>
-              <div className={styles.orbWrapper}>
-                <LotusHero />
+              <div className={styles.chairWrapper}>
+                <TherapyChairHero />
               </div>
             </div>
 

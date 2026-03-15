@@ -6,6 +6,7 @@
   text-align: left;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 60%, #0F1E30 100%);
 }
 
 .hero::after {
