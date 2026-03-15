@@ -18,22 +18,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 1.5 INFOGRAPHIC / STATS BAR 
+      {/* 1.5 INFOGRAPHIC / STATS BAR
           Visual proof for the primitive brain right away */}
-      <section className={`${styles.statsBanner} glass-panel`}>
+      <section className={`${styles.statsBanner}`}>
         <div className="container">
           <div className={styles.statsGrid}>
-            <div className="stat-item fade-in-up" style={{ animationDelay: "0.6s" }}>
+            <div className={`${styles.statItem} fade-in-up`} style={{ animationDelay: "0.6s" }}>
+              <div className={styles.statIconWrap}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
               <div className={styles.statNumber}>25+</div>
               <div className={styles.statLabel}>Years Experience</div>
+              <div className={styles.statSub}>Trusted clinical expertise</div>
             </div>
-            <div className="stat-item fade-in-up" style={{ animationDelay: "0.7s" }}>
+            <div className={`${styles.statItem} ${styles.statItemCenter} fade-in-up`} style={{ animationDelay: "0.7s" }}>
+              <div className={styles.statIconWrap}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </div>
               <div className={styles.statNumber}>100s</div>
               <div className={styles.statLabel}>Lives Changed</div>
+              <div className={styles.statSub}>Real people, real results</div>
             </div>
-            <div className="stat-item fade-in-up" style={{ animationDelay: "0.8s" }}>
+            <div className={`${styles.statItem} fade-in-up`} style={{ animationDelay: "0.8s" }}>
+              <div className={styles.statIconWrap}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                </svg>
+              </div>
               <div className={styles.statNumber}>1</div>
               <div className={styles.statLabel}>Proven Method</div>
+              <div className={styles.statSub}>Clinical hypnotherapy</div>
             </div>
           </div>
         </div>
@@ -105,6 +123,9 @@ export default function Home() {
           <p className={`${styles.textXl} ${styles.textWhite} fade-in-up`} style={{ animationDelay: "0.4s" }}>
             <strong>We cannot let this happen anymore. Let's get serious about your mental health and take back control right now.</strong>
           </p>
+          <div className="fade-in-up" style={{ animationDelay: "0.6s", marginTop: "var(--space-8)" }}>
+            <Link href="/contact" className="btn btn-primary pulse text-lg px-8 py-4">I Don't Want to Wait Any Longer</Link>
+          </div>
         </div>
       </section>
 

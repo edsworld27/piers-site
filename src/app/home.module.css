@@ -63,27 +63,83 @@
   margin: calc(var(--space-8) * -1) var(--space-4) var(--space-16) var(--space-4);
   position: relative;
   z-index: 10;
-  background: rgba(15, 23, 42, 0.8);
-  border-top: 2px solid var(--color-accent-gold);
+  background: linear-gradient(135deg, rgba(20, 31, 54, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border: 1px solid rgba(244, 162, 97, 0.2);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 40px rgba(244, 162, 97, 0.08), 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+.statsBanner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(244, 162, 97, 0.6), rgba(244, 162, 97, 0.9), rgba(244, 162, 97, 0.6), transparent);
 }
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  padding: var(--space-8) 0;
+  padding: var(--space-12) var(--space-8);
   text-align: center;
+  gap: 0;
+}
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+}
+.statItemCenter {
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+.statIconWrap {
+  color: rgba(244, 162, 97, 0.75);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(244, 162, 97, 0.08);
+  border: 1px solid rgba(244, 162, 97, 0.15);
 }
 .statNumber {
-  font-family: var(--font-playfair);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
   color: var(--color-accent-gold);
-  font-weight: bold;
+  font-weight: 700;
   line-height: 1;
-  margin-bottom: var(--space-1);
+  letter-spacing: -0.02em;
 }
 .statLabel {
-  color: var(--color-text-muted);
+  color: var(--color-text-main);
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.statSub {
+  color: rgba(203, 213, 225, 0.55);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  font-style: italic;
+}
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-4);
+  }
+  .statItemCenter {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding: var(--space-8) var(--space-4);
+  }
 }
