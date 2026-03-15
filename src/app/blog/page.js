@@ -868,6 +868,9 @@ export default function BlogIndex() {
   // New state to track which cards are expanded (summary view vs collapsed view)
   const [expandedCards, setExpandedCards] = useState({});
 
+  // Content filter: 'all' | 'video' | 'article' | 'faq'
+  const [contentFilter, setContentFilter] = useState('all');
+
   const toggleCardExpansion = (id) => {
     setExpandedCards(prev => ({
       ...prev,
@@ -924,6 +927,25 @@ export default function BlogIndex() {
           </div>
         </div>
 
+        {/* Content Filter Tabs */}
+        <div className="filter-tabs fade-in-up" style={{animationDelay: "0.15s"}}>
+          {[
+            { key: 'all',     icon: '✦', label: 'All'     },
+            { key: 'video',   icon: '▶', label: 'Video'   },
+            { key: 'article', icon: '✎', label: 'Article' },
+            { key: 'faq',     icon: '?', label: 'FAQ'     },
+          ].map(({ key, icon, label }) => (
+            <button
+              key={key}
+              onClick={() => setContentFilter(key)}
+              className={`filter-tab${contentFilter === key ? ' filter-tab--active' : ''}`}
+            >
+              <span className="filter-tab-icon">{icon}</span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+
         {/* Results Stream (Mega Cards) */}
         <div className="topic-stream fade-in-up" style={{animationDelay: "0.2s"}}>
           {currentItems.length > 0 ? (
@@ -940,6 +962,13 @@ export default function BlogIndex() {
                       {item.title}
                     </h2>
                   </div>
+                  {!expandedCards[item.id] && (
+                    <div className="content-chips">
+                      {item.videoId && <span className="content-chip content-chip--video">▶ Video</span>}
+                      {item.article && <span className="content-chip content-chip--article">✎ Article</span>}
+                      {item.faqs && item.faqs.length > 0 && <span className="content-chip content-chip--faq">? FAQ</span>}
+                    </div>
+                  )}
                   <div className={`expand-indicator text-accent-gold transition-transform duration-300 ${expandedCards[item.id] ? 'rotate-180' : ''}`}>
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="6 9 12 15 18 9"></polyline>
@@ -979,7 +1008,7 @@ export default function BlogIndex() {
                     ) : (
                       <div className="layered-summary-view">
                         {/* Layer 1: Video (Conditional) */}
-                        {item.videoId && (
+                        {item.videoId && (contentFilter === 'all' || contentFilter === 'video') && (
                           <div className="video-section mb-10 max-w-4xl mx-auto text-left">
                             <div className="video-embed rounded-xl overflow-hidden border border-white/10" style={{ position: 'relative', paddingBottom: '56.25%', height: 0, boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.5)' }}>
                               <iframe 
@@ -995,7 +1024,7 @@ export default function BlogIndex() {
                         )}
                         
                         {/* Layer 2: Article Excerpt (Conditional) */}
-                        {item.article && (
+                        {item.article && (contentFilter === 'all' || contentFilter === 'article') && (
                           <div className="article-section mb-12 text-left max-w-4xl mx-auto">
                              <h3 className="text-xl text-white mb-4">{item.article.headline}</h3>
                              <p className="text-gray text-base mb-8 leading-relaxed max-w-3xl">
@@ -1011,7 +1040,7 @@ export default function BlogIndex() {
                         )}
                         
                         {/* Layer 3: FAQs (Conditional) */}
-                        {item.faqs && item.faqs.length > 0 && (
+                        {item.faqs && item.faqs.length > 0 && (contentFilter === 'all' || contentFilter === 'faq') && (
                           <div className="faq-section-container">
                             <div className="faq-section-header">
                               <div className="faq-section-icon">?</div>
@@ -1025,6 +1054,14 @@ export default function BlogIndex() {
                                  <FAQAccordion key={idx} faq={faq} index={idx} />
                               ))}
                             </div>
+                          </div>
+                        )}
+
+                        {/* No-content notice when filter is 'video' but card has no video */}
+                        {contentFilter === 'video' && !item.videoId && (
+                          <div className="filter-empty-notice">
+                            <span className="filter-empty-icon">▶</span>
+                            <p>No video available for this topic.</p>
                           </div>
                         )}
                       </div>
@@ -1456,6 +1493,111 @@ export default function BlogIndex() {
           .faq-q { font-size: 0.97rem; }
           .faq-answer-text { font-size: 0.875rem; line-height: 1.7; }
           .faq-a-badge { width: 24px; height: 24px; min-width: 24px; font-size: 0.65rem; }
+        }
+
+        /* ===== CONTENT FILTER TABS ===== */
+        .filter-tabs {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-bottom: 2.5rem;
+          flex-wrap: wrap;
+        }
+
+        .filter-tab {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          padding: 0.55rem 1.2rem;
+          border-radius: var(--radius-full);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.04);
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .filter-tab:hover {
+          border-color: rgba(107, 174, 138, 0.35);
+          background: rgba(107, 174, 138, 0.07);
+          color: rgba(255, 255, 255, 0.8);
+        }
+        .filter-tab--active {
+          border-color: rgba(107, 174, 138, 0.6);
+          background: rgba(107, 174, 138, 0.14);
+          color: #6BAE8A;
+          box-shadow: 0 0 16px rgba(107, 174, 138, 0.12);
+        }
+        .filter-tab-icon {
+          font-style: normal;
+          font-size: 0.7rem;
+          opacity: 0.85;
+        }
+
+        /* ===== CLOSED CARD CONTENT CHIPS ===== */
+        .content-chips {
+          display: flex;
+          gap: 0.35rem;
+          align-items: center;
+          flex-shrink: 0;
+          margin-left: auto;
+          margin-right: 0.75rem;
+        }
+
+        .content-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          padding: 0.22rem 0.6rem;
+          border-radius: var(--radius-full);
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+        .content-chip--video {
+          border: 1px solid rgba(94, 155, 181, 0.35);
+          background: rgba(94, 155, 181, 0.08);
+          color: #5E9BB5;
+        }
+        .content-chip--article {
+          border: 1px solid rgba(201, 144, 106, 0.35);
+          background: rgba(201, 144, 106, 0.08);
+          color: #C4906A;
+        }
+        .content-chip--faq {
+          border: 1px solid rgba(107, 174, 138, 0.35);
+          background: rgba(107, 174, 138, 0.08);
+          color: #6BAE8A;
+        }
+
+        /* ===== FILTER EMPTY NOTICE ===== */
+        .filter-empty-notice {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 2.5rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.3);
+        }
+        .filter-empty-icon {
+          font-size: 1.5rem;
+          opacity: 0.4;
+        }
+        .filter-empty-notice p {
+          margin: 0;
+          font-size: 0.9rem;
+        }
+
+        @media (max-width: 640px) {
+          .content-chips { display: none; }
+          .filter-tabs { gap: 0.4rem; }
+          .filter-tab { padding: 0.5rem 0.9rem; font-size: 0.72rem; }
         }
 
         @media (min-width: 768px) {
