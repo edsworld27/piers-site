@@ -441,16 +441,13 @@ export default function Home() {
         <section className={styles.stakesSection}>
           <div className={`container ${styles.stakesInner}`}>
             <div className={`${styles.stakesText} fade-in-up`}>
-              <h2 className={styles.stakesTitle}>What happens if you do nothing?</h2>
+              <h2 className={styles.stakesTitle}>Stop living the same life on repeat.</h2>
               <p>
                 I have seen far too many people stop their lives and fail to reach their potential because they let their primal fears dictate their future. They lose time, they damage their health, and they accept a life of just &lsquo;surviving&rsquo;.
               </p>
               <p className={styles.stakesEmphasis}>
-                <strong>We cannot let this happen anymore. Let&rsquo;s get serious about your mental health and take back control right now.</strong>
+                <strong>It&rsquo;s time to make a change that actually lasts. Not another patch. Not more willpower. A real shift — at the root.</strong>
               </p>
-              <Link href="/contact" className={styles.stakesCta}>
-                I Don&rsquo;t Want to Wait Any Longer
-              </Link>
             </div>
             <div className={`${styles.stakesVisual} fade-in-up`} style={{ animationDelay: "0.2s" }}>
               <AnimatedHourglass />
