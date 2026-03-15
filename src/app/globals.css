@@ -11,6 +11,9 @@
   --color-bg-elevated:    #0F1E30;   /* slightly lifted  */
   --color-bg-secondary:   #1A3448;   /* secondary layer  */
   --color-white:          #ffffff;
+  --color-white-5:        rgba(255, 255, 255, 0.05);
+  --color-white-10:       rgba(255, 255, 255, 0.10);
+  --color-conscious-border: rgba(100, 180, 255, 0.20); /* "conscious mind" card accent */
 
   /* ── Therapeutic accent — sage green ──────────────────────── */
   --color-accent:         #6BAE8A;   /* primary sage green (legacy: --color-accent-gold) */
@@ -194,7 +197,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   line-height: 1.2;
   margin-bottom: var(--space-4);
-  color: #fff;
+  color: var(--color-white);
 }
 
 h1 { font-size: clamp(2.5rem, 5vw, 4rem);   letter-spacing: -0.02em; line-height: 1.1; }

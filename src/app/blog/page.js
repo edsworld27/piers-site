@@ -1165,7 +1165,7 @@ export default function BlogIndex() {
         .border-accent-gold\\/20 { border-color: rgba(107,174,138,0.2); }
         .border-accent-gold\\/30 { border-color: rgba(107,174,138,0.3); }
         .bg-white\\/5 { background-color: rgba(255, 255, 255, 0.05); }
-        .bg-accent-gold\\/5 { background-color: rgba(244,162,97,0.05); }
+        .bg-accent-gold\\/5 { background-color: rgba(107,174,138,0.05); }
         .bg-\\[\\#f8f9fc\\] { background-color: #f8f9fc; }
         .text-\\[\\#1A202C\\] { color: #1A202C; }
         .text-gray-600 { color: #4B5563; }
@@ -1278,7 +1278,7 @@ export default function BlogIndex() {
           transition: color 0.2s ease;
         }
         .back-btn:hover {
-          color: white;
+          color: var(--color-white);
         }
         
         .prose p {
@@ -1319,10 +1319,10 @@ export default function BlogIndex() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, rgba(107, 174, 138, 0.2), rgba(107, 174, 138, 0.1));
-          border: 1px solid rgba(107, 174, 138, 0.3);
+          background: linear-gradient(135deg, var(--accent-20), var(--accent-10));
+          border: 1px solid var(--accent-30);
           border-radius: 12px;
-          color: #6BAE8A;
+          color: var(--color-accent);
           font-size: 1.5rem;
           font-weight: 700;
         }
@@ -1335,14 +1335,14 @@ export default function BlogIndex() {
           margin: 0 0 0.25rem 0;
           font-size: 1.1rem;
           font-weight: 600;
-          color: #ffffff;
+          color: var(--color-white);
           letter-spacing: 0.02em;
         }
 
         .faq-section-subtitle {
           margin: 0;
           font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--color-text-55);
         }
 
         .faq-list {
