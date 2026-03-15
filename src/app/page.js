@@ -441,7 +441,7 @@ export default function Home() {
         <section className={styles.stakesSection}>
           <div className={`container ${styles.stakesInner}`}>
             <div className={`${styles.stakesText} fade-in-up`}>
-              <h2 className={styles.stakesTitle}>Stop living the same life on repeat.</h2>
+              <h2 className={styles.stakesTitle}>What happens if you don&rsquo;t take control?</h2>
               <p>
                 I have seen far too many people stop their lives and fail to reach their potential because they let their primal fears dictate their future. They lose time, they damage their health, and they accept a life of just &lsquo;surviving&rsquo;.
               </p>
