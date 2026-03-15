@@ -62,6 +62,34 @@
   margin-bottom: var(--space-10);
 }
 
+.heroBtns {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.btnSoft {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2D6A4F;
+  border: 1.5px solid rgba(107,174,138,0.45);
+  background: rgba(107,174,138,0.06);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+.btnSoft:hover {
+  background: rgba(107,174,138,0.12);
+  border-color: rgba(107,174,138,0.70);
+  color: #1A3A2C;
+}
+
 .heroAccent {
   background: linear-gradient(135deg, #2D6A4F 0%, #6BAE8A 100%);
   -webkit-background-clip: text;

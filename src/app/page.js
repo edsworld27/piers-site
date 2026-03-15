@@ -244,8 +244,9 @@ export default function Home() {
               <p className={`${styles.heroSub} fade-in-up`} style={{ animationDelay: "0.3s" }}>
                 Sit with us. We work directly with your subconscious mind to dissolve what weighs you down — and let the real you emerge.
               </p>
-              <div className="fade-in-up" style={{ animationDelay: "0.5s" }}>
+              <div className={`${styles.heroBtns} fade-in-up`} style={{ animationDelay: "0.5s" }}>
                 <Link href="/contact" className="btn btn-primary pulse">Begin Your Transformation</Link>
+                <Link href="/contact" className={styles.btnSoft}>Is This Right For Me?</Link>
               </div>
             </div>
 
