@@ -56,8 +56,8 @@ export default function TestimonialsPage() {
 
         {visibleCount < allTestimonials.length && (
           <div className={`${styles.loadMoreWrapper} fade-in-up`}>
-            <button onClick={() => setVisibleCount(prev => prev + increment)} className="btn btn-secondary">
-              Discover More Stories ↓
+            <button onClick={() => setVisibleCount(prev => prev + increment)} className="btn btn-primary">
+              Discover More Stories &darr;
             </button>
           </div>
         )}

@@ -1100,12 +1100,11 @@ export default function BlogIndex() {
         {/* Load More Control */}
         {visibleLimit < filteredTopics.length && (
           <div className="load-more-container flex justify-center mt-12 pb-12 fade-in-up">
-            <button 
+            <button
               onClick={() => setVisibleLimit(prev => prev + incrementCount)}
-              className="btn-primary px-10 py-4 font-bold tracking-widest text-sm uppercase flex items-center gap-3 active:scale-95 transition-all shadow-[0_0_20px_rgba(107,174,138,0.2)]"
+              className="btn btn-primary"
             >
-              Load More Resources
-              <span className="text-lg">↓</span>
+              Load More Resources &darr;
             </button>
           </div>
         )}

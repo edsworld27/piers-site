@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Script from "next/script";
 import styles from "./home.module.css";
+import TestimonialsScroller from "./components/TestimonialsScroller";
 
 export const metadata = {
   title: "Piers Day | Hypnotherapy for Anxiety, Stress & More | Suffolk & Online",
@@ -378,27 +379,8 @@ export default function Home() {
               <h2>Proof That This Works</h2>
               <p>Don&rsquo;t just take our word for it. Here is what happens when you decide to take control.</p>
             </div>
-            <div className={styles.testimonialsGrid}>
-              <div className={`${styles.testimonialCard} glass-panel fade-in-up`} style={{ animationDelay: "0.1s" }}>
-                <div className={styles.quoteDecor}>&ldquo;</div>
-                <p className={styles.quoteText}>I had struggled with crippling anxiety for 15 years. I thought my brain was just broken. In just a few sessions, the constant &ldquo;fight or flight&rdquo; noise completely stopped. I finally have my life back.</p>
-                <div className={styles.quoteStars}>★★★★★</div>
-                <div className={styles.quoteAttrib}>
-                  <span className={styles.quoteName}>Sarah T.</span>
-                  <span className={styles.quotePlace}>Suffolk</span>
-                </div>
-              </div>
-              <div className={`${styles.testimonialCard} glass-panel fade-in-up`} style={{ animationDelay: "0.2s" }}>
-                <div className={styles.quoteDecor}>&ldquo;</div>
-                <p className={styles.quoteText}>I tried willpower, patches, and gums to quit smoking. Nothing worked because I was fighting my own mind. Piers rewired the habit at the root. I haven&rsquo;t craved a cigarette since.</p>
-                <div className={styles.quoteStars}>★★★★★</div>
-                <div className={styles.quoteAttrib}>
-                  <span className={styles.quoteName}>James R.</span>
-                  <span className={styles.quotePlace}>Online Client</span>
-                </div>
-              </div>
-            </div>
           </div>
+          <TestimonialsScroller />
         </section>
 
         {/* ── 7. THREE-STEP PLAN ── */}
