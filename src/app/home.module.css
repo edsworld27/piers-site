@@ -713,10 +713,13 @@
 
 .scrollerOuter {
   overflow: hidden;
-  /* fade edges so cards trail off nicely */
   mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
-  padding: var(--space-4) 0;
+  padding: var(--space-3) 0;
+}
+
+.scrollerOuterReverse {
+  margin-top: var(--space-3);
 }
 
 .scrollerTrack {
@@ -728,13 +731,25 @@
 
 .scrollerTrack:hover { animation-play-state: paused; }
 
+.scrollerTrackReverse {
+  animation: scrollRight 65s linear infinite;
+}
+
+.scrollerTrackReverse:hover { animation-play-state: paused; }
+
 @keyframes scrollLeft {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
 
+@keyframes scrollRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .scrollerTrack { animation: none; }
+  .scrollerTrack,
+  .scrollerTrackReverse { animation: none; }
 }
 
 .scrollerCard {

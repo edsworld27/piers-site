@@ -3,7 +3,7 @@ import styles from "./Footer.module.css";
 
 export default function Footer() {
   return (
-    <footer className={`${styles.footer} section glass-panel`}>
+    <footer className={`${styles.footer} section`}>
       <div className={`container ${styles.footerGrid}`}>
         <div className={styles.footerBrand}>
           <h3>Piers Day Hypnotherapy</h3>
