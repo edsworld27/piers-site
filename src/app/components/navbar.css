@@ -226,19 +226,20 @@
   font-size: 12.5px;
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: rgba(107, 174, 138, 0.9);
+  color: #ffffff;
   text-decoration: none;
   padding: var(--space-2) var(--space-5);
-  border: 1px solid rgba(107, 174, 138, 0.38);
+  border: 1px solid #A0642A;
   border-radius: 20px;
+  background: #B8752E;
   white-space: nowrap;
   flex-shrink: 0;
   transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 }
 .nav-cta:hover {
   color: #ffffff;
-  background: rgba(107, 174, 138, 0.16);
-  border-color: rgba(107, 174, 138, 0.65);
+  background: #2D6A4F;
+  border-color: #2D6A4F;
 }
 
 /* Hamburger */
