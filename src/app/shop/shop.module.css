@@ -1,0 +1,439 @@
+/* ── Main ──────────────────────────────────────────────────────── */
+
+.main {
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Stripe-coming-soon banner ─────────────────────────────────── */
+
+.stripeBanner {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  background: rgba(12, 27, 46, 0.96);
+  border: 1px solid rgba(107, 174, 138, 0.35);
+  border-radius: 9999px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(107, 174, 138, 0.1);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  animation: bannerSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes bannerSlideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0);    }
+}
+
+.stripeLock {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.bannerLink {
+  color: #6BAE8A;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+.bannerLink:hover { color: #8CC4A4; }
+
+.bannerClose {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0;
+  margin-left: 0.25rem;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+.bannerClose:hover { color: rgba(255, 255, 255, 0.7); }
+
+/* ── Hero ──────────────────────────────────────────────────────── */
+
+.hero {
+  padding: 10rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(107, 174, 138, 0.07) 0%, transparent 62%);
+  pointer-events: none;
+}
+
+.heroInner {
+  max-width: 720px;
+  position: relative;
+  z-index: 1;
+}
+
+.heroTitle {
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+}
+
+.heroSub {
+  font-size: 1.12rem;
+  line-height: 1.82;
+  color: var(--color-text-muted);
+  max-width: 580px;
+  margin-bottom: 2.25rem;
+}
+
+/* Trust chips row */
+.trustRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.trustChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.trustChip svg {
+  color: rgba(107, 174, 138, 0.7);
+  flex-shrink: 0;
+}
+
+/* ── Products section ──────────────────────────────────────────── */
+
+.productsSection {
+  padding: 0 0 5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* ── Product card ──────────────────────────────────────────────── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(107, 174, 138, 0.3);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 10;
+  padding: 0.28rem 0.72rem;
+  background: rgba(107, 174, 138, 0.18);
+  border: 1px solid rgba(107, 174, 138, 0.42);
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6BAE8A;
+}
+
+/* Illustration block */
+.illWrapper {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.illSvg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Card body */
+.cardBody {
+  padding: 1.5rem 1.5rem 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.category {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #C4906A;
+  margin-bottom: 0.6rem;
+}
+
+.cardTitle {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+
+.cardDesc {
+  font-size: 0.93rem;
+  line-height: 1.72;
+  color: var(--color-text-muted);
+  margin-bottom: 1.1rem;
+  flex-grow: 1;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: rgba(107, 174, 138, 0.7);
+  letter-spacing: 0.04em;
+}
+
+.duration svg { flex-shrink: 0; }
+
+.format {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Card footer — price + buy */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem 1.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
+}
+
+.price {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: white;
+  line-height: 1;
+}
+
+.buyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.3rem;
+  background: var(--color-accent-gold);
+  color: #0C1B2E;
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  white-space: nowrap;
+}
+
+.buyBtn:hover {
+  background: #7EC09A;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(107, 174, 138, 0.35);
+}
+
+.buyBtnAdded {
+  background: rgba(107, 174, 138, 0.2);
+  color: #6BAE8A;
+  border: 1px solid rgba(107, 174, 138, 0.4);
+}
+
+.buyBtnAdded:hover {
+  background: rgba(107, 174, 138, 0.25);
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── About section ─────────────────────────────────────────────── */
+
+.aboutSection {
+  padding: 5rem 0;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.aboutInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4.5rem;
+  align-items: start;
+}
+
+.aboutText h2 {
+  margin-bottom: 1.25rem;
+}
+
+.aboutText p {
+  font-size: 1.05rem;
+  line-height: 1.82;
+  margin-bottom: 1rem;
+}
+
+.aboutFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--radius-md);
+  transition: border-color 0.25s ease;
+}
+
+.featureItem:hover {
+  border-color: rgba(107, 174, 138, 0.22);
+}
+
+.featureIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.featureTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  margin-bottom: 0.2rem;
+}
+
+.featureDesc {
+  font-size: 0.86rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+/* ── CTA section ───────────────────────────────────────────────── */
+
+.ctaSection {
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse at center bottom, rgba(107, 174, 138, 0.09) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ctaInner {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaInner h2 { margin-bottom: 1.25rem; }
+.ctaInner p  { font-size: 1.1rem; line-height: 1.8; margin-bottom: 2.25rem; }
+
+/* ── Responsive ────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .aboutInner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero { padding: 8rem 0 3.5rem; }
+
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .stripeBanner {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    white-space: normal;
+    border-radius: 14px;
+    bottom: 1rem;
+    animation: bannerSlideUpMobile 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes bannerSlideUpMobile {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
+  .trustRow { gap: 0.4rem; }
+}

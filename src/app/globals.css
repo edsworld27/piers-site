@@ -10,6 +10,15 @@
   /* Therapeutic Accent — Sage Green */
   --color-accent-gold:    #6BAE8A;   /* renamed var, new value */
   --color-accent-glow:    rgba(107, 174, 138, 0.35);
+  --accent-5:             rgba(107, 174, 138, 0.05);
+  --accent-10:            rgba(107, 174, 138, 0.1);
+  --accent-15:            rgba(107, 174, 138, 0.15);
+  --accent-20:            rgba(107, 174, 138, 0.2);
+  --accent-30:            rgba(107, 174, 138, 0.3);
+  --accent-40:            rgba(107, 174, 138, 0.4);
+  --accent-50:            rgba(107, 174, 138, 0.5);
+  --gradient-accent-radial:  radial-gradient(circle, rgba(107, 174, 138, 0.07) 0%, transparent 62%);
+  --gradient-accent-ellipse: radial-gradient(ellipse at center bottom, rgba(107, 174, 138, 0.09) 0%, transparent 70%);
 
   /* Text Colors */
   --color-text-main:      #EDE9E3;   /* warm off-white */

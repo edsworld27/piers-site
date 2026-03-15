@@ -1,0 +1,93 @@
+/* ── Testimonials Page ─────────────────────────────────────────── */
+
+.pageWrapper {
+  padding-top: 8rem;
+  padding-bottom: 6rem;
+}
+
+.heroSection {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 0 1rem;
+}
+
+.heroSub {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 800px;
+  line-height: 1.6;
+  margin: 0 auto;
+}
+
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-8);
+  padding: 0 1rem;
+}
+
+.testimonialCard {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.testimonialCard:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-30);
+}
+
+.stars {
+  color: var(--color-accent-gold);
+  font-size: 1.25rem;
+  margin-bottom: var(--space-4);
+  letter-spacing: 2px;
+}
+
+.cardText {
+  font-size: 1.125rem;
+  font-style: italic;
+  margin-bottom: var(--space-8);
+  flex-grow: 1;
+  line-height: 1.8;
+  color: var(--color-text-main);
+  font-weight: 300;
+}
+
+.clientMeta {
+  margin-top: auto;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: var(--space-4);
+  font-size: 0.875rem;
+}
+
+.clientName {
+  font-weight: 600;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.clientIssue {
+  color: var(--color-accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.loadMoreWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+@media (max-width: 768px) {
+  .testimonialGrid { grid-template-columns: 1fr; }
+  .pageWrapper { padding-top: 6rem; }
+  .cardText { font-size: 1rem; }
+}

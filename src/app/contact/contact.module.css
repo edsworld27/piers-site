@@ -32,7 +32,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #6BAE8A;
+  color: var(--color-accent-gold);
   margin-bottom: 1.25rem;
   opacity: 0;
   animation: fadeUp 0.7s ease forwards;
@@ -100,7 +100,7 @@
 }
 
 .methodCard:hover {
-  border-color: #6BAE8A;
+  border-color: var(--color-accent-gold);
   box-shadow: 0 4px 20px rgba(201, 168, 76, 0.12);
   transform: translateY(-2px);
 }
@@ -145,7 +145,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #6BAE8A;
+  color: var(--color-accent-gold);
   margin-bottom: 0.6rem;
 }
 
@@ -197,7 +197,7 @@
 }
 
 .glassFooterLink:hover {
-  color: #6BAE8A;
+  color: var(--color-accent-gold);
 }
 
 /* ── LOCATION / TRUST ROW ───────────────────────── */
@@ -223,14 +223,14 @@
 }
 
 .infoChip:hover {
-  border-color: #6BAE8A;
+  border-color: var(--color-accent-gold);
   color: #0C1B2E;
 }
 
 .chipDot {
   width: 7px;
   height: 7px;
-  background: #6BAE8A;
+  background: var(--color-accent-gold);
   border-radius: 50%;
   flex-shrink: 0;
 }
