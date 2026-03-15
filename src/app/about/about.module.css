@@ -1,20 +1,26 @@
-/* About Page – Biographical Redesign */
+/* About Page — Light therapeutic theme */
+
+/* ── Page wrapper ── */
+.pageWrapper {
+  background: #ffffff;
+}
 
 /* ── Hero ── */
 .heroSection {
   padding: var(--space-24) 0 var(--space-16);
   position: relative;
   overflow: hidden;
+  background: linear-gradient(150deg, #ffffff 0%, #f5fbf7 50%, #edf7f1 100%);
 }
 
 .heroSection::before {
   content: '';
   position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, var(--accent-7) 0%, transparent 65%);
+  top: -10%;
+  right: -8%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(107,174,138,0.07) 0%, transparent 65%);
   pointer-events: none;
   z-index: 0;
 }
@@ -34,11 +40,11 @@
 }
 
 .photoFrame {
-  border-radius: var(--radius-lg);
+  border-radius: 20px;
   overflow: hidden;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-  background: var(--color-bg-surface);
+  border: 1px solid rgba(107, 174, 138, 0.2);
+  box-shadow: 0 24px 60px rgba(26, 43, 60, 0.12), 0 4px 16px rgba(107,174,138,0.08);
+  background: #f5fbf7;
   aspect-ratio: 6 / 7;
 }
 
@@ -56,6 +62,10 @@
   padding: var(--space-4) var(--space-6);
   text-align: center;
   min-width: 120px;
+  background: #ffffff;
+  border: 1px solid rgba(107, 174, 138, 0.25);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(26, 43, 60, 0.1);
 }
 
 .badgeNumber {
@@ -63,16 +73,16 @@
   font-family: var(--font-heading);
   font-size: 2.25rem;
   font-weight: bold;
-  color: var(--color-accent-gold);
+  color: #6BAE8A;
   line-height: 1;
 }
 
 .badgeLabel {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--color-text-muted);
+  color: #7A9BAA;
   margin-top: var(--space-1);
 }
 
@@ -84,26 +94,39 @@
 .heroTitle {
   font-size: clamp(3rem, 5vw, 4.5rem);
   margin-bottom: var(--space-6);
+  color: #1A2B3C;
+  -webkit-text-fill-color: #1A2B3C;
+  background: none;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6BAE8A;
+  margin-bottom: var(--space-4);
 }
 
 .heroLead {
   font-size: 1.2rem;
   line-height: 1.85;
-  color: var(--color-text-main);
+  color: #1A2B3C;
   margin-bottom: var(--space-6);
 }
 
 .heroBody {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: var(--color-text-muted);
+  color: #5C7080;
   margin-bottom: var(--space-8);
 }
 
 /* ── Story Section ── */
 .storySection {
   padding: var(--space-24) 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: #EFF7F3;
 }
 
 .storyGrid {
@@ -116,25 +139,28 @@
 .storyQuote {
   padding: var(--space-10);
   position: relative;
-  border-left: 3px solid var(--color-accent-gold);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: #ffffff;
+  border: 1px solid rgba(107, 174, 138, 0.18);
+  border-left: 3px solid #6BAE8A;
+  border-radius: 0 16px 16px 0;
+  box-shadow: 0 8px 32px rgba(26, 43, 60, 0.06);
 }
 
 .quoteMarks {
   font-family: var(--font-heading);
   font-size: 5rem;
   line-height: 0.6;
-  color: var(--color-accent-gold);
-  opacity: 0.5;
+  color: #6BAE8A;
+  opacity: 0.4;
   display: block;
   margin-bottom: var(--space-4);
 }
 
 .quoteText {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
-  line-height: 1.7;
-  color: var(--color-white);
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: #1A2B3C;
   font-style: italic;
   font-weight: 400;
 }
@@ -143,22 +169,41 @@
   display: block;
   margin-top: var(--space-6);
   font-size: 0.9rem;
-  color: var(--color-accent-gold);
+  color: #6BAE8A;
   letter-spacing: 1px;
   font-style: normal;
+  font-weight: 500;
 }
 
 .storyContent {
   padding-top: var(--space-4);
 }
 
+.storyContent p {
+  color: #3D5165;
+  line-height: 1.85;
+  margin-bottom: var(--space-5);
+}
+
 .storyTitle {
   margin-bottom: var(--space-8);
+  color: #1A2B3C;
+  -webkit-text-fill-color: #1A2B3C;
+  background: none;
+}
+
+/* Shared section heading (dark, for light backgrounds) */
+.sectionHeading {
+  color: #1A2B3C;
+  -webkit-text-fill-color: #1A2B3C;
+  background: none;
+  margin-bottom: var(--space-4);
 }
 
 /* ── Method Section ── */
 .methodSection {
   padding: var(--space-24) 0;
+  background: #ffffff;
 }
 
 .sectionHeader {
@@ -167,10 +212,11 @@
 }
 
 .sectionSubtitle {
-  font-size: 1.2rem;
-  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  color: #5C7080;
   max-width: 600px;
   margin: 0 auto;
+  line-height: 1.7;
 }
 
 .methodGrid {
@@ -185,15 +231,18 @@
 .methodCard {
   padding: var(--space-10);
   text-align: center;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(26, 43, 60, 0.07);
 }
 
 .methodCardConscious {
-  border: 1px solid var(--color-conscious-border);
+  border: 1px solid rgba(94, 155, 181, 0.25);
 }
 
 .methodCardSub {
-  border: 1px solid var(--accent-30);
-  background: linear-gradient(135deg, var(--accent-5), transparent);
+  border: 1px solid rgba(107, 174, 138, 0.28);
+  background: linear-gradient(135deg, rgba(107,174,138,0.04), #ffffff);
 }
 
 .methodPercent {
@@ -205,17 +254,25 @@
 }
 
 .methodCardTitle {
-  font-size: 1.25rem;
-  color: var(--color-white);
+  font-size: 1.15rem;
+  color: #1A2B3C;
+  -webkit-text-fill-color: #1A2B3C;
   margin-bottom: var(--space-4);
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid rgba(26, 43, 60, 0.08);
+}
+
+.methodCardText {
+  font-size: 0.975rem;
+  color: #5C7080;
+  line-height: 1.75;
+  margin: 0 0 var(--space-4);
 }
 
 .methodTag {
   display: inline-block;
-  margin-top: var(--space-6);
-  font-size: 0.75rem;
+  margin-top: var(--space-4);
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   padding: var(--space-1) var(--space-4);
@@ -235,14 +292,14 @@
 .vsLine {
   width: 1px;
   height: 60px;
-  background: linear-gradient(to bottom, transparent, var(--glass-border), transparent);
+  background: linear-gradient(to bottom, transparent, rgba(26, 43, 60, 0.12), transparent);
 }
 
 .vsLabel {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--color-text-muted);
+  color: #9AAAB8;
   font-weight: 600;
 }
 
@@ -252,7 +309,9 @@
   margin: 0 auto;
   padding: var(--space-8) var(--space-12);
   text-align: center;
-  border: 1px solid var(--accent-25);
+  background: linear-gradient(135deg, #EFF7F3, #F4FAF7);
+  border: 1px solid rgba(107, 174, 138, 0.22);
+  border-radius: 16px;
   position: relative;
   overflow: hidden;
 }
@@ -262,19 +321,24 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-accent-gold), transparent);
+  background: linear-gradient(90deg, transparent, #6BAE8A, transparent);
 }
 
 .methodSolutionText {
-  font-size: 1.15rem;
-  color: var(--color-white);
+  font-size: 1.1rem;
+  color: #1A2B3C;
   line-height: 1.8;
   margin: 0;
+}
+
+.methodSolutionText strong {
+  color: #2D6A4F;
 }
 
 /* ── Credentials ── */
 .credentialsSection {
   padding: var(--space-24) 0;
+  background: #FFF8F2;
 }
 
 .credentialsGrid {
@@ -286,40 +350,45 @@
 }
 
 .credentialCard {
-  padding: var(--space-6);
+  padding: var(--space-8) var(--space-6);
   text-align: center;
-  transition: var(--transition-smooth);
+  background: #ffffff;
+  border: 1px solid rgba(107, 174, 138, 0.14);
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(26, 43, 60, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .credentialCard:hover {
   transform: translateY(-4px);
-  border-color: var(--accent-30);
+  box-shadow: 0 8px 32px rgba(107, 174, 138, 0.14);
 }
 
 .credentialIcon {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-15), var(--accent-5));
-  border: 1px solid var(--accent-20);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(107,174,138,0.15), rgba(107,174,138,0.06));
+  border: 1px solid rgba(107, 174, 138, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto var(--space-4);
-  font-size: 1.4rem;
+  color: #6BAE8A;
 }
 
 .credentialTitle {
   font-size: 1rem;
-  color: var(--color-white);
+  color: #1A2B3C;
+  -webkit-text-fill-color: #1A2B3C;
   margin-bottom: var(--space-2);
   font-weight: 600;
 }
 
 .credentialDesc {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  line-height: 1.5;
+  font-size: 0.875rem;
+  color: #7A9BAA;
+  line-height: 1.55;
   margin: 0;
 }
 
@@ -327,8 +396,9 @@
 .ctaSection {
   padding: var(--space-24) 0;
   text-align: center;
-  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #1A3A2C 0%, #2D6A4F 60%, #1A3A2C 100%);
   position: relative;
+  overflow: hidden;
 }
 
 .ctaSection::before {
@@ -339,7 +409,7 @@
   transform: translateX(-50%);
   width: 800px;
   height: 400px;
-  background: radial-gradient(ellipse at center bottom, var(--accent-10) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center bottom, rgba(107,174,138,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -352,11 +422,15 @@
 
 .ctaTitle {
   margin-bottom: var(--space-6);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
 }
 
 .ctaText {
-  font-size: 1.15rem;
-  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.75);
   line-height: 1.8;
   margin-bottom: var(--space-8);
 }
@@ -394,7 +468,7 @@
   .vsLine {
     width: 60px;
     height: 1px;
-    background: linear-gradient(to right, transparent, var(--glass-border), transparent);
+    background: linear-gradient(to right, transparent, rgba(26, 43, 60, 0.12), transparent);
   }
 
   .credentialsGrid {
