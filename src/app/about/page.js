@@ -1,9 +1,26 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import styles from "./about.module.css";
+
+export const metadata = {
+  title: "About Piers Day | Clinical Hypnotherapist | 25+ Years Experience",
+  description: "Meet Piers Day — 25+ years of clinical hypnotherapy. Discover how direct subconscious intervention helps clients overcome anxiety, trauma, and limiting beliefs for good.",
+  alternates: { canonical: "https://www.piersday.com/about" },
+  openGraph: {
+    title: "About Piers Day | Clinical Hypnotherapist",
+    description: "25+ years helping clients overcome anxiety, trauma, and limiting beliefs through clinical hypnotherapy.",
+    url: "https://www.piersday.com/about",
+    type: "profile",
+    images: [{ url: "https://www.piersday.com/piers-photo.svg", width: 480, height: 560, alt: "Piers Day Clinical Hypnotherapist" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Piers Day | Clinical Hypnotherapist",
+    description: "25+ years helping clients overcome anxiety, trauma, and limiting beliefs.",
+    images: ["https://www.piersday.com/piers-photo.svg"],
+  },
+};
 
 export default function AboutPage() {
   const personSchema = {

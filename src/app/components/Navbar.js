@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 
 const SERVICES = [
@@ -18,11 +18,24 @@ export default function Navbar() {
   const [mobileServOpen, setMobileServOpen]  = useState(false);
   const pathname = usePathname();
   const dropTimeout = useRef(null);
+  const rafId = useRef(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        rafId.current = window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 30);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -30,12 +43,11 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  // Close dropdown on route change
   useEffect(() => { setDropOpen(false); setMenuOpen(false); }, [pathname]);
 
-  const openDrop  = () => { clearTimeout(dropTimeout.current); setDropOpen(true);  };
-  const closeDrop = () => { dropTimeout.current = setTimeout(() => setDropOpen(false), 120); };
-  const close     = () => { setMenuOpen(false); setMobileServOpen(false); };
+  const openDrop  = useCallback(() => { clearTimeout(dropTimeout.current); setDropOpen(true);  }, []);
+  const closeDrop = useCallback(() => { dropTimeout.current = setTimeout(() => setDropOpen(false), 120); }, []);
+  const close     = useCallback(() => { setMenuOpen(false); setMobileServOpen(false); }, []);
 
   const isServicesActive = pathname.startsWith("/services");
 
@@ -70,9 +82,11 @@ export default function Navbar() {
               <Link
                 href="/services"
                 className={`nav-link nav-drop-trigger${isServicesActive ? " nav-link-active" : ""}${dropOpen ? " nav-link-hover" : ""}`}
+                aria-haspopup="menu"
+                aria-expanded={dropOpen}
               >
                 Services
-                <svg className={`drop-chevron${dropOpen ? " drop-chevron-open" : ""}`} width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <svg className={`drop-chevron${dropOpen ? " drop-chevron-open" : ""}`} width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                   <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </Link>
@@ -82,6 +96,8 @@ export default function Navbar() {
                 className={`drop-panel${dropOpen ? " drop-panel-open" : ""}`}
                 onMouseEnter={openDrop}
                 onMouseLeave={closeDrop}
+                role="menu"
+                aria-label="Services submenu"
               >
                 <div className="drop-panel-inner">
                   <p className="drop-eyebrow">What we treat</p>
@@ -92,8 +108,9 @@ export default function Navbar() {
                           href={href}
                           className={`drop-item${pathname === href ? " drop-item-active" : ""}`}
                           onClick={close}
+                          role="menuitem"
                         >
-                          <span className="drop-item-accent" />
+                          <span className="drop-item-accent" aria-hidden="true" />
                           <span className="drop-item-text">
                             <span className="drop-item-label">{label}</span>
                             <span className="drop-item-desc">{desc}</span>
@@ -102,7 +119,7 @@ export default function Navbar() {
                       </li>
                     ))}
                   </ul>
-                  <Link href="/services" className="drop-all" onClick={close}>
+                  <Link href="/services" className="drop-all" onClick={close} role="menuitem">
                     View all services →
                   </Link>
                 </div>
@@ -132,30 +149,37 @@ export default function Navbar() {
             onClick={() => setMenuOpen(o => !o)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
+            aria-controls="mobile-nav-overlay"
           >
-            <span /><span /><span />
+            <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
           </button>
 
         </div>
       </header>
 
       {/* Mobile overlay */}
-      <div className={`nav-overlay${menuOpen ? " is-open" : ""}`} aria-hidden={!menuOpen}>
-        <nav className="nav-overlay-links">
+      <div
+        id="mobile-nav-overlay"
+        className={`nav-overlay${menuOpen ? " is-open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
+        <nav className="nav-overlay-links" aria-label="Mobile navigation">
 
           {/* Services — expandable */}
           <div className="mob-services-wrap">
             <button
               className="nav-overlay-link mob-services-btn"
               onClick={() => setMobileServOpen(o => !o)}
+              aria-expanded={mobileServOpen}
+              aria-controls="mobile-services-menu"
               style={{ animationDelay: menuOpen ? "0.05s" : "0s" }}
             >
               Services
-              <svg className={`mob-chevron${mobileServOpen ? " mob-chevron-open" : ""}`} width="14" height="14" viewBox="0 0 10 10" fill="none">
+              <svg className={`mob-chevron${mobileServOpen ? " mob-chevron-open" : ""}`} width="14" height="14" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                 <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-            <div className={`mob-sub${mobileServOpen ? " mob-sub-open" : ""}`}>
+            <div id="mobile-services-menu" className={`mob-sub${mobileServOpen ? " mob-sub-open" : ""}`}>
               {SERVICES.map(({ href, label }) => (
                 <Link key={href} href={href} className="mob-sub-link" onClick={close}>
                   {label}

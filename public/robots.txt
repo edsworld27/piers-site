@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /.next
+Disallow: /api
+
+Sitemap: https://www.piersday.com/sitemap.xml

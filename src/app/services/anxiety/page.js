@@ -2,8 +2,16 @@ import Link from "next/link";
 import Script from "next/script";
 
 export const metadata = {
-  title: "Hypnotherapy for Anxiety UK | Elevate Hypnotherapy",
+  title: "Anxiety Hypnotherapy UK | Overcome Panic Attacks & Stress | Piers Day",
   description: "Overcome anxiety, panic attacks, and stress with expert online hypnotherapy. Regain control of your mind and step back into calm. Book a free consultation.",
+  alternates: { canonical: "https://www.piersday.com/services/anxiety" },
+  openGraph: {
+    title: "Anxiety Hypnotherapy UK | Overcome Panic Attacks & Stress",
+    description: "Overcome anxiety, panic attacks, and stress with expert online hypnotherapy.",
+    url: "https://www.piersday.com/services/anxiety",
+    type: "website",
+  },
+  twitter: { card: "summary", title: "Anxiety Hypnotherapy UK", description: "Overcome anxiety, panic attacks, and stress with expert online hypnotherapy." },
 };
 
 export default function AnxietyPage() {

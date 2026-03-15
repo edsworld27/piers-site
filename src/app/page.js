@@ -1,6 +1,25 @@
 import Link from "next/link";
 import styles from "./home.module.css";
 
+export const metadata = {
+  title: "Piers Day | Hypnotherapy for Anxiety, Stress & More | Suffolk & Online",
+  description: "Clinical hypnotherapy that works. 25+ years helping people overcome anxiety, quit smoking, lose weight, and unlock confidence. Book a free consultation today.",
+  alternates: { canonical: "https://www.piersday.com" },
+  openGraph: {
+    title: "Piers Day | Clinical Hypnotherapy Suffolk & Online",
+    description: "25+ years helping people overcome anxiety, quit smoking, and unlock confidence. Book a free consultation.",
+    url: "https://www.piersday.com",
+    type: "website",
+    images: [{ url: "https://www.piersday.com/og-image.jpg", width: 1200, height: 630, alt: "Piers Day Hypnotherapy" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Piers Day | Clinical Hypnotherapy",
+    description: "Overcome anxiety, quit smoking, lose weight, and build confidence with clinical hypnotherapy.",
+    images: ["https://www.piersday.com/og-image.jpg"],
+  },
+};
+
 /* ─────────────────────────────────────────────────────────────────
    SVG ILLUSTRATIONS
    All inline — no external assets needed

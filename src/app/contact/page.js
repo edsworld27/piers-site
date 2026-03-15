@@ -1,7 +1,22 @@
-"use client";
-
 import Script from "next/script";
 import styles from "./contact.module.css";
+
+export const metadata = {
+  title: "Contact Piers Day | Book Your Free Consultation",
+  description: "Get in touch with Piers Day for hypnotherapy sessions. Call, WhatsApp, or fill out the form. Online & in-person clinic in Bury St Edmunds, Suffolk.",
+  alternates: { canonical: "https://www.piersday.com/contact" },
+  openGraph: {
+    title: "Contact Piers Day | Book Your Free Consultation",
+    description: "Get in touch for hypnotherapy sessions. Online & in-person clinic in Bury St Edmunds.",
+    url: "https://www.piersday.com/contact",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Contact Piers Day | Book Your Free Consultation",
+    description: "Get in touch for hypnotherapy sessions. Online & in-person clinic in Bury St Edmunds.",
+  },
+};
 
 export default function ContactPage() {
   return (
@@ -59,7 +74,9 @@ export default function ContactPage() {
               data-height="1050"
               data-layout-iframe-id="inline-4zbXsudLy7F8TIOYgMB9"
               data-form-id="4zbXsudLy7F8TIOYgMB9"
-              title="main website form"
+              title="Contact form — book a hypnotherapy session"
+              loading="lazy"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
             />
             <Script src="https://link.msgsndr.com/js/form_embed.js" strategy="lazyOnload" />
 
@@ -74,7 +91,7 @@ export default function ContactPage() {
             <a
               href="https://maps.app.goo.gl/jBSZKEUmrxy4QFjF8"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className={styles.infoChip}
             >
               <span className={styles.chipDot}></span>

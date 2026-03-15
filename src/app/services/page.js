@@ -1,6 +1,23 @@
 import React from "react";
 import "./services.css";
 
+export const metadata = {
+  title: "Hypnotherapy Services | Anxiety, Smoking, Weight Loss & Confidence",
+  description: "Explore clinical hypnotherapy for anxiety, smoking cessation, weight management, and confidence. Direct subconscious intervention. Online & Bury St Edmunds.",
+  alternates: { canonical: "https://www.piersday.com/services" },
+  openGraph: {
+    title: "Hypnotherapy Services | Anxiety, Smoking, Weight Loss",
+    description: "Clinical hypnotherapy for anxiety, smoking cessation, weight management, and confidence building.",
+    url: "https://www.piersday.com/services",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Hypnotherapy Services",
+    description: "Clinical hypnotherapy for anxiety, smoking, weight loss, and confidence.",
+  },
+};
+
 export default function ServicesPage() {
   return (
     <>
