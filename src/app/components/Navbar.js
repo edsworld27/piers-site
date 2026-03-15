@@ -55,7 +55,7 @@ export default function Navbar() {
     { href: "/about",        label: "About"        },
     { href: "/testimonials", label: "Testimonials" },
     { href: "/blog",         label: "Resources"    },
-    { href: "/shop",         label: "Shop"         },
+    { href: "/shop",         label: "Tapes"        },
   ];
 
   return (
@@ -67,7 +67,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="nav-logo" onClick={close}>
-            Piers Day
+            Piers Day Hypnotherapy
           </Link>
 
           {/* Desktop nav */}
@@ -131,7 +131,7 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className={`nav-link${pathname === href ? " nav-link-active" : ""}${href === "/shop" ? " nav-link-shop" : ""}`}
+                className={`nav-link${pathname === href ? " nav-link-active" : ""}`}
               >
                 {label}
               </Link>
