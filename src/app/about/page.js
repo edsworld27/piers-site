@@ -214,7 +214,7 @@ export default function AboutPage() {
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <div className={styles.credentialIcon}>{c.icon}</div>
-                <h4 className={styles.credentialTitle}>{c.title}</h4>
+                <h3 className={styles.credentialTitle}>{c.title}</h3>
                 <p className={styles.credentialDesc}>{c.desc}</p>
               </div>
             ))}

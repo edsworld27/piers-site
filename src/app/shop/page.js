@@ -322,6 +322,7 @@ export default function ShopPage() {
       {/* ── Products ── */}
       <section className={styles.productsSection}>
         <div className="container">
+          <h2 className={styles.productsSectionTitle}>Hypnotherapy Audio Sessions</h2>
           <div className={styles.grid}>
             {PRODUCTS.map((product, i) => {
               const { id, title, category, description, duration, price, badge, Illustration, accent } = product;
@@ -401,7 +402,7 @@ export default function ShopPage() {
               <div key={title} className={`${styles.featureItem} glass-panel`}>
                 <span className={styles.featureIcon}>{icon}</span>
                 <div>
-                  <div className={styles.featureTitle}>{title}</div>
+                  <h4 className={styles.featureTitle}>{title}</h4>
                   <div className={styles.featureDesc}>{desc}</div>
                 </div>
               </div>

@@ -1060,7 +1060,7 @@ export default function BlogIndex() {
                             <div className="faq-section-header">
                               <div className="faq-section-icon">?</div>
                               <div className="faq-section-title-group">
-                                <h4 className="faq-section-title">Frequently Asked Questions</h4>
+                                <h3 className="faq-section-title">Frequently Asked Questions</h3>
                                 <p className="faq-section-subtitle">Quick answers about this topic</p>
                               </div>
                             </div>
@@ -1088,7 +1088,7 @@ export default function BlogIndex() {
           ) : (
             <div className="no-results max-w-3xl mx-auto mt-12 p-10 rounded-2xl border border-accent-gold/30 bg-[rgba(10,17,40,0.8)] flex flex-col items-center text-center fade-in-up">
               <span className="text-4xl mb-6">🔍</span>
-              <h3 className="text-3xl text-gradient-light mb-4">No specific resources found.</h3>
+              <h2 className="text-3xl text-gradient-light mb-4">No specific resources found.</h2>
               <p className="text-gray text-lg mb-8 max-w-xl leading-relaxed">If you can't find the exact topic you're looking for, contact Piers directly below.</p>
               <Link href="/contact" className="btn-primary inline-flex items-center gap-2 px-8 py-4 font-bold tracking-wide">
                 Ask Piers Directly
