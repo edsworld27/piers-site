@@ -140,7 +140,7 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <Link href="/contact" className="nav-cta">
-            Get Support
+            Let&apos;s Talk
           </Link>
 
           {/* Hamburger */}
@@ -210,7 +210,7 @@ export default function Navbar() {
             style={{ animationDelay: menuOpen ? "0.38s" : "0s" }}
             onClick={close}
           >
-            Get Support
+            Let&apos;s Talk
           </Link>
         </nav>
       </div>
