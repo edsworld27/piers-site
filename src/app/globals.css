@@ -3,6 +3,8 @@
    Single source of truth for every colour, font, space, and layer.
    All component files reference variables from this block only.
    ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 :root {
 
   /* ── Background layers ─────────────────────────────────────── */

@@ -77,7 +77,7 @@
 
 .chairWrapper {
   width: 100%;
-  max-width: 500px;
+  max-width: 560px;
   position: relative;
 }
 
@@ -693,4 +693,4 @@
   .planConnector { transform: rotate(90deg); margin: 0.25rem 0; }
 }
 
-@media (max-width: 480px) { .chairWrapper { max-width: 280px; } }
+@media (max-width: 480px) { .chairWrapper { max-width: 340px; } }

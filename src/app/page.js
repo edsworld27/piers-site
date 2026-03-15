@@ -3,7 +3,7 @@ import Script from "next/script";
 import styles from "./home.module.css";
 import TestimonialsScroller from "./components/TestimonialsScroller";
 import AnimatedHourglass from "./components/AnimatedHourglass";
-import TherapyChairHero from "./components/TherapyChairHero";
+import TherapyHeroIllustration from "./components/TherapyHeroIllustration";
 
 export const metadata = {
   title: "Piers Day | Hypnotherapy for Anxiety, Stress & More | Suffolk & Online",
@@ -251,7 +251,7 @@ export default function Home() {
 
             <div className={`${styles.heroVisual} fade-in-up`} style={{ animationDelay: "0.2s" }}>
               <div className={styles.chairWrapper}>
-                <TherapyChairHero />
+                <TherapyHeroIllustration />
               </div>
             </div>
 
