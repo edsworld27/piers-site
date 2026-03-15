@@ -3,34 +3,33 @@
 import Link from "next/link";
 import { useState } from "react";
 
-function FAQAccordion({ faq }) {
+function FAQAccordion({ faq, index }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="faq-accordion-wrapper">
+    <div className={`faq-accordion-wrapper${isOpen ? ' is-open' : ''}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`faq-question-btn ${isOpen ? 'is-open' : ''}`}
+        className="faq-question-btn"
+        aria-expanded={isOpen}
       >
         <div className="faq-question-content">
-          <span className="faq-q-badge">Q</span>
+          <span className="faq-q-badge">{String(index + 1).padStart(2, '0')}</span>
           <span className="faq-question-text">{faq.question}</span>
         </div>
-        <span className={`faq-chevron ${isOpen ? 'rotated' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <span className="faq-chevron">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </span>
       </button>
 
-      {isOpen && (
-        <div className="faq-answer-panel fade-in-up">
-          <div className="faq-answer-content">
-            <span className="faq-a-badge">A</span>
-            <p className="faq-answer-text">{faq.answer}</p>
-          </div>
+      <div className="faq-answer-panel" aria-hidden={!isOpen}>
+        <div className="faq-answer-content">
+          <span className="faq-a-badge">A</span>
+          <p className="faq-answer-text">{faq.answer}</p>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -1019,7 +1018,7 @@ export default function BlogIndex() {
                             </div>
                             <div className="faq-list">
                               {item.faqs.map((faq, idx) => (
-                                 <FAQAccordion key={idx} faq={faq} />
+                                 <FAQAccordion key={idx} faq={faq} index={idx} />
                               ))}
                             </div>
                           </div>
@@ -1295,21 +1294,28 @@ export default function BlogIndex() {
           flex-direction: column;
         }
 
-        /* ===== REDESIGNED FAQ STYLES ===== */
+        /* ===== FAQ ACCORDION ITEMS ===== */
         .faq-accordion-wrapper {
-          margin-bottom: 1rem;
+          position: relative;
+          margin-bottom: 0.75rem;
           border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-left: 3px solid transparent;
+          background: rgba(12, 27, 46, 0.55);
           overflow: hidden;
-          background: rgba(15, 23, 42, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          transition: all 0.3s ease;
+          transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
         }
+        .faq-accordion-wrapper:last-child { margin-bottom: 0; }
         .faq-accordion-wrapper:hover {
-          border-color: rgba(107, 174, 138, 0.3);
-          background: rgba(15, 23, 42, 0.8);
+          border-color: rgba(107, 174, 138, 0.25);
+          border-left-color: rgba(107, 174, 138, 0.4);
+          background: rgba(12, 27, 46, 0.75);
         }
-        .faq-accordion-wrapper:last-child {
-          margin-bottom: 0;
+        .faq-accordion-wrapper.is-open {
+          border-color: rgba(107, 174, 138, 0.3);
+          border-left-color: #6BAE8A;
+          background: rgba(12, 27, 46, 0.78);
+          box-shadow: 0 4px 24px rgba(107, 174, 138, 0.06);
         }
 
         .faq-question-btn {
@@ -1317,26 +1323,22 @@ export default function BlogIndex() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1.25rem 1.5rem;
+          padding: 1.1rem 1.25rem;
           background: transparent;
           border: none;
           cursor: pointer;
           text-align: left;
           gap: 1rem;
-          transition: background 0.2s ease;
         }
-        .faq-question-btn:hover {
-          background: rgba(255, 255, 255, 0.03);
-        }
-        .faq-question-btn.is-open {
-          background: rgba(107, 174, 138, 0.05);
-          border-bottom: 1px solid rgba(107, 174, 138, 0.15);
+        .faq-accordion-wrapper.is-open .faq-question-btn {
+          padding-bottom: 0.85rem;
+          border-bottom: 1px solid rgba(107, 174, 138, 0.12);
         }
 
         .faq-question-content {
           display: flex;
           align-items: flex-start;
-          gap: 1rem;
+          gap: 0.875rem;
           flex: 1;
         }
 
@@ -1344,60 +1346,71 @@ export default function BlogIndex() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 28px;
-          height: 28px;
-          min-width: 28px;
-          background: linear-gradient(135deg, rgba(107, 174, 138, 0.2), rgba(107, 174, 138, 0.1));
-          border: 1px solid rgba(107, 174, 138, 0.4);
-          border-radius: 6px;
+          width: 30px;
+          height: 30px;
+          min-width: 30px;
+          background: linear-gradient(135deg, rgba(107,174,138,0.18), rgba(107,174,138,0.08));
+          border: 1px solid rgba(107, 174, 138, 0.35);
+          border-radius: 8px;
           color: #6BAE8A;
           font-weight: 700;
-          font-size: 0.8rem;
-          margin-top: 2px;
+          font-size: 0.7rem;
+          letter-spacing: 0.03em;
+          margin-top: 1px;
+          transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .faq-accordion-wrapper.is-open .faq-q-badge {
+          background: linear-gradient(135deg, rgba(107,174,138,0.3), rgba(107,174,138,0.15));
+          border-color: rgba(107, 174, 138, 0.6);
         }
 
         .faq-question-text {
-          color: #ffffff;
-          font-size: 1.05rem;
+          color: #8AAAB8;
+          font-size: 1rem;
           font-weight: 500;
-          line-height: 1.5;
+          line-height: 1.55;
           letter-spacing: 0.01em;
+          transition: color 0.2s ease;
         }
+        .faq-accordion-wrapper:hover .faq-question-text,
+        .faq-accordion-wrapper.is-open .faq-question-text { color: #EDE9E3; }
 
         .faq-chevron {
-          color: rgba(107, 174, 138, 0.8);
           flex-shrink: 0;
-          transition: transform 0.3s ease;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 32px;
-          height: 32px;
+          width: 28px;
+          height: 28px;
           border-radius: 50%;
-          background: rgba(107, 174, 138, 0.1);
+          color: rgba(107, 174, 138, 0.6);
+          background: rgba(107, 174, 138, 0.06);
+          border: 1px solid rgba(107, 174, 138, 0.15);
+          transition: transform 0.3s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
         }
-        .faq-chevron.rotated {
+        .faq-accordion-wrapper.is-open .faq-chevron {
           transform: rotate(180deg);
-          background: rgba(107, 174, 138, 0.2);
+          color: #6BAE8A;
+          background: rgba(107, 174, 138, 0.15);
+          border-color: rgba(107, 174, 138, 0.35);
         }
 
         .faq-answer-panel {
-          padding: 0 1.5rem 1.5rem 1.5rem;
-          animation: fadeInAnswer 0.3s ease;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @keyframes fadeInAnswer {
-          from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
+        .faq-accordion-wrapper.is-open .faq-answer-panel {
+          max-height: 600px;
         }
 
         .faq-answer-content {
           display: flex;
           align-items: flex-start;
-          gap: 1rem;
-          padding: 1.25rem;
-          background: rgba(0, 0, 0, 0.25);
-          border-radius: 10px;
-          border-left: 3px solid rgba(244, 162, 97, 0.5);
+          gap: 0.875rem;
+          padding: 1rem 1.25rem 1.25rem;
+          background: rgba(0, 0, 0, 0.2);
+          border-left: 3px solid rgba(94, 155, 181, 0.45);
         }
 
         .faq-a-badge {
@@ -1407,47 +1420,34 @@ export default function BlogIndex() {
           width: 28px;
           height: 28px;
           min-width: 28px;
-          background: rgba(94, 155, 181, 0.15);
+          background: rgba(94, 155, 181, 0.12);
           border: 1px solid rgba(94, 155, 181, 0.3);
-          border-radius: 6px;
+          border-radius: 8px;
           color: #5E9BB5;
           font-weight: 700;
-          font-size: 0.8rem;
-          margin-top: 2px;
+          font-size: 0.75rem;
+          margin-top: 1px;
         }
 
         .faq-answer-text {
-          color: #e2e8f0;
-          font-size: 1rem;
-          line-height: 1.75;
+          color: #8AAAB8;
+          font-size: 0.975rem;
+          line-height: 1.8;
           margin: 0;
           font-weight: 400;
           letter-spacing: 0.01em;
         }
 
-        /* FAQ Section Header */
         .faq-header-box {
-          background: linear-gradient(135deg, rgba(107, 174, 138, 0.1), rgba(107, 174, 138, 0.05));
-          border: 1px solid rgba(244, 162, 97, 0.25);
+          background: linear-gradient(135deg, rgba(107,174,138,0.1), rgba(107,174,138,0.05));
+          border: 1px solid rgba(107, 174, 138, 0.2);
         }
 
         @media (max-width: 640px) {
-          .faq-question-btn {
-            padding: 1rem 1.25rem;
-          }
-          .faq-question-text {
-            font-size: 0.95rem;
-          }
-          .faq-answer-text {
-            font-size: 0.9rem;
-            line-height: 1.7;
-          }
-          .faq-q-badge, .faq-a-badge {
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            font-size: 0.7rem;
-          }
+          .faq-question-btn { padding: 0.9rem 1rem; }
+          .faq-question-text { font-size: 0.93rem; }
+          .faq-answer-text { font-size: 0.875rem; line-height: 1.7; }
+          .faq-q-badge, .faq-a-badge { width: 24px; height: 24px; min-width: 24px; font-size: 0.65rem; }
         }
 
         @media (min-width: 768px) {
