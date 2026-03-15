@@ -19,8 +19,27 @@ export const metadata = {
 };
 
 export default function ContactPage() {
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Piers Day Hypnotherapy",
+    "url": "https://www.piersday.com/contact",
+    "telephone": "+447716008836",
+    "email": "piers@piersday.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bury St Edmunds",
+      "addressRegion": "Suffolk",
+      "addressCountry": "GB"
+    },
+    "contactPoint": [
+      { "@type": "ContactPoint", "contactType": "customer support", "telephone": "+447716008836", "availableLanguage": "English" }
+    ]
+  };
+
   return (
     <>
+      <Script id="contact-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }} />
       {/* ── DARK HERO ─────────────────────────────────────── */}
       <section className={styles.hero}>
         <div className="container">

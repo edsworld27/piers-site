@@ -1,62 +1,158 @@
+/* ═══════════════════════════════════════════════════════════════
+   PIERS DAY HYPNOTHERAPY — MASTER BRAND TOKENS
+   Single source of truth for every colour, font, space, and layer.
+   All component files reference variables from this block only.
+   ═══════════════════════════════════════════════════════════════ */
 :root {
-  /* Piers Day Hypnotherapy — Calm Ocean Palette */
 
-  /* Core Palette */
-  --color-bg-base:        #0C1B2E;   /* deep ocean navy */
-  --color-bg-surface:     #122034;   /* card surface    */
-  --color-primary-navy:   #0C1B2E;
-  --color-secondary-teal: #1A3448;
+  /* ── Background layers ─────────────────────────────────────── */
+  --color-bg-base:        #0C1B2E;   /* deep ocean navy  */
+  --color-bg-surface:     #122034;   /* card surface     */
+  --color-bg-elevated:    #0F1E30;   /* slightly lifted  */
+  --color-bg-secondary:   #1A3448;   /* secondary layer  */
+  --color-white:          #ffffff;
 
-  /* Therapeutic Accent — Sage Green */
-  --color-accent-gold:    #6BAE8A;   /* renamed var, new value */
+  /* ── Therapeutic accent — sage green ──────────────────────── */
+  --color-accent:         #6BAE8A;   /* primary sage green (legacy: --color-accent-gold) */
+  --color-accent-gold:    #6BAE8A;   /* alias kept for backwards-compat */
+  --color-accent-hover:   #7EC09A;   /* hover / active state */
+  --color-accent-light:   #8CC4A4;   /* lighter tint / hover on dark */
   --color-accent-glow:    rgba(107, 174, 138, 0.35);
-  --accent-5:             rgba(107, 174, 138, 0.05);
-  --accent-10:            rgba(107, 174, 138, 0.1);
-  --accent-15:            rgba(107, 174, 138, 0.15);
-  --accent-20:            rgba(107, 174, 138, 0.2);
-  --accent-30:            rgba(107, 174, 138, 0.3);
-  --accent-40:            rgba(107, 174, 138, 0.4);
-  --accent-50:            rgba(107, 174, 138, 0.5);
+
+  /* Accent alpha scale */
+  --accent-5:   rgba(107, 174, 138, 0.05);
+  --accent-7:   rgba(107, 174, 138, 0.07);
+  --accent-8:   rgba(107, 174, 138, 0.08);
+  --accent-10:  rgba(107, 174, 138, 0.10);
+  --accent-12:  rgba(107, 174, 138, 0.12);
+  --accent-14:  rgba(107, 174, 138, 0.14);
+  --accent-15:  rgba(107, 174, 138, 0.15);
+  --accent-18:  rgba(107, 174, 138, 0.18);
+  --accent-20:  rgba(107, 174, 138, 0.20);
+  --accent-25:  rgba(107, 174, 138, 0.25);
+  --accent-30:  rgba(107, 174, 138, 0.30);
+  --accent-32:  rgba(107, 174, 138, 0.32);
+  --accent-40:  rgba(107, 174, 138, 0.40);
+  --accent-45:  rgba(107, 174, 138, 0.45);
+  --accent-50:  rgba(107, 174, 138, 0.50);
+  --accent-60:  rgba(107, 174, 138, 0.60);
+  --accent-70:  rgba(107, 174, 138, 0.70);
+  --accent-75:  rgba(107, 174, 138, 0.75);
+  --accent-80:  rgba(107, 174, 138, 0.80);
+  --accent-95:  rgba(107, 174, 138, 0.95);
+
+  /* Accent gradients */
   --gradient-accent-radial:  radial-gradient(circle, rgba(107, 174, 138, 0.07) 0%, transparent 62%);
   --gradient-accent-ellipse: radial-gradient(ellipse at center bottom, rgba(107, 174, 138, 0.09) 0%, transparent 70%);
 
-  /* Text Colors */
-  --color-text-main:      #EDE9E3;   /* warm off-white */
-  --color-text-muted:     #8AAAB8;   /* muted blue-grey */
+  /* ── Semantic text colours ─────────────────────────────────── */
+  --color-text-main:      #EDE9E3;   /* warm off-white — primary body text  */
+  --color-text-cream:     #F5F0E8;   /* slightly warmer off-white           */
+  --color-text-warm:      #F0EBE0;   /* warm white for nav logo             */
+  --color-text-muted:     #8AAAB8;   /* muted blue-grey                     */
+  --color-eyebrow:        #C4906A;   /* warm amber — section eyebrows       */
 
-  /* Aurora — soft ocean light */
+  /* Text alpha scale (based on --color-text-cream for consistency) */
+  --color-text-55:  rgba(245, 240, 232, 0.55);
+  --color-text-65:  rgba(240, 235, 224, 0.65);
+  --color-text-70:  rgba(240, 235, 224, 0.70);
+  --color-text-85:  rgba(240, 235, 224, 0.85);
+  --color-text-90:  rgba(240, 235, 224, 0.90);
+  --color-text-95:  rgba(240, 235, 224, 0.95);
+
+  /* ── Navigation backgrounds ────────────────────────────────── */
+  --color-nav-bg:       rgba(9, 15, 34, 0.88);   /* scrolled navbar  */
+  --color-overlay-bg:   rgba(9, 15, 34, 0.96);   /* dropdown / mobile overlay */
+
+  /* ── Light surface tokens (white-card sections) ────────────── */
+  --color-surface-white:        #ffffff;
+  --color-surface-light:        #fdf8ef;          /* icon bg warm    */
+  --color-surface-warm-border:  #f0e4c3;          /* icon border     */
+  --color-surface-form:         rgba(248, 250, 255, 0.75); /* glass form bg */
+  --color-chip-bg:              #f9fafb;
+  --color-chip-border:          #e5e7eb;
+  --color-chip-text:            #374151;
+  --color-muted-label:          #9ca3af;
+
+  /* ── Aurora — soft ocean depth glows ──────────────────────── */
   --aurora-1: rgba(20,  60,  90,  0.45);
   --aurora-2: rgba(14,  44,  72,  0.35);
-  --aurora-3: rgba(12,  27,  46,  0.8);
+  --aurora-3: rgba(12,  27,  46,  0.80);
 
-  /* Typography */
+  /* ── Typography ────────────────────────────────────────────── */
   --font-heading: 'Playfair Display', serif;
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Spacing — 8px grid */
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-4:  1rem;
-  --space-6:  1.5rem;
-  --space-8:  2rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-24: 6rem;
-  --space-32: 8rem;
+  /* Type scale */
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md:   1.0625rem;
+  --font-size-lg:   1.1rem;
+  --font-size-xl:   1.25rem;
+  --font-size-2xl:  1.5rem;
 
-  /* Layout */
+  /* Line heights */
+  --line-height-tight:   1.2;
+  --line-height-base:    1.6;
+  --line-height-relaxed: 1.7;
+  --line-height-loose:   1.8;
+
+  /* ── Spacing — 8px grid ────────────────────────────────────── */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-14: 3.5rem;    /* 56px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+  --space-32: 8rem;      /* 128px */
+
+  /* ── Layout ─────────────────────────────────────────────────── */
   --max-width-container: 1100px;
+  --max-width-nav:       1200px;
+  --max-width-content:   800px;
+  --max-width-narrow:    760px;
+  --max-width-hero-left: 680px;
+  --max-width-cta:       600px;
+  --nav-height:          68px;
+  --nav-gap:             2rem;
+  --nav-links-gap:       2.5rem;
+
+  /* Border radii */
   --radius-sm:   0.375rem;
   --radius-md:   0.75rem;
   --radius-lg:   1rem;
+  --radius-xl:   1.25rem;
+  --radius-2xl:  1.75rem;
   --radius-full: 9999px;
 
-  /* Shadows & Glass */
-  --glass-bg:         rgba(12, 27, 46, 0.78);
-  --glass-border:     rgba(255, 255, 255, 0.07);
-  --shadow-glow:      0 4px 20px rgba(0, 0, 0, 0.25);
-  --glass-blur:       blur(16px);
+  /* ── Shadows & glass ────────────────────────────────────────── */
+  --glass-bg:          rgba(12, 27, 46, 0.78);
+  --glass-border:      rgba(255, 255, 255, 0.07);
+  --shadow-glow:       0 4px 20px rgba(0, 0, 0, 0.25);
+  --shadow-card:       0 8px 32px rgba(0, 0, 0, 0.30);
+  --shadow-deep:       0 20px 60px rgba(0, 0, 0, 0.50);
+  --glass-blur:        blur(16px);
+  --glass-blur-heavy:  blur(24px);
+  --transition-fast:   all 0.18s ease;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Z-index scale ──────────────────────────────────────────── */
+  --z-raised:    10;
+  --z-dropdown:  200;
+  --z-cookie:    500;
+  --z-overlay:   999;
+  --z-nav:       1000;
+  --z-nav-rule:  1001;
+  --z-hamburger: 1100;
+  --z-skip-link: 9999;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -192,7 +288,7 @@ a { color: inherit; text-decoration: none; transition: var(--transition-smooth);
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.5), 0 0 30px rgba(107, 174, 138, 0.55);
-  background-color: #7EC09A;
+  background-color: var(--color-accent-hover);
 }
 
 .btn-primary:hover::after { left: 120%; }
@@ -252,7 +348,7 @@ a { color: inherit; text-decoration: none; transition: var(--transition-smooth);
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #C4906A;
+  color: var(--color-eyebrow);
   margin-bottom: var(--space-2);
   display: block;
   font-weight: 700;

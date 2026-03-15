@@ -250,6 +250,22 @@ const PRODUCTS = [
    PAGE
 ───────────────────────────────────────────────────────────────── */
 
+const shopSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Hypnotherapy Audio Sessions",
+  "description": "Clinical-grade hypnotherapy audio sessions for anxiety, sleep, confidence, smoking, and weight loss.",
+  "url": "https://www.piersday.com/shop",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "item": { "@type": "Product", "name": "Deep Sleep Reset", "description": "Guided hypnotherapy that retrains your nervous system to fall asleep fast.", "offers": { "@type": "Offer", "price": "24.99", "priceCurrency": "GBP" } } },
+    { "@type": "ListItem", "position": 2, "item": { "@type": "Product", "name": "The Anxiety Off Switch", "description": "Switch off the fight-or-flight response and train your nervous system to default to calm.", "offers": { "@type": "Offer", "price": "24.99", "priceCurrency": "GBP" } } },
+    { "@type": "ListItem", "position": 3, "item": { "@type": "Product", "name": "Confidence Rebuild", "description": "Clinical hypnotherapy to build unshakeable self-confidence.", "offers": { "@type": "Offer", "price": "24.99", "priceCurrency": "GBP" } } },
+    { "@type": "ListItem", "position": 4, "item": { "@type": "Product", "name": "Smokefree Mind", "description": "Hypnotherapy session to quit smoking and break the habit at its root.", "offers": { "@type": "Offer", "price": "24.99", "priceCurrency": "GBP" } } },
+    { "@type": "ListItem", "position": 5, "item": { "@type": "Product", "name": "The Eating Reset", "description": "Rewire your relationship with food and end emotional eating.", "offers": { "@type": "Offer", "price": "24.99", "priceCurrency": "GBP" } } },
+    { "@type": "ListItem", "position": 6, "item": { "@type": "Product", "name": "Stress Dissolve", "description": "Release chronic stress and restore your baseline to calm.", "offers": { "@type": "Offer", "price": "24.99", "priceCurrency": "GBP" } } }
+  ]
+};
+
 export default function ShopPage() {
   const [clickedId, setClickedId] = useState(null);
   const [bannerVisible, setBannerVisible] = useState(false);
@@ -261,6 +277,7 @@ export default function ShopPage() {
 
   return (
     <main className={styles.main}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(shopSchema) }} />
 
       {/* Stripe-coming-soon banner */}
       {bannerVisible && (

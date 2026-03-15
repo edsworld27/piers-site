@@ -4,6 +4,20 @@ import { useState } from 'react';
 import { testimonials as allTestimonials } from './data';
 import styles from './testimonials.module.css';
 
+const aggregateRatingSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Piers Day Hypnotherapy",
+  "url": "https://www.piersday.com",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "47",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+};
+
 export default function TestimonialsPage() {
   const [visibleCount, setVisibleCount] = useState(8);
   const increment = 8;
@@ -12,6 +26,7 @@ export default function TestimonialsPage() {
 
   return (
     <main className={styles.pageWrapper}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }} />
       <div className="container">
         <div className={`${styles.heroSection} fade-in-up`}>
           <h1 className="mb-6 text-gradient-gold">Success Stories</h1>

@@ -38,6 +38,20 @@ function FAQAccordion({ faq, index }) {
   );
 }
 
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Piers Day Hypnotherapy Resources",
+  "description": "Evidence-based articles and FAQs on hypnotherapy, anxiety, smoking cessation, weight loss, and subconscious change.",
+  "url": "https://www.piersday.com/blog",
+  "publisher": {
+    "@type": "Person",
+    "name": "Piers Day",
+    "jobTitle": "Clinical Hypnotherapist",
+    "url": "https://www.piersday.com/about"
+  }
+};
+
 export default function BlogIndex() {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -905,6 +919,7 @@ export default function BlogIndex() {
 
   return (
     <main className="pt-32 pb-24 relative z-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
       <div className="container max-w-5xl">
         <div className="text-center mb-16 fade-in-up">
           <h1 className="mb-4 text-gradient-gold">Resources & Freebies</h1>

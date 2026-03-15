@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 import styles from "./home.module.css";
 
 export const metadata = {
@@ -218,8 +219,23 @@ function HourglassSVG() {
    PAGE
 ───────────────────────────────────────────────────────────────── */
 export default function Home() {
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Piers Day Hypnotherapy",
+    "url": "https://www.piersday.com",
+    "description": "Clinical hypnotherapy for anxiety, smoking cessation, weight loss, and confidence. 25+ years experience. Online & Bury St Edmunds.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.piersday.com/blog?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <>
+      <Script id="website-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+
       {/* ── 1. HERO ── */}
       <section className={styles.hero}>
         <div className={`container ${styles.heroInner}`}>

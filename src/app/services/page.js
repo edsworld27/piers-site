@@ -1,4 +1,5 @@
 import React from "react";
+import Script from "next/script";
 import "./services.css";
 
 export const metadata = {
@@ -19,8 +20,26 @@ export const metadata = {
 };
 
 export default function ServicesPage() {
+  const serviceListSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalOrganization",
+    "name": "Piers Day Hypnotherapy",
+    "url": "https://www.piersday.com/services",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Hypnotherapy Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Anxiety & Trauma Hypnotherapy", "url": "https://www.piersday.com/services/anxiety" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stop Smoking Hypnotherapy", "url": "https://www.piersday.com/services/stop-smoking" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Weight Management Hypnotherapy", "url": "https://www.piersday.com/services/weight-loss" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Confidence & Phobia Hypnotherapy", "url": "https://www.piersday.com/services/confidence" } }
+      ]
+    }
+  };
+
   return (
     <>
+      <Script id="service-list-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceListSchema) }} />
       <div className="services-page-wrap">
         {/* 1. PAGE HEADER */}
         <section className="page-header">

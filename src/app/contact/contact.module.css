@@ -1,8 +1,8 @@
-/* ── Contact Page ─────────────────────────────────────────────── */
+/* ── Contact Page — all values via brand tokens ───────────────── */
 
 /* HERO — dark, full-bleed */
 .hero {
-  padding: 10rem 0 7rem;
+  padding: var(--space-32) 0 var(--space-24);
   text-align: left;
   position: relative;
   overflow: hidden;
@@ -11,49 +11,48 @@
 .hero::after {
   content: '';
   position: absolute;
-  top: -10%;
-  left: -5%;
+  top: -10%; left: -5%;
   width: 600px;
   height: 500px;
-  background: radial-gradient(circle, rgba(107, 174, 138, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-7) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
 .heroInner {
   position: relative;
-  z-index: 1;
-  max-width: 680px;
+  z-index: var(--z-raised);
+  max-width: var(--max-width-hero-left);
 }
 
 .heroEyebrow {
   display: block;
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-accent-gold);
-  margin-bottom: 1.25rem;
+  color: var(--color-accent);
+  margin-bottom: var(--space-5);
   opacity: 0;
   animation: fadeUp 0.7s ease forwards;
 }
 
 .heroTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-style: italic;
   font-weight: 400;
   font-size: clamp(3.5rem, 7vw, 6rem);
-  color: #ffffff;
+  color: var(--color-white);
   line-height: 1.05;
-  margin: 0 0 1.5rem;
+  margin: 0 0 var(--space-6);
   opacity: 0;
   animation: fadeUp 0.7s 0.1s ease forwards;
 }
 
 .heroSub {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: rgba(245, 240, 232, 0.65);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-loose);
+  color: var(--color-text-65);
   margin: 0;
   opacity: 0;
   animation: fadeUp 0.7s 0.2s ease forwards;
@@ -61,47 +60,46 @@
 
 /* WHITE SHEET — lifts up over the hero */
 .sheet {
-  background: #ffffff;
+  background: var(--color-surface-white);
   border-radius: 28px 28px 0 0;
   margin-top: -3rem;
   position: relative;
-  z-index: 10;
+  z-index: var(--z-raised);
   box-shadow: 0 -4px 60px rgba(0, 0, 0, 0.3);
-  padding: 4.5rem 0 6rem;
+  padding: var(--space-16) 0 var(--space-24);
 }
 
 .sheetInner {
-  max-width: 760px;
+  max-width: var(--max-width-narrow);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--space-8);
 }
 
-/* ── CONTACT METHODS — inline row ───────────────── */
+/* ── CONTACT METHODS ─────────────────────────────── */
 .contactRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 3rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-12);
 }
 
 .methodCard {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1.25rem;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  gap: var(--space-3);
+  padding: 0.85rem var(--space-5);
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-chip-border);
+  border-radius: var(--radius-lg);
   text-decoration: none;
-  color: #0C1B2E;
+  color: var(--color-bg-base);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   flex: 1;
   min-width: 200px;
 }
-
 .methodCard:hover {
-  border-color: var(--color-accent-gold);
-  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.12);
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 20px var(--accent-12);
   transform: translateY(-2px);
 }
 
@@ -109,12 +107,12 @@
   width: 40px;
   height: 40px;
   border-radius: 9px;
-  background: #fdf8ef;
-  border: 1px solid #f0e4c3;
+  background: var(--color-surface-light);
+  border: 1px solid var(--color-surface-warm-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: var(--font-size-lg);
   flex-shrink: 0;
 }
 
@@ -129,40 +127,40 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9ca3af;
+  color: var(--color-muted-label);
 }
 
 .methodValue {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #0C1B2E;
+  color: var(--color-bg-base);
 }
 
-/* ── SECTION HEADING ────────────────────────────── */
+/* ── SECTION HEADING ─────────────────────────────── */
 .formLabel {
   display: block;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-accent-gold);
-  margin-bottom: 0.6rem;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
 }
 
 .formTitle {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.9rem;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-2xl);
   font-weight: 500;
-  color: #0C1B2E;
-  margin: 0 0 1.75rem;
+  color: var(--color-bg-base);
+  margin: 0 0 var(--space-6);
 }
 
-/* ── GLASS FORM CONTAINER ───────────────────────── */
+/* ── GLASS FORM CONTAINER ────────────────────────── */
 .glassCard {
-  background: rgba(248, 250, 255, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(107, 174, 138, 0.18);
+  background: var(--color-surface-form);
+  backdrop-filter: var(--glass-blur-heavy);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  border: 1px solid var(--accent-18);
   border-radius: 20px;
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
@@ -174,15 +172,14 @@
   display: block;
   width: 100%;
   border: none;
-  /* no filter — form renders natively on white background */
 }
 
 .glassFooter {
-  padding: 1.1rem 1.5rem;
+  padding: var(--space-4) var(--space-6);
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: var(--space-6);
   background: rgba(255, 255, 255, 0.6);
 }
 
@@ -191,46 +188,42 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #9ca3af;
+  color: var(--color-muted-label);
   text-decoration: none;
   transition: color 0.2s ease;
 }
+.glassFooterLink:hover { color: var(--color-accent); }
 
-.glassFooterLink:hover {
-  color: var(--color-accent-gold);
-}
-
-/* ── LOCATION / TRUST ROW ───────────────────────── */
+/* ── LOCATION / TRUST ROW ────────────────────────── */
 .bottomRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
 }
 
 .infoChip {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1rem;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 9999px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-chip-bg);
+  border: 1px solid var(--color-chip-border);
+  border-radius: var(--radius-full);
   font-size: 0.85rem;
-  color: #374151;
+  color: var(--color-chip-text);
   text-decoration: none;
   transition: border-color 0.2s, color 0.2s;
 }
-
 .infoChip:hover {
-  border-color: var(--color-accent-gold);
-  color: #0C1B2E;
+  border-color: var(--color-accent);
+  color: var(--color-bg-base);
 }
 
 .chipDot {
   width: 7px;
   height: 7px;
-  background: var(--color-accent-gold);
+  background: var(--color-accent);
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -243,24 +236,9 @@
 
 /* ── RESPONSIVE ──────────────────────────────────── */
 @media (max-width: 640px) {
-  .hero {
-    padding: 8rem 0 5rem;
-  }
-
-  .sheet {
-    border-radius: 18px 18px 0 0;
-    padding: 3rem 0 4rem;
-  }
-
-  .sheetInner {
-    padding: 0 1.25rem;
-  }
-
-  .contactRow {
-    flex-direction: column;
-  }
-
-  .methodCard {
-    min-width: unset;
-  }
+  .hero { padding: var(--space-32) 0 var(--space-20); }
+  .sheet { border-radius: 18px 18px 0 0; padding: var(--space-12) 0 var(--space-16); }
+  .sheetInner { padding: 0 var(--space-5); }
+  .contactRow { flex-direction: column; }
+  .methodCard { min-width: unset; }
 }
