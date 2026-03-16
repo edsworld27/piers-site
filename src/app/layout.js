@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import TabTitleHandler from "./components/TabTitleHandler";
 import { CartProvider } from "./components/CartContext";
 import CookieBanner from "./components/CookieBanner";
+import ScrollAnimator from "./components/ScrollAnimator";
 import Script from "next/script";
 
 const inter = Inter({
@@ -101,6 +102,7 @@ export default function RootLayout({ children }) {
           <main id="main-content">{children}</main>
           <Footer />
           <CookieBanner />
+          <ScrollAnimator />
         </CartProvider>
 
         <Script

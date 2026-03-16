@@ -278,7 +278,7 @@ export default function ServicesPage() {
           </p>
           <hr className="gold-hr" />
 
-          <div className="services-unsure-callout">
+          <div className="services-unsure-callout anim-up" style={{ transitionDelay: "0.3s" }}>
             <p className="services-unsure-main">
               Not sure what to call it?
             </p>
@@ -305,8 +305,12 @@ export default function ServicesPage() {
       <section className="services-list-section">
         <div className="container">
           <div className="services-categories">
-            {CATEGORIES.map(cat => (
-              <div key={cat.id} className="services-category">
+            {CATEGORIES.map((cat, i) => (
+              <div
+                key={cat.id}
+                className="services-category anim-scale"
+                style={{ transitionDelay: `${(i % 3) * 0.08}s` }}
+              >
                 <h2 className="services-cat-title">{cat.label}</h2>
                 <ul className="services-item-list">
                   {cat.items.map(item => (
