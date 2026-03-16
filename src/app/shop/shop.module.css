@@ -119,15 +119,33 @@
 
 /* ── Products section ──────────────────────────────────────────── */
 .productsSection { padding: 0 0 var(--space-20); }
-/* Visually hidden but present for heading hierarchy / SEO */
+
 .productsSectionTitle {
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: var(--space-2);
+}
+
+.sectionSubtitle {
+  font-size: 0.9375rem;
+  color: rgba(26, 43, 60, 0.55);
+  margin-bottom: var(--space-8);
+}
+
+.bundleGrid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.bundleCard {
+  border: 1.5px solid rgba(184, 117, 46, 0.22) !important;
+}
+
+.originalPrice {
+  font-size: 0.85rem;
+  color: rgba(26, 43, 60, 0.38);
+  text-decoration: line-through;
+  margin-left: 6px;
 }
 
 .grid {
