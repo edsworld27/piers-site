@@ -65,6 +65,47 @@
   margin: 0 auto;
 }
 
+/* "Not sure what to call it" callout inside hero */
+.services-unsure-callout {
+  margin-top: var(--space-10);
+  padding: var(--space-8) var(--space-10);
+  border: 1px solid rgba(184, 117, 46, 0.25);
+  border-radius: 12px;
+  background: rgba(184, 117, 46, 0.05);
+  text-align: left;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.services-unsure-main {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0 0 var(--space-3);
+}
+
+.services-unsure-body {
+  font-size: var(--font-size-base);
+  color: var(--color-text-55);
+  line-height: 1.7;
+  margin: 0 0 var(--space-5);
+  font-weight: 300;
+}
+
+.services-unsure-cta {
+  display: inline-block;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
+  padding-bottom: 2px;
+  transition: opacity 0.18s ease;
+  text-decoration: none;
+}
+.services-unsure-cta:hover { opacity: 0.7; }
+
 /* Sections */
 .page-header {
   padding: var(--space-20) 0;

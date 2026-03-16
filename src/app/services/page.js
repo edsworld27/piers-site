@@ -284,6 +284,18 @@ export default function ServicesPage() {
             25+ years of clinical practice. If something is holding you back — whether it's on this list or not — get in touch. If hypnotherapy can help, I'll tell you honestly.
           </p>
           <hr className="gold-hr" />
+
+          <div className="services-unsure-callout">
+            <p className="services-unsure-main">
+              Not sure what to call it?
+            </p>
+            <p className="services-unsure-body">
+              You don't need to put what you're feeling into a box. Sometimes it's just a weight you can't name, a sense that something isn't right. That's enough. The best place to start is a conversation — I'll help you find the words from there.
+            </p>
+            <Link href="/contact" className="services-unsure-cta">
+              Book a free chat →
+            </Link>
+          </div>
         </div>
       </section>
 
