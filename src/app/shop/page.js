@@ -350,93 +350,97 @@ function ProductDrawer({ product, onClose, onAddToCart, addedId }) {
         aria-hidden="true"
       />
 
-      {/* Drawer panel */}
+      {/* Modal panel */}
       <div
         className={`${drawerStyles.drawer} ${isOpen ? drawerStyles.drawerOpen : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}
       >
-        {/* Close button */}
-        <button className={drawerStyles.closeBtn} onClick={onClose} aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-
         <div className={drawerStyles.drawerInner}>
-          {/* Illustration */}
-          <div className={drawerStyles.illBlock} style={{ background: accent }}>
-            {badge && <div className={drawerStyles.badge}>{badge}</div>}
-            <Illustration {...(illustrationProps || {})} />
-          </div>
+          {/* Close button — inside card, absolute top-right */}
+          <button className={drawerStyles.closeBtn} onClick={onClose} aria-label="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
 
-          {/* Content */}
-          <div className={drawerStyles.content}>
-            <span className={drawerStyles.category}>{category}</span>
-            <h2 className={drawerStyles.title}>{title}</h2>
-
-            <div className={drawerStyles.priceRow}>
-              <span className={drawerStyles.price}>{price}</span>
-              {originalPrice && (
-                <span className={drawerStyles.originalPrice}>{originalPrice}</span>
-              )}
+          <div className={drawerStyles.modalLayout}>
+            {/* Left: Illustration */}
+            <div className={drawerStyles.illBlock} style={{ background: accent }}>
+              {badge && <div className={drawerStyles.badge}>{badge}</div>}
+              <Illustration {...(illustrationProps || {})} />
             </div>
 
-            {/* Description */}
-            <div className={drawerStyles.description}>
-              {paragraphs.map((p, i) => <p key={i}>{p}</p>)}
-            </div>
+            {/* Right: Content */}
+            <div className={drawerStyles.content}>
+              <span className={drawerStyles.category}>{category}</span>
+              <h2 className={drawerStyles.title}>{title}</h2>
 
-            {/* What you get */}
-            <div className={drawerStyles.whatYouGet}>
-              <h4>What&rsquo;s included</h4>
-              <ul>
-                {whatYouGet.map((item, i) => (
-                  <li key={i}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Bundle includes */}
-            {isBundle && bundleIds && (
-              <div className={drawerStyles.bundleItems}>
-                <h4>Sessions in this bundle</h4>
-                <div className={drawerStyles.bundleList}>
-                  {bundleIds.map(id => {
-                    const p = PRODUCTS.find(p => p.id === id);
-                    return p ? (
-                      <div key={id} className={drawerStyles.bundleItem}>
-                        <span className={drawerStyles.bundleItemTitle}>{p.title}</span>
-                        <span className={drawerStyles.bundleItemMeta}>{p.duration} · {p.price}</span>
-                      </div>
-                    ) : null;
-                  })}
-                </div>
+              <div className={drawerStyles.priceRow}>
+                <span className={drawerStyles.price}>{price}</span>
+                {originalPrice && (
+                  <span className={drawerStyles.originalPrice}>{originalPrice}</span>
+                )}
               </div>
-            )}
 
-            {/* CTA */}
-            <button
-              className={`${drawerStyles.addBtn}${isAdded ? ` ${drawerStyles.addBtnAdded}` : ""}`}
-              onClick={() => onAddToCart(product)}
-            >
-              {isAdded ? (
-                <>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  Added to basket
-                </>
-              ) : (
-                `Add to Basket — ${price}`
+              {/* Description */}
+              <div className={drawerStyles.description}>
+                {paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+              </div>
+
+              {/* What you get */}
+              <div className={drawerStyles.whatYouGet}>
+                <h4>What&rsquo;s included</h4>
+                <ul>
+                  {whatYouGet.map((item, i) => (
+                    <li key={i}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Bundle includes */}
+              {isBundle && bundleIds && (
+                <div className={drawerStyles.bundleItems}>
+                  <h4>Sessions in this bundle</h4>
+                  <div className={drawerStyles.bundleList}>
+                    {bundleIds.map(id => {
+                      const p = PRODUCTS.find(p => p.id === id);
+                      return p ? (
+                        <div key={id} className={drawerStyles.bundleItem}>
+                          <span className={drawerStyles.bundleItemTitle}>{p.title}</span>
+                          <span className={drawerStyles.bundleItemMeta}>{p.duration} · {p.price}</span>
+                        </div>
+                      ) : null;
+                    })}
+                  </div>
+                </div>
               )}
-            </button>
 
-            <Link href="/cart" className={drawerStyles.viewCart} onClick={onClose}>
-              View basket →
-            </Link>
+              {/* CTA */}
+              <div className={drawerStyles.ctaRow}>
+                <button
+                  className={`${drawerStyles.addBtn}${isAdded ? ` ${drawerStyles.addBtnAdded}` : ""}`}
+                  onClick={() => onAddToCart(product)}
+                >
+                  {isAdded ? (
+                    <>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      Added to basket
+                    </>
+                  ) : (
+                    `Add to Basket — ${price}`
+                  )}
+                </button>
+
+                <Link href="/cart" className={drawerStyles.viewCart} onClick={onClose}>
+                  View basket →
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
