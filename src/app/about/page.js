@@ -221,6 +221,36 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* ── PODCAST ── */}
+        <section className={styles.podcastSection}>
+          <div className="container">
+            <div className={`${styles.podcastInner} fade-in-up`}>
+              <div className={styles.podcastMeta}>
+                <span className={styles.podcastEyebrow}>Listen</span>
+                <h2 className={styles.podcastTitle}>The Podcast</h2>
+                <p className={styles.podcastDesc}>
+                  Piers hosts a podcast exploring the subconscious mind, mental health, and the stories behind real transformations. Episodes coming soon — link to be added.
+                </p>
+                <a href="#" className={styles.podcastCta} aria-label="Listen to the podcast (coming soon)">
+                  Listen now →
+                </a>
+              </div>
+              <div className={styles.podcastArt}>
+                <div className={styles.podcastIcon}>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <line x1="12" y1="2" x2="12" y2="5"/>
+                    <line x1="12" y1="19" x2="12" y2="22"/>
+                    <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+                    <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ── */}
         <section className={styles.ctaSection}>
           <div className="container">
