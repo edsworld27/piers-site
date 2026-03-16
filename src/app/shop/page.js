@@ -350,14 +350,15 @@ function ProductDrawer({ product, onClose, onAddToCart, addedId }) {
         aria-hidden="true"
       />
 
-      {/* Modal panel */}
+      {/* Modal panel — click outside the card to close */}
       <div
         className={`${drawerStyles.drawer} ${isOpen ? drawerStyles.drawerOpen : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}
+        onClick={onClose}
       >
-        <div className={drawerStyles.drawerInner}>
+        <div className={drawerStyles.drawerInner} onClick={e => e.stopPropagation()}>
           {/* Close button — inside card, absolute top-right */}
           <button className={drawerStyles.closeBtn} onClick={onClose} aria-label="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -374,53 +375,61 @@ function ProductDrawer({ product, onClose, onAddToCart, addedId }) {
 
             {/* Right: Content */}
             <div className={drawerStyles.content}>
-              <span className={drawerStyles.category}>{category}</span>
-              <h2 className={drawerStyles.title}>{title}</h2>
 
-              <div className={drawerStyles.priceRow}>
-                <span className={drawerStyles.price}>{price}</span>
-                {originalPrice && (
-                  <span className={drawerStyles.originalPrice}>{originalPrice}</span>
-                )}
-              </div>
-
-              {/* Description */}
-              <div className={drawerStyles.description}>
-                {paragraphs.map((p, i) => <p key={i}>{p}</p>)}
-              </div>
-
-              {/* What you get */}
-              <div className={drawerStyles.whatYouGet}>
-                <h4>What&rsquo;s included</h4>
-                <ul>
-                  {whatYouGet.map((item, i) => (
-                    <li key={i}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Bundle includes */}
-              {isBundle && bundleIds && (
-                <div className={drawerStyles.bundleItems}>
-                  <h4>Sessions in this bundle</h4>
-                  <div className={drawerStyles.bundleList}>
-                    {bundleIds.map(id => {
-                      const p = PRODUCTS.find(p => p.id === id);
-                      return p ? (
-                        <div key={id} className={drawerStyles.bundleItem}>
-                          <span className={drawerStyles.bundleItemTitle}>{p.title}</span>
-                          <span className={drawerStyles.bundleItemMeta}>{p.duration} · {p.price}</span>
-                        </div>
-                      ) : null;
-                    })}
-                  </div>
+              {/* Fixed header — category, title, price */}
+              <div className={drawerStyles.contentHeader}>
+                <span className={drawerStyles.category}>{category}</span>
+                <h2 className={drawerStyles.title}>{title}</h2>
+                <div className={drawerStyles.priceRow}>
+                  <span className={drawerStyles.price}>{price}</span>
+                  {originalPrice && (
+                    <span className={drawerStyles.originalPrice}>{originalPrice}</span>
+                  )}
                 </div>
-              )}
+              </div>
 
-              {/* CTA */}
+              {/* Scrollable body */}
+              <div className={drawerStyles.contentBody}>
+
+                {/* Description */}
+                <div className={drawerStyles.description}>
+                  {paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+                </div>
+
+                {/* What you get */}
+                <div className={drawerStyles.whatYouGet}>
+                  <h4>What&rsquo;s included</h4>
+                  <ul>
+                    {whatYouGet.map((item, i) => (
+                      <li key={i}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Bundle includes */}
+                {isBundle && bundleIds && (
+                  <div className={drawerStyles.bundleItems}>
+                    <h4>Sessions in this bundle</h4>
+                    <div className={drawerStyles.bundleList}>
+                      {bundleIds.map(id => {
+                        const p = PRODUCTS.find(p => p.id === id);
+                        return p ? (
+                          <div key={id} className={drawerStyles.bundleItem}>
+                            <span className={drawerStyles.bundleItemTitle}>{p.title}</span>
+                            <span className={drawerStyles.bundleItemMeta}>{p.duration} · {p.price}</span>
+                          </div>
+                        ) : null;
+                      })}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Sticky CTA footer */}
               <div className={drawerStyles.ctaRow}>
                 <button
                   className={`${drawerStyles.addBtn}${isAdded ? ` ${drawerStyles.addBtnAdded}` : ""}`}
@@ -435,11 +444,11 @@ function ProductDrawer({ product, onClose, onAddToCart, addedId }) {
                     `Add to Basket — ${price}`
                   )}
                 </button>
-
                 <Link href="/cart" className={drawerStyles.viewCart} onClick={onClose}>
                   View basket →
                 </Link>
               </div>
+
             </div>
           </div>
         </div>
