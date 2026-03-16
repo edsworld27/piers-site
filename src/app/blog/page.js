@@ -61,7 +61,6 @@ function VideoEmbed({ videoId, title, tag }) {
         allowFullScreen
         loading="lazy"
         title={title}
-        style={{ width: "100%", height: "100%", position: "absolute", top: 0, left: 0 }}
       />
       <button
         className="video-popout-btn"

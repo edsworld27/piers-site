@@ -637,7 +637,15 @@ select:focus-visible {
 
 /* Pop-out button overlay on video */
 .video-embed-outer {
-  position: relative;
+  position: absolute;
+  inset: 0;
+}
+.video-embed-outer iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 .video-popout-btn {
   position: absolute;
