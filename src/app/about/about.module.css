@@ -3,6 +3,7 @@
 /* ── Page wrapper ── */
 .pageWrapper {
   background: #ffffff;
+  padding-top: 80px;
 }
 
 /* ── Hero ── */

@@ -1,21 +1,27 @@
 /* ── Testimonials Page ─────────────────────────────────────────── */
 
 .pageWrapper {
-  padding-top: 8rem;
+  padding-top: 0;
   padding-bottom: 6rem;
 }
 
 .heroSection {
+  background-color: var(--color-bg-dark);
   text-align: center;
+  padding: 8rem 1rem 4rem;
   margin-bottom: 4rem;
-  padding: 0 1rem;
+}
+
+.heroSection h1 {
+  color: #f5f0e8;
 }
 
 .heroSub {
-  font-size: 1.25rem;
-  color: var(--color-text-muted);
-  max-width: 800px;
-  line-height: 1.6;
+  font-size: 1.15rem;
+  color: rgba(245, 240, 232, 0.6);
+  max-width: 680px;
+  line-height: 1.75;
+  font-weight: 300;
   margin: 0 auto;
 }
 
@@ -92,6 +98,6 @@
 
 @media (max-width: 768px) {
   .testimonialGrid { grid-template-columns: 1fr; }
-  .pageWrapper { padding-top: 6rem; }
+  .heroSection { padding-top: 6rem; }
   .cardText { font-size: 1rem; }
 }
