@@ -35,6 +35,15 @@ export default function Footer() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               piers@piersday.com
             </a>
+            <a
+              href="https://maps.google.com/?q=Bury+St+Edmunds,+Suffolk,+IP33"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-contact-item footer-directions"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Get Directions
+            </a>
           </div>
         </div>
 
@@ -160,6 +169,11 @@ export default function Footer() {
           transition: color 0.18s;
         }
         .footer-contact-item:hover { color: #f5f0e8; }
+        .footer-directions {
+          color: #6BAE8A;
+          margin-top: 0.25rem;
+        }
+        .footer-directions:hover { color: #8ecba8; }
 
         .footer-col { display: flex; flex-direction: column; gap: 0.2rem; padding-top: 0.25rem; }
         .footer-col-heading {

@@ -1082,9 +1082,8 @@ export default function BlogIndex() {
     ))
   );
 
-  const videos    = filteredTopics.filter(t => t.videoId);
-  const articles  = filteredTopics.filter(t => t.article);
-  const faqTopics = filteredTopics.filter(t => t.faqs?.length > 0);
+  const videos   = filteredTopics.filter(t => t.videoId);
+  const articles = filteredTopics.filter(t => t.article);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
