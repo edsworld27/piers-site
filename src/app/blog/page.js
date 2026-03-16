@@ -3,26 +3,24 @@
 import Link from "next/link";
 import { useState } from "react";
 
-function FAQAccordion({ faq }) {
+function FAQAccordion({ faq, index }) {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className={`faq-item${isOpen ? ' faq-item--open' : ''}`}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
         className="faq-trigger"
+        onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
+        <span className="faq-n" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
         <span className="faq-q-text">{faq.question}</span>
-        <span className="faq-chevron" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
+        <span className="faq-toggle" aria-hidden="true">
+          <span className="faq-bar faq-bar-h" />
+          <span className="faq-bar faq-bar-v" />
         </span>
       </button>
-
-      <div className="faq-panel" aria-hidden={!isOpen}>
-        <p className="faq-answer-text">{faq.answer}</p>
+      <div className="faq-panel">
+        <p className="faq-a-text">{faq.answer}</p>
       </div>
     </div>
   );
@@ -869,6 +867,7 @@ export default function BlogIndex() {
   const [expandedCards, setExpandedCards] = useState({});
   const [expandedArticles, setExpandedArticles] = useState({});
   const [contentFilter, setContentFilter] = useState('all');
+  const [faqCategory, setFaqCategory] = useState('all');
 
   const toggleCard    = (id) => setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }));
   const toggleArticle = (id) => setExpandedArticles(prev => ({ ...prev, [id]: !prev[id] }));
@@ -893,6 +892,7 @@ export default function BlogIndex() {
     setSearchQuery(e.target.value);
     setVisibleLimit(8);
     setVideoVisible(12);
+    setFaqCategory('all');
   };
 
   const TAG_GRAD = {
@@ -1145,30 +1145,57 @@ export default function BlogIndex() {
           {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
           {/* FAQs — grouped by topic                                  */}
           {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-          {contentFilter === 'faq' && (
-            <>
-              {faqTopics.length === 0 ? (
-                <p className="res-empty">No FAQs match your search.</p>
-              ) : (
-                <div className="faq-groups">
-                  {faqTopics.map((item) => (
-                    <div key={item.id} className="faq-group">
-                      <div className="faq-group-header">
-                        <span className="faq-group-tag">{item.tag}</span>
-                        <h2 className="faq-group-title">{item.title}</h2>
-                        <p className="faq-group-count">{item.faqs.length} question{item.faqs.length !== 1 ? 's' : ''}</p>
+          {contentFilter === 'faq' && (() => {
+            if (faqTopics.length === 0) return <p className="res-empty">No FAQs match your search.</p>;
+            const allTags = [...new Set(faqTopics.map(t => t.tag))];
+            const shownTopics = faqCategory === 'all' ? faqTopics : faqTopics.filter(t => t.tag === faqCategory);
+            const totalCount = faqTopics.reduce((s, t) => s + t.faqs.length, 0);
+            return (
+              <div className="faq-layout">
+
+                {/* ── Category nav ── */}
+                <aside className="faq-nav">
+                  <p className="faq-nav-label">Categories</p>
+                  <button
+                    onClick={() => setFaqCategory('all')}
+                    className={`faq-nav-btn${faqCategory === 'all' ? ' faq-nav-btn--active' : ''}`}
+                  >
+                    <span>All Questions</span>
+                    <span className="faq-nav-count">{totalCount}</span>
+                  </button>
+                  {allTags.map(tag => {
+                    const count = faqTopics.filter(t => t.tag === tag).reduce((s, t) => s + t.faqs.length, 0);
+                    return (
+                      <button
+                        key={tag}
+                        onClick={() => setFaqCategory(tag)}
+                        className={`faq-nav-btn${faqCategory === tag ? ' faq-nav-btn--active' : ''}`}
+                      >
+                        <span>{tag}</span>
+                        <span className="faq-nav-count">{count}</span>
+                      </button>
+                    );
+                  })}
+                </aside>
+
+                {/* ── FAQ content ── */}
+                <div className="faq-content">
+                  {shownTopics.map((item) => (
+                    <div key={item.id} className="faq-section">
+                      <div className="faq-section-hd">
+                        <span className="faq-section-tag">{item.tag}</span>
+                        <h2 className="faq-section-title">{item.title}</h2>
                       </div>
-                      <div className="faq-group-body">
-                        {item.faqs.map((faq, idx) => (
-                          <FAQAccordion key={idx} faq={faq} />
-                        ))}
-                      </div>
+                      {item.faqs.map((faq, idx) => (
+                        <FAQAccordion key={idx} faq={faq} index={idx} />
+                      ))}
                     </div>
                   ))}
                 </div>
-              )}
-            </>
-          )}
+
+              </div>
+            );
+          })()}
 
           {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
           {/* PODCAST — placeholder ready for embeds                   */}
@@ -1513,111 +1540,183 @@ export default function BlogIndex() {
         .art-cta p { color: rgba(245,240,232,0.65); font-size: 0.975rem; margin: 0 0 1.5rem; }
 
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        /* FAQ TAB — modern therapist design                        */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* FAQ TAB — full redesign                                  */
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-        /* Group card */
-        .faq-groups { display: flex; flex-direction: column; gap: 1.75rem; }
-        .faq-group {
-          background: #fff;
-          border: 1px solid rgba(107,174,138,0.16);
-          border-radius: 20px;
-          overflow: hidden;
-          box-shadow: 0 2px 16px rgba(26,43,60,0.04);
-          transition: box-shadow 0.25s;
-        }
-        .faq-group:hover {
-          box-shadow: 0 6px 32px rgba(26,43,60,0.07);
+        /* Two-column layout */
+        .faq-layout {
+          display: grid;
+          grid-template-columns: 210px 1fr;
+          gap: 3rem;
+          align-items: start;
         }
 
-        /* Group header — sage gradient */
-        .faq-group-header {
-          padding: 1.6rem 2rem 1.5rem;
-          background: linear-gradient(135deg, #f0f7f4 0%, #f8faf9 60%, #fff 100%);
-          border-bottom: 1px solid rgba(107,174,138,0.13);
+        /* ── Left: sticky category nav ── */
+        .faq-nav {
+          position: sticky;
+          top: 100px;
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
         }
-        .faq-group-tag {
+        .faq-nav-label {
+          font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.14em; color: #9ab0be;
+          margin: 0 0 0.65rem 0.75rem;
+        }
+        .faq-nav-btn {
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 0.5rem;
+          width: 100%; padding: 0.6rem 0.75rem;
+          background: transparent; border: none; border-radius: 10px;
+          text-align: left; cursor: pointer;
+          font-size: 0.9rem; font-weight: 500; color: #5c7080;
+          transition: background 0.18s, color 0.18s;
+        }
+        .faq-nav-btn:hover {
+          background: rgba(107,174,138,0.08);
+          color: #1a2b3c;
+        }
+        .faq-nav-btn--active {
+          background: #0C1B2E;
+          color: #f5f0e8;
+        }
+        .faq-nav-btn--active:hover {
+          background: #142638;
+          color: #f5f0e8;
+        }
+        .faq-nav-count {
+          font-size: 0.72rem; font-weight: 600;
+          color: inherit; opacity: 0.55;
+          background: rgba(255,255,255,0.1);
+          padding: 0.1rem 0.45rem;
+          border-radius: 9999px;
+          flex-shrink: 0;
+        }
+        .faq-nav-btn--active .faq-nav-count {
+          background: rgba(255,255,255,0.15);
+          opacity: 0.8;
+        }
+
+        /* ── Right: FAQ content ── */
+        .faq-content {
+          display: flex;
+          flex-direction: column;
+          gap: 3rem;
+        }
+
+        /* Section header */
+        .faq-section-hd {
+          padding-bottom: 1.25rem;
+          border-bottom: 1.5px solid #e8eff4;
+          margin-bottom: 0.25rem;
+        }
+        .faq-section-tag {
           display: inline-block;
           font-size: 0.67rem; font-weight: 700; text-transform: uppercase;
-          letter-spacing: 0.12em; color: #4e9e74;
-          background: rgba(107,174,138,0.1); border: 1px solid rgba(107,174,138,0.25);
-          padding: 0.22rem 0.7rem; border-radius: 9999px; margin-bottom: 0.5rem;
+          letter-spacing: 0.13em; color: #6BAE8A;
+          margin-bottom: 0.45rem;
         }
-        .faq-group-title {
+        .faq-section-title {
           font-family: 'Playfair Display', serif;
-          font-size: 1.35rem; font-weight: 500; color: #1a2b3c;
-          margin: 0 0 0.3rem; line-height: 1.25;
-        }
-        .faq-group-count {
-          font-size: 0.82rem; color: #8fa8b8; margin: 0; font-weight: 400;
+          font-size: 1.5rem; font-weight: 500; color: #1a2b3c;
+          margin: 0; line-height: 1.2;
         }
 
-        /* FAQ items sit inside the group body */
-        .faq-group-body { padding: 0 0.5rem; }
-
-        /* Individual FAQ row */
+        /* ── Individual FAQ row ── */
         .faq-item {
-          border-bottom: 1px solid rgba(107,174,138,0.1);
-          transition: background 0.22s;
+          border-bottom: 1px solid #edf2f5;
         }
-        .faq-item:last-child { border-bottom: none; }
-        .faq-item.faq-item--open { background: #f9fcfb; }
+        .faq-item:first-of-type { border-top: 1px solid #edf2f5; }
 
-        /* Trigger row */
+        /* Trigger */
         .faq-trigger {
-          width: 100%; display: flex; align-items: center; justify-content: space-between;
-          gap: 1.25rem; padding: 1.3rem 1.5rem;
+          width: 100%; display: grid;
+          grid-template-columns: 2.5rem 1fr 2.25rem;
+          align-items: center;
+          gap: 1rem;
+          padding: 1.4rem 0;
           background: transparent; border: none; cursor: pointer; text-align: left;
         }
 
-        /* Question text */
+        /* Editorial number */
+        .faq-n {
+          font-family: 'Playfair Display', serif;
+          font-size: 1rem; font-weight: 400;
+          color: #c8d8e2;
+          line-height: 1;
+          transition: color 0.22s;
+          user-select: none;
+        }
+        .faq-item:hover .faq-n,
+        .faq-item.faq-item--open .faq-n { color: #6BAE8A; }
+
+        /* Question */
         .faq-q-text {
-          font-size: 1.02rem; font-weight: 500; color: #2a3f54;
-          line-height: 1.45; transition: color 0.22s; flex: 1;
+          font-size: 1.05rem; font-weight: 500;
+          color: #2a3f54; line-height: 1.45;
+          transition: color 0.22s;
         }
         .faq-item:hover .faq-q-text { color: #1a2b3c; }
-        .faq-item.faq-item--open .faq-q-text { color: #2e7a56; }
+        .faq-item.faq-item--open .faq-q-text {
+          color: #1a2b3c; font-weight: 600;
+        }
 
-        /* Rotating chevron */
-        .faq-chevron {
+        /* +/− toggle */
+        .faq-toggle {
+          position: relative;
+          width: 30px; height: 30px; border-radius: 50%;
+          border: 1.5px solid #dce8f0;
+          background: #f5f9fb;
           flex-shrink: 0;
-          width: 34px; height: 34px; border-radius: 50%;
-          background: rgba(107,174,138,0.07);
-          border: 1px solid rgba(107,174,138,0.2);
-          color: #9ab0be;
-          display: flex; align-items: center; justify-content: center;
-          transition: transform 0.38s cubic-bezier(0.4,0,0.2,1),
-                      background 0.22s, border-color 0.22s, color 0.22s;
+          transition: border-color 0.22s, background 0.22s;
         }
-        .faq-item:hover .faq-chevron {
-          background: rgba(107,174,138,0.12);
-          border-color: rgba(107,174,138,0.35);
-          color: #6BAE8A;
+        .faq-item:hover .faq-toggle {
+          border-color: rgba(107,174,138,0.4);
+          background: rgba(107,174,138,0.06);
         }
-        .faq-item.faq-item--open .faq-chevron {
-          transform: rotate(180deg);
-          background: rgba(107,174,138,0.15);
-          border-color: rgba(107,174,138,0.45);
-          color: #4e9e74;
+        .faq-item.faq-item--open .faq-toggle {
+          border-color: rgba(107,174,138,0.55);
+          background: rgba(107,174,138,0.1);
+        }
+        .faq-bar {
+          position: absolute;
+          top: 50%; left: 50%;
+          border-radius: 2px;
+          background: #8fa8b8;
+          transition: background 0.22s;
+        }
+        .faq-item:hover .faq-bar,
+        .faq-item.faq-item--open .faq-bar { background: #4e9e74; }
+        .faq-bar-h {
+          width: 12px; height: 1.5px;
+          transform: translate(-50%, -50%);
+        }
+        .faq-bar-v {
+          width: 1.5px; height: 12px;
+          transform: translate(-50%, -50%);
+          transition: transform 0.32s cubic-bezier(0.4,0,0.2,1),
+                      opacity 0.25s ease, background 0.22s;
+        }
+        .faq-item.faq-item--open .faq-bar-v {
+          transform: translate(-50%, -50%) scaleY(0);
+          opacity: 0;
         }
 
-        /* Answer panel — smooth slide */
+        /* Answer panel */
         .faq-panel {
           max-height: 0; overflow: hidden;
-          transition: max-height 0.42s cubic-bezier(0.4,0,0.2,1);
+          transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
         }
         .faq-item.faq-item--open .faq-panel { max-height: 500px; }
 
-        /* Answer text */
-        .faq-answer-text {
-          display: block;
-          color: #5a7080;
+        /* Answer text — indented to align with question column */
+        .faq-a-text {
+          margin: 0;
+          padding: 0 0 1.5rem 3.5rem;
           font-size: 1rem; line-height: 1.82;
-          margin: 0 1.5rem 1.25rem;
-          padding: 0.85rem 1.25rem 0.9rem;
-          background: rgba(107,174,138,0.04);
-          border-left: 2px solid rgba(107,174,138,0.32);
-          border-radius: 0 8px 8px 0;
+          color: #5c7080;
         }
 
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -1680,6 +1779,28 @@ export default function BlogIndex() {
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         /* RESPONSIVE                                               */
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        @media (max-width: 760px) {
+          .faq-layout {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+          .faq-nav {
+            position: static;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+          }
+          .faq-nav-label { display: none; }
+          .faq-nav-btn {
+            width: auto;
+            padding: 0.4rem 0.85rem;
+            border: 1px solid #dce8f0;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+          }
+          .faq-nav-btn--active { border-color: transparent; }
+          .faq-a-text { padding-left: 0; }
+        }
         @media (max-width: 720px) {
           .topic-grid { grid-template-columns: 1fr; }
           .topic-card--open { grid-column: auto; }
@@ -1692,8 +1813,7 @@ export default function BlogIndex() {
           .art-card-body { padding: 1.25rem 1.25rem 1.5rem; }
           .topic-card-header { padding: 1rem 1.1rem; }
           .topic-card-body { padding: 0 1.1rem 1.25rem; }
-          .faq-trigger { padding: 1rem 1.1rem; }
-          .faq-answer-text { margin: 0 1rem 1rem; }
+          .faq-trigger { padding: 1.1rem 0; grid-template-columns: 2rem 1fr 2rem; gap: 0.75rem; }
         }
       `}</style>
     </div>
