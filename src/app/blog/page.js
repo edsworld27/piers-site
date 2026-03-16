@@ -872,49 +872,52 @@ export default function BlogIndex() {
   }
 ];
 
-  // State for pagination
+
+  // State
   const [visibleLimit, setVisibleLimit] = useState(8);
-  const incrementCount = 8;
-
-  // State to track which cards are showing the full article view
-  const [activeArticleViews, setActiveArticleViews] = useState({});
-
-  // New state to track which cards are expanded (summary view vs collapsed view)
+  const [videoVisible, setVideoVisible] = useState(12);
   const [expandedCards, setExpandedCards] = useState({});
-
-  // Content filter: 'all' | 'video' | 'article' | 'faq'
+  const [expandedArticles, setExpandedArticles] = useState({});
   const [contentFilter, setContentFilter] = useState('all');
 
-  const toggleCardExpansion = (id) => {
-    setExpandedCards(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
+  const toggleCard    = (id) => setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }));
+  const toggleArticle = (id) => setExpandedArticles(prev => ({ ...prev, [id]: !prev[id] }));
 
-  const toggleArticleView = (id) => {
-    setActiveArticleViews(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
-
-  // Filter topics based on search input
-  const filteredTopics = topics.filter(t => 
-    t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+  const filteredTopics = topics.filter(t =>
+    !searchQuery ||
+    t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     t.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (t.article && t.article.headline.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (t.article && t.article.content.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (t.faqs && t.faqs.some(faq => faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(searchQuery.toLowerCase())))
+    (t.article?.headline.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (t.article?.content.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (t.faqs?.some(faq =>
+      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+    ))
   );
 
-  // Pagination logic
-  const currentItems = filteredTopics.slice(0, visibleLimit);
+  const videos    = filteredTopics.filter(t => t.videoId);
+  const articles  = filteredTopics.filter(t => t.article);
+  const faqTopics = filteredTopics.filter(t => t.faqs?.length > 0);
 
-  // If search query changes, reset to page 1
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setVisibleLimit(8);
+    setVideoVisible(12);
+  };
+
+  const TAG_GRAD = {
+    'The Foundation':     ['#0C1B2E', '#1A3448'],
+    'Overcoming Phobias': ['#18204a', '#2d3a70'],
+    'Positive Thinking':  ['#0e3028', '#1a5040'],
+    'Trauma Relief':      ['#241030', '#3a1a50'],
+    'The Science':        ['#0a2038', '#0e3060'],
+    'Anxiety & Panic':    ['#2e1808', '#4a280e'],
+    'Quit Smoking':       ['#102808', '#1e440e'],
+    'Weight Loss':        ['#0e2828', '#104444'],
+  };
+  const tagGrad = (tag) => {
+    const c = TAG_GRAD[tag] || ['#0C1B2E', '#1A3448'];
+    return `linear-gradient(135deg, ${c[0]} 0%, ${c[1]} 100%)`;
   };
 
   return (
@@ -927,7 +930,7 @@ export default function BlogIndex() {
           <div className="res-hero-inner fade-in-up">
             <span className="eyebrow">Resources &amp; Insights</span>
             <h1 className="res-hero-h1">Mind, Method<br/>&amp; Meaning</h1>
-            <p className="res-hero-sub">Videos, articles and answers on hypnotherapy, NLP, and the science of lasting change.</p>
+            <p className="res-hero-sub">Videos, articles, podcasts and answers on hypnotherapy, NLP, and the science of lasting change.</p>
           </div>
           <div className="res-search fade-in-up" style={{ transitionDelay: "0.2s" }}>
             <span className="res-search-icon">
@@ -937,7 +940,7 @@ export default function BlogIndex() {
             </span>
             <input
               type="text"
-              placeholder="Search 'anxiety', 'phobia', 'NLP'…"
+              placeholder="Search topics, questions, tags…"
               className="res-search-input"
               value={searchQuery}
               onChange={handleSearchChange}
@@ -948,143 +951,259 @@ export default function BlogIndex() {
 
       {/* ── Body ── */}
       <section className="res-body">
-        <div className="res-container">
+        <div className={`res-container${contentFilter === 'video' ? ' res-container--wide' : ''}`}>
 
-          {/* Filter tabs */}
+          {/* Tabs */}
           <div className="res-tabs fade-in-up">
             {[
-              { key: 'all',     icon: '✦', label: 'All'     },
-              { key: 'video',   icon: '▶', label: 'Video'   },
-              { key: 'article', icon: '✎', label: 'Article' },
-              { key: 'faq',     icon: '?', label: 'FAQ'     },
+              { key: 'all',     icon: '✦', label: 'All'      },
+              { key: 'video',   icon: '▶', label: 'Videos'   },
+              { key: 'article', icon: '✎', label: 'Articles' },
+              { key: 'faq',     icon: '?', label: 'FAQs'     },
+              { key: 'podcast', icon: '◎', label: 'Podcast'  },
             ].map(({ key, icon, label }) => (
               <button
                 key={key}
                 onClick={() => setContentFilter(key)}
                 className={`res-tab${contentFilter === key ? ' res-tab--active' : ''}`}
               >
-                <span className="res-tab-icon">{icon}</span>
+                <span className="res-tab-icon" aria-hidden="true">{icon}</span>
                 <span>{label}</span>
               </button>
             ))}
           </div>
 
-          {/* Card stream */}
-          <div className="res-stream">
-            {currentItems.length > 0 ? currentItems.map((item, streamIdx) => (
-              <div
-                key={item.id}
-                className={`res-card anim-up${expandedCards[item.id] ? ' res-card--open' : ''}`}
-                style={{ transitionDelay: `${(streamIdx % 4) * 0.05}s` }}
-              >
-                <div className="res-card-header" onClick={() => toggleCardExpansion(item.id)}>
-                  <div className="res-card-meta">
-                    <span className="res-card-tag">{item.tag}</span>
-                    <h2 className="res-card-title">{item.title}</h2>
-                  </div>
-                  <div className="res-card-right">
-                    {!expandedCards[item.id] && (
-                      <div className="res-chips">
-                        {item.videoId && <span className="res-chip res-chip--video">▶ Video</span>}
-                        {item.article && <span className="res-chip res-chip--article">✎ Article</span>}
-                        {item.faqs && item.faqs.length > 0 && <span className="res-chip res-chip--faq">? FAQ</span>}
-                      </div>
-                    )}
-                    <span className={`res-chevron${expandedCards[item.id] ? ' res-chevron--open' : ''}`}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <polyline points="6 9 12 15 18 9"/>
-                      </svg>
-                    </span>
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* ALL — topic cards grid                                   */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'all' && (
+            <>
+              {filteredTopics.length === 0 ? (
+                <div className="res-no-results fade-in-up">
+                  <div className="res-no-results-inner">
+                    <h2>No results found</h2>
+                    <p>Can&apos;t find what you&apos;re looking for? Ask Piers directly.</p>
+                    <Link href="/contact" className="btn btn-primary">Contact Piers →</Link>
                   </div>
                 </div>
-
-                {expandedCards[item.id] && (
-                  <div className="res-card-body">
-                    {activeArticleViews[item.id] && item.article ? (
-                      <div className="res-article-full">
-                        <button onClick={() => toggleArticleView(item.id)} className="res-back-btn">
-                          ← Back to summary
+              ) : (
+                <>
+                  <div className="topic-grid">
+                    {filteredTopics.slice(0, visibleLimit).map((item) => (
+                      <div
+                        key={item.id}
+                        className={`topic-card${expandedCards[item.id] ? ' topic-card--open' : ''}`}
+                      >
+                        <button
+                          className="topic-card-header"
+                          onClick={() => toggleCard(item.id)}
+                          aria-expanded={!!expandedCards[item.id]}
+                        >
+                          <div className="topic-card-meta">
+                            <span className="topic-tag">{item.tag}</span>
+                            <h2 className="topic-title">{item.title}</h2>
+                          </div>
+                          <div className="topic-card-right">
+                            {!expandedCards[item.id] && (
+                              <div className="topic-chips">
+                                {item.videoId         && <span className="t-chip t-chip--v">▶</span>}
+                                {item.article         && <span className="t-chip t-chip--a">✎</span>}
+                                {item.faqs?.length > 0 && <span className="t-chip t-chip--f">?</span>}
+                              </div>
+                            )}
+                            <span className={`topic-chevron${expandedCards[item.id] ? ' topic-chevron--open' : ''}`} aria-hidden="true">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                              </svg>
+                            </span>
+                          </div>
                         </button>
-                        <h3 className="res-article-headline">{item.article.headline}</h3>
-                        <div className="res-article-prose">
-                          {item.article.content.split('\n\n').map((para, idx) => (
-                            <p key={idx}>{para}</p>
-                          ))}
-                        </div>
-                        <div className="res-article-cta">
-                          <h4>Ready to take the next step?</h4>
-                          <p>If you related to anything in this article, a free conversation is the best place to start.</p>
-                          <Link href="/contact" className="btn btn-primary">Talk to Piers Today →</Link>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="res-layered">
-                        {item.videoId && (contentFilter === 'all' || contentFilter === 'video') && (
-                          <div className="res-video-wrap">
-                            <div className="res-video-embed">
-                              <iframe
-                                src={`https://www.youtube.com/embed/${item.videoId}?rel=0`}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                loading="lazy"
-                                title={item.title}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {item.article && (contentFilter === 'all' || contentFilter === 'article') && (
-                          <div className="res-excerpt">
-                            <span className="res-section-eyebrow">Article</span>
-                            <h3 className="res-excerpt-headline">{item.article.headline}</h3>
-                            <p className="res-excerpt-body">{item.article.content.substring(0, 240)}…</p>
-                            <button onClick={() => toggleArticleView(item.id)} className="res-read-more">
-                              Read full article →
-                            </button>
-                          </div>
-                        )}
-                        {item.faqs && item.faqs.length > 0 && (contentFilter === 'all' || contentFilter === 'faq') && (
-                          <div className="res-faqs">
-                            <div className="res-faqs-header">
-                              <span className="res-section-eyebrow">FAQs</span>
-                              <h3 className="res-faqs-title">Frequently Asked Questions</h3>
-                            </div>
-                            <div className="res-faq-list">
-                              {item.faqs.map((faq, idx) => (
-                                <FAQAccordion key={idx} faq={faq} index={idx} />
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        {contentFilter === 'video' && !item.videoId && (
-                          <div className="res-empty-notice"><p>No video available for this topic.</p></div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )) : (
-              <div className="res-no-results fade-in-up">
-                <div className="res-no-results-inner">
-                  <span className="res-no-results-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                  </span>
-                  <h2>No resources found</h2>
-                  <p>Can&apos;t find what you&apos;re looking for? Ask Piers directly.</p>
-                  <Link href="/contact" className="btn btn-primary">Contact Piers →</Link>
-                </div>
-              </div>
-            )}
-          </div>
 
-          {visibleLimit < filteredTopics.length && (
-            <div className="res-load-more">
-              <button onClick={() => setVisibleLimit(prev => prev + incrementCount)} className="btn btn-primary">
-                Load More Resources ↓
-              </button>
+                        {expandedCards[item.id] && (
+                          <div className="topic-card-body">
+                            {item.videoId && (
+                              <div className="topic-video-wrap">
+                                <div className="topic-video-embed">
+                                  <iframe
+                                    src={`https://www.youtube.com/embed/${item.videoId}?rel=0`}
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    loading="lazy"
+                                    title={item.title}
+                                  />
+                                </div>
+                              </div>
+                            )}
+                            {item.article && (
+                              <div className="topic-article-excerpt">
+                                <span className="topic-section-label">Article</span>
+                                <h3 className="topic-article-title">{item.article.headline}</h3>
+                                <p className="topic-article-text">{item.article.content.substring(0, 220)}…</p>
+                              </div>
+                            )}
+                            {item.faqs?.length > 0 && (
+                              <div className="topic-faq-summary">
+                                <span className="topic-section-label">FAQs</span>
+                                <p className="topic-faq-count">{item.faqs.length} questions answered on this topic.</p>
+                              </div>
+                            )}
+                            <Link href="/contact" className="topic-cta-link">Book a free consultation →</Link>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  {visibleLimit < filteredTopics.length && (
+                    <div className="res-load-more">
+                      <button onClick={() => setVisibleLimit(v => v + 8)} className="btn btn-primary">
+                        Load More →
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+          )}
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* VIDEOS — embedded grid                                   */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'video' && (
+            <>
+              {videos.length === 0 ? (
+                <p className="res-empty">No videos match your search.</p>
+              ) : (
+                <>
+                  <div className="video-grid">
+                    {videos.slice(0, videoVisible).map((item) => (
+                      <div key={item.id} className="video-item">
+                        <div className="video-embed">
+                          <iframe
+                            src={`https://www.youtube.com/embed/${item.videoId}?rel=0`}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            loading="lazy"
+                            title={item.title}
+                          />
+                        </div>
+                        <div className="video-item-meta">
+                          <span className="video-item-tag">{item.tag}</span>
+                          <h3 className="video-item-title">{item.title}</h3>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {videoVisible < videos.length && (
+                    <div className="res-load-more">
+                      <button onClick={() => setVideoVisible(v => v + 12)} className="btn btn-primary">
+                        Load More Videos →
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+          )}
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* ARTICLES — cards with gradient header                    */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'article' && (
+            <>
+              {articles.length === 0 ? (
+                <p className="res-empty">No articles match your search.</p>
+              ) : (
+                <div className="article-list">
+                  {articles.map((item) => (
+                    <div key={item.id} className={`art-card${expandedArticles[item.id] ? ' art-card--open' : ''}`}>
+                      <div className="art-card-header" style={{ background: tagGrad(item.tag) }}>
+                        <div className="art-header-deco" aria-hidden="true" />
+                        <span className="art-card-tag">{item.tag}</span>
+                        <h2 className="art-card-headline">{item.article.headline}</h2>
+                        <p className="art-card-topic-title">{item.title}</p>
+                      </div>
+                      <div className="art-card-body">
+                        <p className="art-excerpt">{item.article.content.substring(0, 260)}…</p>
+                        <button
+                          onClick={() => toggleArticle(item.id)}
+                          className="art-toggle-btn"
+                        >
+                          {expandedArticles[item.id] ? '↑ Close article' : 'Read full article →'}
+                        </button>
+                        {expandedArticles[item.id] && (
+                          <div className="art-full">
+                            {item.article.content.split('\n\n').map((para, idx) => (
+                              <p key={idx}>{para}</p>
+                            ))}
+                            <div className="art-cta">
+                              <h4>Ready to take the next step?</h4>
+                              <p>If you related to anything in this article, a free conversation is the best place to start.</p>
+                              <Link href="/contact" className="btn btn-primary">Talk to Piers Today →</Link>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* FAQs — grouped by topic                                  */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'faq' && (
+            <>
+              {faqTopics.length === 0 ? (
+                <p className="res-empty">No FAQs match your search.</p>
+              ) : (
+                <div className="faq-groups">
+                  {faqTopics.map((item) => (
+                    <div key={item.id} className="faq-group">
+                      <div className="faq-group-header">
+                        <span className="faq-group-tag">{item.tag}</span>
+                        <h2 className="faq-group-title">{item.title}</h2>
+                      </div>
+                      <div className="faq-group-list">
+                        {item.faqs.map((faq, idx) => (
+                          <FAQAccordion key={idx} faq={faq} index={idx} />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* PODCAST — placeholder ready for embeds                   */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'podcast' && (
+            <div className="podcast-section fade-in-up">
+              <div className="podcast-header">
+                <span className="podcast-eyebrow">Coming Soon</span>
+                <h2 className="podcast-title">The Piers Day Podcast</h2>
+                <p className="podcast-sub">In-depth conversations on the mind, hypnotherapy, NLP, and the science of lasting change. Episodes will appear here.</p>
+              </div>
+              <div className="podcast-placeholder-grid">
+                {[1, 2, 3, 4].map(n => (
+                  <div key={n} className="podcast-placeholder-card">
+                    <div className="podcast-placeholder-thumb" />
+                    <div className="podcast-placeholder-lines">
+                      <div className="pph-line pph-line--short" />
+                      <div className="pph-line pph-line--long" />
+                      <div className="pph-line pph-line--medium" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="podcast-notice">
+                Episodes are being added. <Link href="/contact" className="podcast-contact-link">Get in touch</Link> to be notified when they go live.
+              </p>
             </div>
           )}
 
@@ -1141,7 +1260,7 @@ export default function BlogIndex() {
           border: 1px solid rgba(255,255,255,0.14);
           border-radius: 9999px;
           padding: 0.55rem 1.25rem;
-          transition: border-color 0.25s ease, background 0.25s ease;
+          transition: border-color 0.25s, background 0.25s;
         }
         .res-search:focus-within {
           border-color: rgba(107,174,138,0.65);
@@ -1156,162 +1275,283 @@ export default function BlogIndex() {
 
         /* ── BODY ──────────────────────────────────────────────── */
         .res-body { padding: 3rem 1rem 6rem; }
-        .res-container { max-width: 860px; margin: 0 auto; }
+        .res-container { max-width: 900px; margin: 0 auto; }
+        .res-container--wide { max-width: 1100px; }
 
-        /* ── FILTER TABS ───────────────────────────────────────── */
+        /* ── TABS ──────────────────────────────────────────────── */
         .res-tabs {
           display: flex; justify-content: center; gap: 0.5rem;
-          margin-bottom: 2.25rem; flex-wrap: wrap;
+          margin-bottom: 2.5rem; flex-wrap: wrap;
         }
         .res-tab {
-          display: inline-flex; align-items: center; gap: 0.4rem;
-          padding: 0.5rem 1.1rem; border-radius: 9999px;
+          display: inline-flex; align-items: center; gap: 0.45rem;
+          padding: 0.55rem 1.2rem; border-radius: 9999px;
           border: 1px solid rgba(107,174,138,0.2); background: #fff;
-          color: #6b7f8e; font-size: 0.75rem; font-weight: 600;
-          letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
-          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+          color: #6b7f8e; font-size: 0.82rem; font-weight: 600;
+          letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer;
+          transition: border-color 0.2s, background 0.2s, color 0.2s;
         }
         .res-tab:hover { border-color: rgba(107,174,138,0.45); color: #1a2b3c; }
         .res-tab--active {
           border-color: rgba(107,174,138,0.55);
           background: rgba(107,174,138,0.1); color: #1a2b3c;
         }
-        .res-tab-icon { font-style: normal; opacity: 0.75; }
+        .res-tab-icon { opacity: 0.8; }
 
-        /* ── STREAM ────────────────────────────────────────────── */
-        .res-stream { display: flex; flex-direction: column; gap: 0.7rem; }
+        /* ── SHARED UTILS ──────────────────────────────────────── */
+        .res-load-more { display: flex; justify-content: center; margin-top: 2.5rem; }
+        .res-empty { text-align: center; color: #9ab0be; padding: 4rem 0; font-size: 1rem; }
+        .res-no-results { text-align: center; padding: 2rem 0; }
+        .res-no-results-inner {
+          display: inline-flex; flex-direction: column; align-items: center; gap: 0.75rem;
+          max-width: 380px; padding: 2.5rem 2rem;
+          background: #fff; border: 1px solid rgba(107,174,138,0.2); border-radius: 16px;
+        }
+        .res-no-results-inner h2 {
+          font-family: 'Playfair Display', serif; font-size: 1.35rem;
+          color: #1a2b3c; margin: 0; font-weight: 500;
+        }
+        .res-no-results-inner p { color: #6b7f8e; font-size: 0.95rem; margin: 0; }
 
-        /* ── MEGA CARD ─────────────────────────────────────────── */
-        .res-card {
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* ALL TAB — topic cards                                    */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .topic-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+        .topic-card {
           background: #fff;
-          border: 1px solid rgba(107,174,138,0.15);
-          border-radius: 12px; overflow: hidden;
-          transition: border-color 0.25s ease, box-shadow 0.25s ease;
-          position: relative;
+          border: 1px solid rgba(107,174,138,0.16);
+          border-radius: 14px;
+          overflow: hidden;
+          transition: border-color 0.22s, box-shadow 0.22s;
         }
-        .res-card::before {
-          content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-          width: 3px; background: transparent; transition: background 0.25s ease;
+        .topic-card:hover {
+          border-color: rgba(107,174,138,0.38);
+          box-shadow: 0 4px 20px rgba(107,174,138,0.08);
         }
-        .res-card:hover {
+        .topic-card--open {
           border-color: rgba(107,174,138,0.4);
-          box-shadow: 0 4px 24px rgba(107,174,138,0.08);
+          box-shadow: 0 6px 30px rgba(107,174,138,0.1);
+          grid-column: 1 / -1;
         }
-        .res-card:hover::before,
-        .res-card--open::before {
-          background: linear-gradient(to bottom, #6BAE8A, rgba(107,174,138,0.3));
+        .topic-card-header {
+          width: 100%; display: flex; align-items: center; justify-content: space-between;
+          gap: 1rem; padding: 1.25rem 1.5rem;
+          background: transparent; border: none; cursor: pointer; text-align: left;
         }
-        .res-card--open {
-          border-color: rgba(107,174,138,0.35);
-          box-shadow: 0 6px 36px rgba(107,174,138,0.1);
-        }
-
-        /* Card header */
-        .res-card-header {
-          display: flex; align-items: center; justify-content: space-between;
-          gap: 1rem; padding: 1.1rem 1.4rem 1.1rem 1.6rem;
-          cursor: pointer; user-select: none;
-        }
-        .res-card--open .res-card-header {
-          border-bottom: 1px solid rgba(107,174,138,0.12);
-        }
-        .res-card-meta {
-          display: flex; align-items: center; gap: 0.8rem;
-          min-width: 0; flex: 1;
-        }
-        .res-card--open .res-card-meta { flex-direction: column; align-items: flex-start; gap: 0.45rem; }
-        .res-card-tag {
-          font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+        .topic-card-meta { flex: 1; min-width: 0; }
+        .topic-tag {
+          display: inline-block;
+          font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
           letter-spacing: 0.1em; color: #C4906A;
           background: rgba(196,144,106,0.09); border: 1px solid rgba(196,144,106,0.24);
-          padding: 0.18rem 0.6rem; border-radius: 9999px;
-          white-space: nowrap; flex-shrink: 0;
+          padding: 0.22rem 0.65rem; border-radius: 9999px;
+          margin-bottom: 0.5rem;
         }
-        .res-card-title {
-          font-family: 'Playfair Display', serif; font-weight: 500;
-          font-size: 1.05rem; color: #1a2b3c; margin: 0;
-          line-height: 1.3; letter-spacing: -0.01em;
-          transition: font-size 0.3s ease;
+        .topic-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.15rem; font-weight: 500; color: #1a2b3c;
+          margin: 0; line-height: 1.3;
         }
-        .res-card--open .res-card-title { font-size: 1.5rem; letter-spacing: -0.015em; }
-        .res-card-right { display: flex; align-items: center; gap: 0.55rem; flex-shrink: 0; }
-        .res-chips { display: flex; gap: 0.3rem; align-items: center; }
-        .res-chip {
-          display: inline-flex; align-items: center; gap: 0.2rem;
-          padding: 0.16rem 0.5rem; border-radius: 9999px;
-          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.07em;
-          text-transform: uppercase; white-space: nowrap;
+        .topic-card-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+        .topic-chips { display: flex; gap: 0.3rem; }
+        .t-chip {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 30px; height: 30px; border-radius: 8px;
+          font-size: 0.75rem;
         }
-        .res-chip--video  { border: 1px solid rgba(94,155,181,0.3);  background: rgba(94,155,181,0.07);  color: #4a8eaa; }
-        .res-chip--article{ border: 1px solid rgba(196,144,106,0.3); background: rgba(196,144,106,0.07); color: #b8835a; }
-        .res-chip--faq    { border: 1px solid rgba(107,174,138,0.3); background: rgba(107,174,138,0.07); color: #4e9e74; }
-        .res-chevron {
+        .t-chip--v { background: rgba(94,155,181,0.1);  color: #4a8eaa; border: 1px solid rgba(94,155,181,0.25); }
+        .t-chip--a { background: rgba(196,144,106,0.1); color: #b8835a; border: 1px solid rgba(196,144,106,0.25); }
+        .t-chip--f { background: rgba(107,174,138,0.1); color: #4e9e74; border: 1px solid rgba(107,174,138,0.25); }
+        .topic-chevron {
           color: #9ab0be; display: flex; align-items: center;
-          transition: transform 0.3s ease, color 0.2s ease;
+          transition: transform 0.3s, color 0.2s;
         }
-        .res-chevron--open { transform: rotate(180deg); color: #6BAE8A; }
+        .topic-chevron--open { transform: rotate(180deg); color: #6BAE8A; }
 
-        /* Card body */
-        .res-card-body { padding: 1.75rem 1.6rem 2rem; }
-
-        /* Section eyebrow */
-        .res-section-eyebrow {
-          display: inline-block; font-size: 0.65rem; font-weight: 700;
+        .topic-card-body { padding: 0 1.5rem 1.75rem; }
+        .topic-video-wrap { margin-bottom: 1.5rem; }
+        .topic-video-embed {
+          position: relative; padding-bottom: 56.25%; height: 0;
+          border-radius: 10px; overflow: hidden;
+          box-shadow: 0 6px 28px rgba(26,43,60,0.1);
+        }
+        .topic-video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .topic-section-label {
+          display: inline-block; font-size: 0.7rem; font-weight: 700;
           text-transform: uppercase; letter-spacing: 0.12em;
           color: #6BAE8A; margin-bottom: 0.35rem;
         }
+        .topic-article-excerpt {
+          background: #f8fbf9; border-radius: 10px;
+          border: 1px solid rgba(107,174,138,0.13);
+          padding: 1.2rem 1.3rem; margin-bottom: 1rem;
+        }
+        .topic-article-title {
+          font-family: 'Playfair Display', serif; font-size: 1.1rem;
+          font-weight: 500; color: #1a2b3c; margin: 0.2rem 0 0.5rem; line-height: 1.3;
+        }
+        .topic-article-text { color: #6b7f8e; font-size: 0.975rem; line-height: 1.72; margin: 0; }
+        .topic-faq-summary {
+          background: #f4f9f6; border-radius: 10px;
+          border: 1px solid rgba(107,174,138,0.13);
+          padding: 1rem 1.3rem; margin-bottom: 1rem;
+        }
+        .topic-faq-count { color: #6b7f8e; font-size: 0.975rem; margin: 0.2rem 0 0; }
+        .topic-cta-link {
+          display: inline-block; font-size: 0.9rem; font-weight: 600; color: #4e9e74;
+          text-decoration: none; border-bottom: 1.5px solid rgba(107,174,138,0.4);
+          padding-bottom: 1px; transition: color 0.2s, border-color 0.2s;
+        }
+        .topic-cta-link:hover { color: #1a2b3c; border-color: #1a2b3c; }
 
-        /* ── VIDEO ─────────────────────────────────────────────── */
-        .res-video-wrap { margin-bottom: 1.75rem; }
-        .res-video-embed {
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* VIDEO TAB — embedded grid                                */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .video-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.75rem;
+        }
+        .video-embed {
           position: relative; padding-bottom: 56.25%; height: 0;
           border-radius: 12px; overflow: hidden;
-          box-shadow: 0 8px 32px rgba(26,43,60,0.12);
+          box-shadow: 0 6px 28px rgba(26,43,60,0.1);
           border: 1px solid rgba(107,174,138,0.1);
         }
-        .res-video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-item-meta { padding: 0.8rem 0.25rem 0; }
+        .video-item-tag {
+          font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.1em; color: #C4906A; display: block; margin-bottom: 0.3rem;
+        }
+        .video-item-title {
+          font-family: 'Playfair Display', serif; font-size: 1.05rem;
+          font-weight: 500; color: #1a2b3c; margin: 0; line-height: 1.35;
+        }
 
-        /* ── ARTICLE EXCERPT ───────────────────────────────────── */
-        .res-excerpt {
-          padding: 1.4rem 1.5rem; background: #f8fbf9;
-          border-radius: 10px; border: 1px solid rgba(107,174,138,0.13);
-          margin-bottom: 1.5rem;
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* ARTICLE TAB — cards with gradient image header           */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .article-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .art-card {
+          background: #fff;
+          border: 1px solid rgba(107,174,138,0.15);
+          border-radius: 16px; overflow: hidden;
+          transition: border-color 0.22s, box-shadow 0.22s;
         }
-        .res-excerpt-headline {
-          font-family: 'Playfair Display', serif; font-size: 1.15rem;
-          font-weight: 500; color: #1a2b3c; margin: 0 0 0.6rem; line-height: 1.3;
+        .art-card:hover {
+          border-color: rgba(107,174,138,0.35);
+          box-shadow: 0 4px 22px rgba(107,174,138,0.08);
         }
-        .res-excerpt-body { color: #6b7f8e; font-size: 0.955rem; line-height: 1.75; margin: 0 0 0.9rem; }
-        .res-read-more {
+        .art-card--open { border-color: rgba(107,174,138,0.4); }
+
+        /* gradient "image" header */
+        .art-card-header {
+          padding: 2.25rem 2.25rem 2rem;
+          position: relative; overflow: hidden; min-height: 140px;
+          display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .art-header-deco {
+          position: absolute;
+          top: -50px; right: -50px;
+          width: 200px; height: 200px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.04);
+          pointer-events: none;
+        }
+        .art-header-deco::after {
+          content: '';
+          position: absolute;
+          bottom: -80px; left: -40px;
+          width: 130px; height: 130px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.03);
+        }
+        .art-card-tag {
+          display: inline-block;
+          font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.12em; color: rgba(255,255,255,0.7);
+          border: 1px solid rgba(255,255,255,0.22);
+          padding: 0.22rem 0.65rem; border-radius: 9999px; margin-bottom: 0.75rem;
+          position: relative;
+        }
+        .art-card-headline {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+          font-weight: 500; color: #f5f0e8;
+          margin: 0 0 0.4rem; line-height: 1.2;
+          position: relative;
+        }
+        .art-card-topic-title {
+          color: rgba(245,240,232,0.5); font-size: 0.875rem;
+          margin: 0; font-style: italic; position: relative;
+        }
+
+        /* card body */
+        .art-card-body { padding: 1.6rem 2.25rem 2rem; }
+        .art-excerpt {
+          color: #5c7080; font-size: 1.02rem; line-height: 1.8;
+          margin: 0 0 1.2rem;
+        }
+        .art-toggle-btn {
           background: transparent; border: none;
           border-bottom: 1.5px solid rgba(107,174,138,0.45);
-          color: #1a2b3c; font-size: 0.875rem; font-weight: 600;
+          color: #1a2b3c; font-size: 0.9rem; font-weight: 600;
           cursor: pointer; padding: 0 0 2px; font-family: inherit;
-          transition: color 0.2s ease, border-color 0.2s ease;
+          transition: color 0.2s, border-color 0.2s;
         }
-        .res-read-more:hover { color: #4e9e74; border-color: #6BAE8A; }
+        .art-toggle-btn:hover { color: #4e9e74; border-color: #6BAE8A; }
+        .art-full {
+          margin-top: 1.75rem; padding-top: 1.75rem;
+          border-top: 1px solid rgba(107,174,138,0.12);
+        }
+        .art-full p { color: #4a6275; font-size: 1.02rem; line-height: 1.82; margin-bottom: 1rem; }
+        .art-cta {
+          margin-top: 2rem;
+          background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 100%);
+          border-radius: 14px; padding: 2rem 2.25rem 2.25rem; text-align: center;
+        }
+        .art-cta h4 {
+          font-family: 'Playfair Display', serif; font-size: 1.3rem;
+          color: #f5f0e8; margin: 0 0 0.6rem; font-weight: 500;
+        }
+        .art-cta p { color: rgba(245,240,232,0.65); font-size: 0.975rem; margin: 0 0 1.5rem; }
 
-        /* ── FAQ ZONE ──────────────────────────────────────────── */
-        .res-faqs {
-          background: #f4f9f6; border-radius: 12px;
-          border: 1px solid rgba(107,174,138,0.14); padding: 1.4rem 1.5rem;
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* FAQ TAB — grouped by topic                               */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .faq-groups { display: flex; flex-direction: column; gap: 2.25rem; }
+        .faq-group-header {
+          padding-bottom: 0.8rem;
+          border-bottom: 1px solid rgba(107,174,138,0.15);
+          margin-bottom: 0.85rem;
         }
-        .res-faqs-header { margin-bottom: 0.9rem; padding-bottom: 0.9rem; border-bottom: 1px solid rgba(107,174,138,0.12); }
-        .res-faqs-title {
-          font-family: 'Playfair Display', serif; font-size: 1rem;
-          font-weight: 500; color: #1a2b3c; margin: 0;
+        .faq-group-tag {
+          display: inline-block;
+          font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.1em; color: #C4906A;
+          background: rgba(196,144,106,0.09); border: 1px solid rgba(196,144,106,0.24);
+          padding: 0.2rem 0.6rem; border-radius: 9999px; margin-bottom: 0.45rem;
         }
-        .res-faq-list { display: flex; flex-direction: column; gap: 0.4rem; }
+        .faq-group-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.25rem; font-weight: 500; color: #1a2b3c; margin: 0;
+        }
+        .faq-group-list { display: flex; flex-direction: column; gap: 0.45rem; }
 
-        /* ── FAQ ITEM (light theme) ────────────────────────────── */
+        /* FAQ accordion items */
         .faq-item {
-          position: relative; border-radius: 9px;
+          position: relative; border-radius: 10px;
           border: 1px solid rgba(107,174,138,0.13); background: #fff;
-          overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;
+          overflow: hidden; transition: border-color 0.22s, box-shadow 0.22s;
         }
         .faq-item::before {
           content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-          width: 3px; background: transparent; transition: background 0.25s ease;
+          width: 3px; background: transparent; transition: background 0.22s;
         }
         .faq-item:hover { border-color: rgba(107,174,138,0.3); }
         .faq-item.faq-item--open {
@@ -1322,31 +1562,31 @@ export default function BlogIndex() {
           background: linear-gradient(to bottom, #6BAE8A, rgba(107,174,138,0.3));
         }
         .faq-trigger {
-          width: 100%; display: flex; align-items: center; gap: 0.8rem;
-          padding: 1rem 1.1rem 1rem 1.3rem;
+          width: 100%; display: flex; align-items: flex-start; gap: 0.9rem;
+          padding: 1.1rem 1.2rem 1.1rem 1.4rem;
           background: transparent; border: none; cursor: pointer; text-align: left;
         }
         .faq-item.faq-item--open .faq-trigger {
-          border-bottom: 1px solid rgba(107,174,138,0.1); padding-bottom: 0.85rem;
+          border-bottom: 1px solid rgba(107,174,138,0.1); padding-bottom: 1rem;
         }
         .faq-num {
-          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
-          color: rgba(107,174,138,0.4); flex-shrink: 0; align-self: flex-start;
-          padding-top: 3px; transition: color 0.2s ease;
+          font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+          color: rgba(107,174,138,0.4); flex-shrink: 0;
+          padding-top: 3px; transition: color 0.2s;
         }
         .faq-item:hover .faq-num,
         .faq-item.faq-item--open .faq-num { color: #6BAE8A; }
         .faq-q {
           flex: 1; font-family: 'Playfair Display', serif; font-style: italic;
-          font-size: 0.955rem; line-height: 1.55; color: #4a6275; transition: color 0.2s ease;
+          font-size: 1.02rem; line-height: 1.55; color: #4a6275; transition: color 0.2s;
         }
         .faq-item:hover .faq-q,
         .faq-item.faq-item--open .faq-q { color: #1a2b3c; }
         .faq-icon {
-          flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px;
+          flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
           border: 1px solid rgba(107,174,138,0.2); background: rgba(107,174,138,0.05);
           color: rgba(107,174,138,0.55); display: flex; align-items: center; justify-content: center;
-          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+          transition: border-color 0.2s, background 0.2s, color 0.2s;
         }
         .faq-item.faq-item--open .faq-icon {
           border-color: rgba(107,174,138,0.45); background: rgba(107,174,138,0.1); color: #6BAE8A;
@@ -1354,70 +1594,91 @@ export default function BlogIndex() {
         .faq-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
         .faq-item.faq-item--open .faq-panel { max-height: 600px; }
         .faq-answer-content {
-          display: flex; align-items: flex-start; gap: 0.7rem;
-          padding: 0.85rem 1.1rem 1rem 1.3rem;
+          display: flex; align-items: flex-start; gap: 0.8rem;
+          padding: 1rem 1.2rem 1.1rem 1.4rem;
           background: rgba(107,174,138,0.04); border-left: 3px solid rgba(107,174,138,0.32);
         }
         .faq-a-badge {
           display: inline-flex; align-items: center; justify-content: center;
           width: 24px; height: 24px; min-width: 24px;
           background: rgba(107,174,138,0.09); border: 1px solid rgba(107,174,138,0.26);
-          border-radius: 7px; color: #4e9e74; font-weight: 700; font-size: 0.68rem; margin-top: 1px;
+          border-radius: 7px; color: #4e9e74; font-weight: 700; font-size: 0.7rem; margin-top: 1px;
         }
-        .faq-answer-text { color: #6b7f8e; font-size: 0.925rem; line-height: 1.75; margin: 0; }
+        .faq-answer-text { color: #5c7080; font-size: 0.985rem; line-height: 1.8; margin: 0; }
 
-        /* ── FULL ARTICLE VIEW ─────────────────────────────────── */
-        .res-back-btn {
-          background: transparent; border: none; color: #6b7f8e;
-          font-size: 0.875rem; font-weight: 500; cursor: pointer;
-          padding: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.4rem;
-          transition: color 0.2s ease; font-family: inherit;
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* PODCAST TAB — placeholder                                */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .podcast-section { padding: 1rem 0 2rem; }
+        .podcast-header { text-align: center; max-width: 560px; margin: 0 auto 3rem; }
+        .podcast-eyebrow {
+          display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.14em; color: #C4906A;
+          background: rgba(196,144,106,0.08); border: 1px solid rgba(196,144,106,0.2);
+          padding: 0.22rem 0.75rem; border-radius: 9999px; margin-bottom: 0.9rem;
         }
-        .res-back-btn:hover { color: #1a2b3c; }
-        .res-article-headline {
-          font-family: 'Playfair Display', serif; font-size: 1.65rem;
-          font-weight: 500; color: #1a2b3c; margin: 0 0 1.25rem; line-height: 1.25;
+        .podcast-title {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.8rem, 4vw, 2.6rem);
+          font-weight: 500; color: #1a2b3c; margin: 0 0 0.9rem; line-height: 1.15;
         }
-        .res-article-prose p { color: #4a6275; font-size: 1.02rem; line-height: 1.8; margin-bottom: 1rem; }
-        .res-article-cta {
-          margin-top: 2.5rem;
-          background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 100%);
-          border-radius: 14px; padding: 2rem 2rem 2.25rem; text-align: center;
+        .podcast-sub { color: #6b7f8e; font-size: 1.05rem; line-height: 1.7; margin: 0; }
+        .podcast-placeholder-grid {
+          display: grid; grid-template-columns: repeat(2, 1fr);
+          gap: 1.25rem; margin-bottom: 2rem;
         }
-        .res-article-cta h4 {
-          font-family: 'Playfair Display', serif; font-size: 1.35rem;
-          color: #f5f0e8; margin: 0 0 0.6rem; font-weight: 500;
+        .podcast-placeholder-card {
+          background: #fff; border: 1px solid rgba(107,174,138,0.15);
+          border-radius: 14px; overflow: hidden;
         }
-        .res-article-cta p { color: rgba(245,240,232,0.65); font-size: 0.975rem; margin: 0 0 1.5rem; }
+        .podcast-placeholder-thumb {
+          height: 130px;
+          background: linear-gradient(90deg, #e8edf2 25%, #d4dde6 50%, #e8edf2 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.8s infinite linear;
+        }
+        @keyframes shimmer {
+          0%   { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+        .podcast-placeholder-lines {
+          padding: 1.1rem 1.25rem 1.3rem;
+          display: flex; flex-direction: column; gap: 0.55rem;
+        }
+        .pph-line {
+          height: 11px; border-radius: 6px;
+          background: linear-gradient(90deg, #e8edf2 25%, #d4dde6 50%, #e8edf2 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.8s infinite linear;
+        }
+        .pph-line--short  { width: 38%; }
+        .pph-line--medium { width: 62%; }
+        .pph-line--long   { width: 90%; }
+        .podcast-notice {
+          text-align: center; color: #7a94a8; font-size: 0.975rem; line-height: 1.65;
+        }
+        .podcast-contact-link {
+          color: #4e9e74; font-weight: 600; text-decoration: none;
+          border-bottom: 1px solid rgba(107,174,138,0.4);
+        }
+        .podcast-contact-link:hover { color: #1a2b3c; }
 
-        /* ── EMPTY / NO RESULTS ────────────────────────────────── */
-        .res-empty-notice { padding: 2rem; text-align: center; color: #9ab0be; font-size: 0.9rem; }
-        .res-no-results { text-align: center; padding: 2rem 0 1rem; }
-        .res-no-results-inner {
-          display: inline-flex; flex-direction: column; align-items: center; gap: 0.75rem;
-          max-width: 400px; padding: 2.5rem 2rem;
-          background: #fff; border: 1px solid rgba(107,174,138,0.2); border-radius: 16px;
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* RESPONSIVE                                               */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        @media (max-width: 720px) {
+          .topic-grid { grid-template-columns: 1fr; }
+          .topic-card--open { grid-column: auto; }
+          .video-grid { grid-template-columns: 1fr; }
+          .podcast-placeholder-grid { grid-template-columns: 1fr; }
         }
-        .res-no-results-icon { color: rgba(107,174,138,0.5); display: flex; align-items: center; justify-content: center; }
-        .res-no-results-inner h2 {
-          font-family: 'Playfair Display', serif; font-size: 1.35rem;
-          color: #1a2b3c; margin: 0; font-weight: 500;
-        }
-        .res-no-results-inner p { color: #6b7f8e; font-size: 0.95rem; margin: 0; }
-
-        /* ── LOAD MORE ─────────────────────────────────────────── */
-        .res-load-more { display: flex; justify-content: center; margin-top: 2.5rem; }
-
-        /* ── RESPONSIVE ────────────────────────────────────────── */
         @media (max-width: 600px) {
           .res-hero { padding: 7rem 1rem 2.5rem; }
-          .res-chips { display: none; }
-          .res-card-header { padding: 1rem 1rem 1rem 1.3rem; }
-          .res-card--open .res-card-title { font-size: 1.25rem; }
-          .res-card-body { padding: 1.25rem 1.1rem 1.5rem; }
-          .res-faqs { padding: 1.1rem; }
-          .res-article-cta { padding: 1.5rem 1.25rem; }
-          .res-excerpt { padding: 1.1rem; }
+          .art-card-header { padding: 1.5rem 1.25rem 1.25rem; min-height: 110px; }
+          .art-card-body { padding: 1.25rem 1.25rem 1.5rem; }
+          .topic-card-header { padding: 1rem 1.1rem; }
+          .topic-card-body { padding: 0 1.1rem 1.25rem; }
+          .faq-trigger { padding: 0.9rem 1rem 0.9rem 1.1rem; }
         }
       `}</style>
     </div>
