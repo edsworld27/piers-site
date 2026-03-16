@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import TabTitleHandler from "./components/TabTitleHandler";
 import { CartProvider } from "./components/CartContext";
+import CookieBanner from "./components/CookieBanner";
 import Script from "next/script";
 
 const inter = Inter({
@@ -110,22 +111,5 @@ export default function RootLayout({ children }) {
         />
       </body>
     </html>
-  );
-}
-
-
-function CookieBanner() {
-  return (
-    <div
-      className="cookie-banner glass-panel"
-      role="region"
-      aria-labelledby="cookie-msg"
-    >
-      <p id="cookie-msg">We use essential cookies for site functionality and analytics. You can manage your preferences.</p>
-      <div className="cookie-actions">
-        <button className="btn btn-secondary btn-sm" aria-label="Manage cookie preferences">Manage</button>
-        <button className="btn btn-primary btn-sm" aria-label="Accept all cookies">Accept All</button>
-      </div>
-    </div>
   );
 }

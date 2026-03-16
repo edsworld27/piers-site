@@ -31,6 +31,7 @@ export default function Footer() {
           <h4>Legal</h4>
           <Link href="/legal/privacy">Privacy Policy</Link>
           <Link href="/legal/terms">Terms of Service</Link>
+          <Link href="/legal/cookies">Cookie Policy</Link>
           <p className={styles.copyright}>© {new Date().getFullYear()} Piers Day Hypnotherapy. All rights reserved.</p>
         </nav>
       </div>

@@ -1,0 +1,338 @@
+/* ── Cookie Banner ────────────────────────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9998;
+  animation: fadeIn 0.2s ease;
+}
+
+.banner {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  max-width: 860px;
+  background: #0C1B2E;
+  border: 1px solid rgba(107, 174, 138, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+.bannerExpanded {
+  max-width: 640px;
+}
+
+/* ── Simple bar ── */
+.barInner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.1rem 1.5rem;
+  flex-wrap: wrap;
+}
+
+.barText {
+  flex: 1;
+  font-size: 0.875rem;
+  color: rgba(245, 240, 232, 0.7);
+  line-height: 1.6;
+  margin: 0;
+  min-width: 200px;
+}
+
+.barLink {
+  color: #6BAE8A;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+.barLink:hover { opacity: 0.8; }
+
+.barActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* ── Manage panel ── */
+.panel {
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.panelTitle {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f5f0e8;
+  margin: 0;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(245, 240, 232, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #f5f0e8;
+}
+
+.panelIntro {
+  font-size: 0.875rem;
+  color: rgba(245, 240, 232, 0.55);
+  line-height: 1.65;
+  margin: 0 0 1.25rem;
+}
+
+/* ── Categories ── */
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.category {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.15s ease;
+}
+.category:last-child { border-bottom: none; }
+.category:hover { background: rgba(255, 255, 255, 0.05); }
+
+.categoryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.categoryInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.categoryLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f5f0e8;
+}
+
+.alwaysBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6BAE8A;
+  background: rgba(107, 174, 138, 0.12);
+  border: 1px solid rgba(107, 174, 138, 0.25);
+  border-radius: 20px;
+  padding: 2px 7px;
+}
+
+.categoryDesc {
+  font-size: 0.8rem;
+  color: rgba(245, 240, 232, 0.45);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── Toggle switch ── */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 22px;
+  transition: background 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 2px;
+  top: 2px;
+  background: rgba(245, 240, 232, 0.7);
+  border-radius: 50%;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.toggle input:checked + .slider {
+  background: #6BAE8A;
+  border-color: #6BAE8A;
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(18px);
+  background: #fff;
+}
+
+.toggleLocked {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ── Actions ── */
+.panelActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.panelActionsRight {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ── Shared buttons ── */
+.btnReject,
+.btnManage,
+.btnAccept {
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  border: none;
+  white-space: nowrap;
+}
+.btnReject:hover,
+.btnManage:hover,
+.btnAccept:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.btnReject {
+  background: transparent;
+  color: rgba(245, 240, 232, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.btnReject:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #f5f0e8;
+  opacity: 1;
+}
+
+.btnManage {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(245, 240, 232, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btnAccept {
+  background: #6BAE8A;
+  color: #fff;
+}
+.btnAccept:hover { opacity: 0.9; }
+
+/* ── Animations ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .banner {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    transform: none;
+    border-radius: 16px 16px 0 0;
+    animation: slideUpMobile 0.3s ease;
+  }
+
+  .barInner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .barActions {
+    justify-content: stretch;
+  }
+
+  .barActions button {
+    flex: 1;
+  }
+
+  .panelActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .panelActionsRight {
+    flex-direction: row;
+  }
+
+  .panelActionsRight button {
+    flex: 1;
+  }
+
+  .btnReject {
+    order: 3;
+    text-align: center;
+  }
+}
+
+@keyframes slideUpMobile {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}

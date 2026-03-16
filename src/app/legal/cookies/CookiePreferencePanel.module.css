@@ -1,0 +1,205 @@
+/* ── Cookie Preference Panel — standalone (policy page) ─────── */
+
+.panel {
+  background: #0C1B2E;
+  border: 1px solid rgba(107, 174, 138, 0.22);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.header {
+  padding: 1.75rem 1.75rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f5f0e8;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: rgba(245, 240, 232, 0.5);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Categories ── */
+.categories {
+  padding: 0.5rem 1.75rem 1.25rem;
+}
+
+.category {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.category:last-child { border-bottom: none; }
+
+.categoryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.categoryInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.categoryLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f5f0e8;
+}
+
+.alwaysBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6BAE8A;
+  background: rgba(107, 174, 138, 0.12);
+  border: 1px solid rgba(107, 174, 138, 0.25);
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+.categoryDesc {
+  font-size: 0.85rem;
+  color: rgba(245, 240, 232, 0.45);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Toggle ── */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.2s ease;
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 2px;
+  top: 2px;
+  background: rgba(245, 240, 232, 0.7);
+  border-radius: 50%;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.toggle input:checked + .slider {
+  background: #6BAE8A;
+  border-color: #6BAE8A;
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(20px);
+  background: #fff;
+}
+
+.toggleLocked {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ── Actions ── */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 1.75rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  flex-wrap: wrap;
+}
+
+.actionsRight {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.savedMsg {
+  font-size: 0.82rem;
+  color: #6BAE8A;
+  font-weight: 600;
+  animation: fadeIn 0.2s ease;
+}
+
+.btnReject,
+.btnSave,
+.btnAccept {
+  padding: 0.6rem 1.2rem;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  border: none;
+  white-space: nowrap;
+}
+.btnReject:hover, .btnSave:hover, .btnAccept:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.btnReject {
+  background: transparent;
+  color: rgba(245, 240, 232, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.btnReject:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #f5f0e8;
+  opacity: 1;
+}
+
+.btnSave {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(245, 240, 232, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.btnAccept {
+  background: #6BAE8A;
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (max-width: 520px) {
+  .header, .categories, .actions { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .actions { flex-direction: column; align-items: stretch; }
+  .actionsRight { flex-direction: row; justify-content: flex-end; }
+}
