@@ -1,8 +1,8 @@
-/* ── Contact Page — all values via brand tokens ───────────────── */
+/* ── Contact Page ─────────────────────────────────────────────── */
 
-/* HERO — dark, full-bleed */
+/* HERO — dark blue, full-bleed */
 .hero {
-  padding: var(--space-32) 0 var(--space-24);
+  padding: var(--space-32) 0 var(--space-16);
   text-align: left;
   position: relative;
   overflow: hidden;
@@ -43,7 +43,7 @@
   font-style: italic;
   font-weight: 400;
   font-size: clamp(3.5rem, 7vw, 6rem);
-  color: var(--color-white);
+  color: #f5f0e8;
   line-height: 1.05;
   margin: 0 0 var(--space-6);
   opacity: 0;
@@ -53,35 +53,20 @@
 .heroSub {
   font-size: var(--font-size-lg);
   line-height: var(--line-height-loose);
-  color: var(--color-text-65);
-  margin: 0;
+  color: rgba(245, 240, 232, 0.6);
+  margin: 0 0 var(--space-10);
+  font-weight: 300;
   opacity: 0;
   animation: fadeUp 0.7s 0.2s ease forwards;
 }
 
-/* WHITE SHEET — lifts up over the hero */
-.sheet {
-  background: var(--color-surface-white);
-  border-radius: 28px 28px 0 0;
-  margin-top: -3rem;
-  position: relative;
-  z-index: var(--z-raised);
-  box-shadow: 0 -4px 60px rgba(0, 0, 0, 0.3);
-  padding: var(--space-16) 0 var(--space-24);
-}
-
-.sheetInner {
-  max-width: var(--max-width-narrow);
-  margin: 0 auto;
-  padding: 0 var(--space-8);
-}
-
-/* ── CONTACT METHODS ─────────────────────────────── */
+/* ── CONTACT METHODS — inside hero ──────────────────── */
 .contactRow {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  margin-bottom: var(--space-12);
+  opacity: 0;
+  animation: fadeUp 0.7s 0.3s ease forwards;
 }
 
 .methodCard {
@@ -89,18 +74,17 @@
   align-items: center;
   gap: var(--space-3);
   padding: 0.85rem var(--space-5);
-  background: var(--color-surface-white);
-  border: 1px solid var(--color-chip-border);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-lg);
   text-decoration: none;
-  color: var(--color-bg-base);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   flex: 1;
   min-width: 200px;
 }
 .methodCard:hover {
-  border-color: var(--color-accent);
-  box-shadow: 0 4px 20px var(--accent-12);
+  background: rgba(107, 174, 138, 0.12);
+  border-color: rgba(107, 174, 138, 0.45);
   transform: translateY(-2px);
 }
 
@@ -108,8 +92,8 @@
   width: 40px;
   height: 40px;
   border-radius: 9px;
-  background: var(--color-surface-light);
-  border: 1px solid var(--color-surface-warm-border);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,16 +112,28 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-muted-label);
+  color: rgba(245, 240, 232, 0.45);
 }
 
 .methodValue {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--color-bg-base);
+  color: #f5f0e8;
 }
 
-/* ── SECTION HEADING ─────────────────────────────── */
+/* ── FORM SECTION — continues the dark blue ─────────── */
+.sheet {
+  background: #091728;
+  padding: var(--space-14) 0 var(--space-24);
+}
+
+.sheetInner {
+  max-width: var(--max-width-narrow);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+/* ── SECTION HEADING ─────────────────────────────────── */
 .formLabel {
   display: block;
   font-size: 0.72rem;
@@ -152,20 +148,15 @@
   font-family: var(--font-heading);
   font-size: var(--font-size-2xl);
   font-weight: 500;
-  color: var(--color-bg-base);
+  color: #f5f0e8;
   margin: 0 0 var(--space-6);
 }
 
-/* ── GLASS FORM CONTAINER ────────────────────────── */
+/* ── FORM CONTAINER ──────────────────────────────────── */
 .glassCard {
-  background: var(--color-surface-form);
-  backdrop-filter: var(--glass-blur-heavy);
-  -webkit-backdrop-filter: var(--glass-blur-heavy);
-  border: 1px solid var(--accent-18);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
-    0 8px 40px rgba(0, 0, 0, 0.07);
   overflow: hidden;
 }
 
@@ -177,11 +168,11 @@
 
 .glassFooter {
   padding: var(--space-4) var(--space-6);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   justify-content: center;
   gap: var(--space-6);
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .glassFooterLink {
@@ -189,13 +180,13 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-muted-label);
+  color: rgba(245, 240, 232, 0.35);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 .glassFooterLink:hover { color: var(--color-accent); }
 
-/* ── LOCATION / TRUST ROW ────────────────────────── */
+/* ── LOCATION / TRUST ROW ────────────────────────────── */
 .bottomRow {
   display: flex;
   flex-wrap: wrap;
@@ -208,17 +199,17 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  background: var(--color-chip-bg);
-  border: 1px solid var(--color-chip-border);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-full);
   font-size: 0.85rem;
-  color: var(--color-chip-text);
+  color: rgba(245, 240, 232, 0.55);
   text-decoration: none;
   transition: border-color 0.2s, color 0.2s;
 }
 .infoChip:hover {
-  border-color: var(--color-accent);
-  color: var(--color-bg-base);
+  border-color: rgba(107, 174, 138, 0.45);
+  color: rgba(245, 240, 232, 0.9);
 }
 
 .chipDot {
@@ -229,16 +220,15 @@
   flex-shrink: 0;
 }
 
-/* ── ANIMATIONS ──────────────────────────────────── */
+/* ── ANIMATIONS ──────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── RESPONSIVE ──────────────────────────────────── */
+/* ── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 640px) {
-  .hero { padding: var(--space-32) 0 var(--space-20); }
-  .sheet { border-radius: 18px 18px 0 0; padding: var(--space-12) 0 var(--space-16); }
+  .hero { padding: var(--space-24) 0 var(--space-12); }
   .sheetInner { padding: 0 var(--space-5); }
   .contactRow { flex-direction: column; }
   .methodCard { min-width: unset; }

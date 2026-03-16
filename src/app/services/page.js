@@ -2,11 +2,11 @@ import Link from "next/link";
 import "./services.css";
 
 export const metadata = {
-  title: "How I Can Help | Hypnotherapy for Anxiety, Fears, Habits & More | Piers Day",
+  title: "Where I Can Help | Hypnotherapy for Anxiety, Fears, Habits & More | Piers Day",
   description: "Clinical hypnotherapy for anxiety, phobias, trauma, confidence, smoking, weight loss, sleep, OCD, grief, and hundreds of specific fears. Online & Bury St Edmunds.",
   alternates: { canonical: "https://www.piersday.com/services" },
   openGraph: {
-    title: "How I Can Help | Piers Day Hypnotherapy",
+    title: "Where I Can Help | Piers Day Hypnotherapy",
     description: "A complete list of every condition, fear, and challenge Piers Day treats with clinical hypnotherapy.",
     url: "https://www.piersday.com/services",
     type: "website",
@@ -271,7 +271,7 @@ export default function ServicesPage() {
       {/* Header */}
       <section className="page-header">
         <div className="container-inner">
-          <span className="eyebrow-label">How I Can Help</span>
+          <span className="eyebrow-label">Where I Can Help</span>
           <h1>Everything I Work With</h1>
           <p className="muted-text">
             25+ years of clinical practice. I use hypnotherapy, NLP, EMDR, EFT, and Kinetic Shift — whichever combination gets to the root fastest. If something is holding you back, get in touch and I&apos;ll tell you honestly whether I can help.

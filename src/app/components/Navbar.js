@@ -74,7 +74,7 @@ export default function Navbar() {
               href="/services"
               className={`nav-link${isServicesActive ? " nav-link-active" : ""}`}
             >
-              How I Can Help
+              Where I Can Help
             </Link>
 
             {/* Regular links */}
@@ -136,7 +136,7 @@ export default function Navbar() {
             style={{ animationDelay: menuOpen ? "0.05s" : "0s" }}
             onClick={close}
           >
-            How I Can Help
+            Where I Can Help
           </Link>
 
           {/* Other links */}

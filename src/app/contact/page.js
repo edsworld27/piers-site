@@ -45,40 +45,40 @@ export default function ContactPage() {
         <div className="container">
           <div className={styles.heroInner}>
             <span className={styles.heroEyebrow}>Piers Day Hypnotherapy</span>
-            <h1 className={styles.heroTitle}>Let's Talk.</h1>
+            <h1 className={styles.heroTitle}>Let&apos;s Talk.</h1>
             <p className={styles.heroSub}>
-              No pressure, no scripts. Just an honest conversation about what's
+              No pressure, no scripts. Just an honest conversation about what&apos;s
               going on and whether I can help. I read every message personally.
             </p>
+
+            {/* Contact methods — inside hero */}
+            <div className={styles.contactRow}>
+              <a href="tel:07716008836" className={styles.methodCard}>
+                <div className={styles.methodIcon}>📞</div>
+                <div className={styles.methodText}>
+                  <span className={styles.methodLabel}>Call or text</span>
+                  <span className={styles.methodValue}>07716 008 836</span>
+                </div>
+              </a>
+              <a href="mailto:piersday@me.com" className={styles.methodCard}>
+                <div className={styles.methodIcon}>✉️</div>
+                <div className={styles.methodText}>
+                  <span className={styles.methodLabel}>Email</span>
+                  <span className={styles.methodValue}>piersday@me.com</span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── WHITE SHEET ───────────────────────────────────── */}
+      {/* ── FORM SECTION ──────────────────────────────────── */}
       <div className={styles.sheet}>
         <div className={styles.sheetInner}>
 
-          {/* Quick-contact pills */}
-          <div className={styles.contactRow}>
-            <a href="tel:07716008836" className={styles.methodCard}>
-              <div className={styles.methodIcon}>📞</div>
-              <div className={styles.methodText}>
-                <span className={styles.methodLabel}>Call or text</span>
-                <span className={styles.methodValue}>07716 008 836</span>
-              </div>
-            </a>
-            <a href="mailto:piersday@me.com" className={styles.methodCard}>
-              <div className={styles.methodIcon}>✉️</div>
-              <div className={styles.methodText}>
-                <span className={styles.methodLabel}>Email</span>
-                <span className={styles.methodValue}>piersday@me.com</span>
-              </div>
-            </a>
-          </div>
-
           {/* Form heading */}
           <span className={styles.formLabel}>Send a message</span>
-          <h2 className={styles.formTitle}>Tell me what's going on.</h2>
+          <h2 className={styles.formTitle}>Tell me what&apos;s going on.</h2>
 
           {/* Glass form card */}
           <div className={styles.glassCard}>
