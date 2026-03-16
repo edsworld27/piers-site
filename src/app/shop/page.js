@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useCart } from "../components/CartContext";
 import styles from "./shop.module.css";
 
 /* ─────────────────────────────────────────────────────────────────
@@ -268,25 +269,18 @@ const shopSchema = {
 
 export default function ShopPage() {
   const [clickedId, setClickedId] = useState(null);
-  const [bannerVisible, setBannerVisible] = useState(false);
+  const { addItem } = useCart();
 
-  const handleBuy = (id) => {
-    setClickedId(id);
-    setBannerVisible(true);
+  const handleBuy = (product) => {
+    addItem({ id: product.id, title: product.title, price: product.price, duration: product.duration });
+    setClickedId(product.id);
+    setTimeout(() => setClickedId(null), 1500);
   };
 
   return (
     <main className={styles.main}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(shopSchema) }} />
 
-      {/* Stripe-coming-soon banner */}
-      {bannerVisible && (
-        <div className={styles.stripeBanner}>
-          <span className={styles.stripeLock}>🔒</span>
-          <span>Stripe checkout launching soon — <Link href="/contact" className={styles.bannerLink}>get notified when it goes live</Link></span>
-          <button className={styles.bannerClose} onClick={() => { setBannerVisible(false); setClickedId(null); }} aria-label="Dismiss">✕</button>
-        </div>
-      )}
 
       {/* ── Hero ── */}
       <section className={styles.hero}>
@@ -361,7 +355,7 @@ export default function ShopPage() {
                     <span className={styles.price}>{price}</span>
                     <button
                       className={`${styles.buyBtn}${isAdded ? ` ${styles.buyBtnAdded}` : ""}`}
-                      onClick={() => handleBuy(id)}
+                      onClick={() => handleBuy(product)}
                     >
                       {isAdded ? (
                         <>
@@ -369,7 +363,7 @@ export default function ShopPage() {
                           Added
                         </>
                       ) : (
-                        "Buy Now →"
+                        "Add to Basket →"
                       )}
                     </button>
                   </div>

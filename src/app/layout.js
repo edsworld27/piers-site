@@ -4,6 +4,7 @@ import "./components/navbar.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import TabTitleHandler from "./components/TabTitleHandler";
+import { CartProvider } from "./components/CartContext";
 import Script from "next/script";
 
 const inter = Inter({
@@ -93,11 +94,13 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <a href="#main-content" className="skip-link">Skip to main content</a>
-        <TabTitleHandler />
-        <Navbar />
-        <main id="main-content">{children}</main>
-        <Footer />
-        <CookieBanner />
+        <CartProvider>
+          <TabTitleHandler />
+          <Navbar />
+          <main id="main-content">{children}</main>
+          <Footer />
+          <CookieBanner />
+        </CartProvider>
 
         <Script
           src="https://widgets.leadconnectorhq.com/loader.js"

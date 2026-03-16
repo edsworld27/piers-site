@@ -259,53 +259,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── 2. STATS BAND ── */}
-        <section className={styles.statsBand}>
-          <div className="container">
-            <p className={`${styles.statsBandEyebrow} fade-in-up`}>Why clients trust us</p>
-            <div className={styles.statsRow}>
-
-              <div className={`${styles.statItem} fade-in-up`}>
-                <div className={styles.statIconWrap}>
-                  {/* Hourglass / time */}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M5 3h14M5 21h14M7 3v4a5 5 0 0 0 5 5 5 5 0 0 0 5-5V3M7 21v-4a5 5 0 0 1 5-5 5 5 0 0 1 5 5v4"/>
-                  </svg>
-                </div>
-                <div className={styles.statNumber}>25+</div>
-                <div className={styles.statLabel}>Years in Practice</div>
-                <div className={styles.statSub}>Two and a half decades helping people heal</div>
-              </div>
-
-              <div className={`${styles.statItem} ${styles.statItemFeatured} fade-in-up`} style={{ animationDelay: "0.1s" }}>
-                <div className={styles.statIconWrap}>
-                  {/* Heart */}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </div>
-                <div className={styles.statNumber}>100s</div>
-                <div className={styles.statLabel}>Lives Transformed</div>
-                <div className={styles.statSub}>Real people, lasting results — and still counting</div>
-              </div>
-
-              <div className={`${styles.statItem} fade-in-up`} style={{ animationDelay: "0.2s" }}>
-                <div className={styles.statIconWrap}>
-                  {/* Leaf / growth */}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M2 22c1-4 4-8 9-10 2.5-1 5-1 7-1-1 5-4 9-9 11C6 23 4 22 2 22z"/>
-                    <path d="M12 22c2-5 1-10-2-14"/>
-                  </svg>
-                </div>
-                <div className={styles.statNumber}>1</div>
-                <div className={styles.statLabel}>Proven Method</div>
-                <div className={styles.statSub}>One focused approach. Applied to every challenge.</div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
         {/* ── 3. PROBLEM + HOW WE SOLVE IT ── */}
         <section className={styles.empathySection}>
           <div className={`container ${styles.empathyInner}`}>
