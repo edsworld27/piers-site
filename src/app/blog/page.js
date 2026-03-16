@@ -918,708 +918,508 @@ export default function BlogIndex() {
   };
 
   return (
-    <main className="pt-32 pb-24 relative z-10">
+    <div className="res-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
-      <div className="container max-w-5xl">
-        <div className="text-center mb-16 fade-in-up">
-          <h1 className="mb-4 text-gradient-gold">Resources & Freebies</h1>
-          <p className="hero-sub mx-auto">
-            Explore our extensive library of hypnotherapy and NLP resources.
-          </p>
-        </div>
 
-        {/* Search Bar */}
-        <div className="search-container mb-16 fade-in-up" style={{animationDelay: "0.1s"}}>
-          <div className="search-wrapper glass-panel">
-            <span className="search-icon">🔍</span>
-            <input 
-              type="text" 
-              placeholder="Search for 'anxiety', 'phobia', 'nlp'..." 
-              className="search-input"
+      {/* ── Hero ── */}
+      <section className="res-hero">
+        <div className="container">
+          <div className="res-hero-inner fade-in-up">
+            <span className="eyebrow">Resources &amp; Insights</span>
+            <h1 className="res-hero-h1">Mind, Method<br/>&amp; Meaning</h1>
+            <p className="res-hero-sub">Videos, articles and answers on hypnotherapy, NLP, and the science of lasting change.</p>
+          </div>
+          <div className="res-search fade-in-up" style={{ transitionDelay: "0.2s" }}>
+            <span className="res-search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              placeholder="Search 'anxiety', 'phobia', 'NLP'…"
+              className="res-search-input"
               value={searchQuery}
               onChange={handleSearchChange}
             />
           </div>
         </div>
+      </section>
 
-        {/* Content Filter Tabs */}
-        <div className="filter-tabs fade-in-up" style={{animationDelay: "0.15s"}}>
-          {[
-            { key: 'all',     icon: '✦', label: 'All'     },
-            { key: 'video',   icon: '▶', label: 'Video'   },
-            { key: 'article', icon: '✎', label: 'Article' },
-            { key: 'faq',     icon: '?', label: 'FAQ'     },
-          ].map(({ key, icon, label }) => (
-            <button
-              key={key}
-              onClick={() => setContentFilter(key)}
-              className={`filter-tab${contentFilter === key ? ' filter-tab--active' : ''}`}
-            >
-              <span className="filter-tab-icon">{icon}</span>
-              <span>{label}</span>
-            </button>
-          ))}
-        </div>
+      {/* ── Body ── */}
+      <section className="res-body">
+        <div className="res-container">
 
-        {/* Results Stream (Mega Cards) */}
-        <div className="topic-stream fade-in-up" style={{animationDelay: "0.2s"}}>
-          {currentItems.length > 0 ? (
-            currentItems.map((item) => (
-              <div key={item.id} className={`mega-card glass-panel mb-8 transition-all duration-500 ${expandedCards[item.id] ? 'expanded' : 'collapsed'}`}>
-                <div 
-                  className={`card-header border-b pb-6 mb-2 cursor-pointer transition-all duration-500 flex justify-between items-center group ${expandedCards[item.id] ? 'items-start' : 'items-center'}`}
-                  onClick={() => toggleCardExpansion(item.id)}
-                >
-                  <div className={`flex transition-all duration-500 ${expandedCards[item.id] ? 'flex-col items-start gap-3' : 'flex-row items-center gap-3'}`}>
-                    <span className="tag-badge text-[10px] md:text-xs py-1 px-3 bg-accent-gold/5 border-accent-gold/20 leading-none">{item.tag}</span>
-                    {!expandedCards[item.id] && <span className="text-gray-500 font-light opacity-50 hidden md:inline">—</span>}
-                    <h2 className={`title text-gradient-sage m-0 group-hover:text-gold transition-all duration-500 leading-tight ${expandedCards[item.id] ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg lg:text-xl'}`}>
-                      {item.title}
-                    </h2>
+          {/* Filter tabs */}
+          <div className="res-tabs fade-in-up">
+            {[
+              { key: 'all',     icon: '✦', label: 'All'     },
+              { key: 'video',   icon: '▶', label: 'Video'   },
+              { key: 'article', icon: '✎', label: 'Article' },
+              { key: 'faq',     icon: '?', label: 'FAQ'     },
+            ].map(({ key, icon, label }) => (
+              <button
+                key={key}
+                onClick={() => setContentFilter(key)}
+                className={`res-tab${contentFilter === key ? ' res-tab--active' : ''}`}
+              >
+                <span className="res-tab-icon">{icon}</span>
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Card stream */}
+          <div className="res-stream">
+            {currentItems.length > 0 ? currentItems.map((item, streamIdx) => (
+              <div
+                key={item.id}
+                className={`res-card anim-up${expandedCards[item.id] ? ' res-card--open' : ''}`}
+                style={{ transitionDelay: `${(streamIdx % 4) * 0.05}s` }}
+              >
+                <div className="res-card-header" onClick={() => toggleCardExpansion(item.id)}>
+                  <div className="res-card-meta">
+                    <span className="res-card-tag">{item.tag}</span>
+                    <h2 className="res-card-title">{item.title}</h2>
                   </div>
-                  {!expandedCards[item.id] && (
-                    <div className="content-chips">
-                      {item.videoId && <span className="content-chip content-chip--video">▶ Video</span>}
-                      {item.article && <span className="content-chip content-chip--article">✎ Article</span>}
-                      {item.faqs && item.faqs.length > 0 && <span className="content-chip content-chip--faq">? FAQ</span>}
-                    </div>
-                  )}
-                  <div className={`expand-indicator text-accent-gold transition-transform duration-300 ${expandedCards[item.id] ? 'rotate-180' : ''}`}>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
+                  <div className="res-card-right">
+                    {!expandedCards[item.id] && (
+                      <div className="res-chips">
+                        {item.videoId && <span className="res-chip res-chip--video">▶ Video</span>}
+                        {item.article && <span className="res-chip res-chip--article">✎ Article</span>}
+                        {item.faqs && item.faqs.length > 0 && <span className="res-chip res-chip--faq">? FAQ</span>}
+                      </div>
+                    )}
+                    <span className={`res-chevron${expandedCards[item.id] ? ' res-chevron--open' : ''}`}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"/>
+                      </svg>
+                    </span>
                   </div>
                 </div>
-                
+
                 {expandedCards[item.id] && (
-                  <div className="card-body-content pt-4 fade-in-up">
-                    {/* CONDITIONAL RENDERING: Article View vs Video/FAQ View */}
+                  <div className="res-card-body">
                     {activeArticleViews[item.id] && item.article ? (
-                      <div className="article-view">
-                         <button 
-                           onClick={() => toggleArticleView(item.id)}
-                           className="back-btn mb-6 flex items-center gap-2"
-                         >
-                           <span className="text-xl">←</span> Back to Summary
-                         </button>
-                         <div className="article-content max-w-3xl mx-auto text-left">
-                            <h3 className="text-2xl text-gradient-gold mb-6">{item.article.headline}</h3>
-                            <div className="prose text-gray leading-relaxed space-y-4">
-                              {item.article.content.split('\n\n').map((paragraph, idx) => (
-                                 <p key={idx} className="mb-4 text-base md:text-lg">{paragraph}</p>
-                              ))}
-                            </div>
-                            
-                            {/* Inline Conversion CTA */}
-                            <div className="article-cta mt-12 p-8 rounded-xl border border-accent-gold/20 bg-accent-gold/5 flex flex-col items-center text-center">
-                              <h4 className="text-2xl text-gradient-gold mb-3">Ready to take control?</h4>
-                              <p className="text-gray mb-8 max-w-lg">If you related to anything in this article, you don't have to keep struggling alone.</p>
-                              <Link href="/contact" className="btn-primary inline-flex items-center gap-2 px-8 py-4 font-bold tracking-wide">
-                                Talk To Piers Today →
-                              </Link>
-                            </div>
-                         </div>
+                      <div className="res-article-full">
+                        <button onClick={() => toggleArticleView(item.id)} className="res-back-btn">
+                          ← Back to summary
+                        </button>
+                        <h3 className="res-article-headline">{item.article.headline}</h3>
+                        <div className="res-article-prose">
+                          {item.article.content.split('\n\n').map((para, idx) => (
+                            <p key={idx}>{para}</p>
+                          ))}
+                        </div>
+                        <div className="res-article-cta">
+                          <h4>Ready to take the next step?</h4>
+                          <p>If you related to anything in this article, a free conversation is the best place to start.</p>
+                          <Link href="/contact" className="btn btn-primary">Talk to Piers Today →</Link>
+                        </div>
                       </div>
                     ) : (
-                      <div className="layered-summary-view">
-                        {/* Layer 1: Video (Conditional) */}
+                      <div className="res-layered">
                         {item.videoId && (contentFilter === 'all' || contentFilter === 'video') && (
-                          <div className="video-section mb-10 max-w-4xl mx-auto text-left">
-                            <div className="video-embed rounded-xl overflow-hidden border border-white/10" style={{ position: 'relative', paddingBottom: '56.25%', height: 0, boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.5)' }}>
-                              <iframe 
+                          <div className="res-video-wrap">
+                            <div className="res-video-embed">
+                              <iframe
                                 src={`https://www.youtube.com/embed/${item.videoId}?rel=0`}
-                                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                                frameBorder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                                 loading="lazy"
-                              ></iframe>
+                                title={item.title}
+                              />
                             </div>
                           </div>
                         )}
-                        
-                        {/* Layer 2: Article Excerpt (Conditional) */}
                         {item.article && (contentFilter === 'all' || contentFilter === 'article') && (
-                          <div className="article-section mb-12 text-left max-w-4xl mx-auto">
-                             <h3 className="text-xl text-white mb-4">{item.article.headline}</h3>
-                             <p className="text-gray text-base mb-8 leading-relaxed max-w-3xl">
-                               {item.article.content.substring(0, 240)}...
-                             </p>
-                             <button 
-                               onClick={() => toggleArticleView(item.id)}
-                               className="read-more-btn"
-                              >
-                               Read Full Article →
-                             </button>
+                          <div className="res-excerpt">
+                            <span className="res-section-eyebrow">Article</span>
+                            <h3 className="res-excerpt-headline">{item.article.headline}</h3>
+                            <p className="res-excerpt-body">{item.article.content.substring(0, 240)}…</p>
+                            <button onClick={() => toggleArticleView(item.id)} className="res-read-more">
+                              Read full article →
+                            </button>
                           </div>
                         )}
-                        
-                        {/* Layer 3: FAQs (Conditional) */}
                         {item.faqs && item.faqs.length > 0 && (contentFilter === 'all' || contentFilter === 'faq') && (
-                          <div className="faq-section-container">
-                            <div className="faq-section-header">
-                              <div className="faq-section-icon">?</div>
-                              <div className="faq-section-title-group">
-                                <h3 className="faq-section-title">Frequently Asked Questions</h3>
-                                <p className="faq-section-subtitle">Quick answers about this topic</p>
-                              </div>
+                          <div className="res-faqs">
+                            <div className="res-faqs-header">
+                              <span className="res-section-eyebrow">FAQs</span>
+                              <h3 className="res-faqs-title">Frequently Asked Questions</h3>
                             </div>
-                            <div className="faq-list">
+                            <div className="res-faq-list">
                               {item.faqs.map((faq, idx) => (
-                                 <FAQAccordion key={idx} faq={faq} index={idx} />
+                                <FAQAccordion key={idx} faq={faq} index={idx} />
                               ))}
                             </div>
                           </div>
                         )}
-
-                        {/* No-content notice when filter is 'video' but card has no video */}
                         {contentFilter === 'video' && !item.videoId && (
-                          <div className="filter-empty-notice">
-                            <span className="filter-empty-icon">▶</span>
-                            <p>No video available for this topic.</p>
-                          </div>
+                          <div className="res-empty-notice"><p>No video available for this topic.</p></div>
                         )}
                       </div>
                     )}
                   </div>
                 )}
               </div>
-            ))
-          ) : (
-            <div className="no-results max-w-3xl mx-auto mt-12 p-10 rounded-2xl border border-accent-gold/30 bg-[rgba(10,17,40,0.8)] flex flex-col items-center text-center fade-in-up">
-              <span className="text-4xl mb-6">🔍</span>
-              <h2 className="text-3xl text-gradient-light mb-4">No specific resources found.</h2>
-              <p className="text-gray text-lg mb-8 max-w-xl leading-relaxed">If you can't find the exact topic you're looking for, contact Piers directly below.</p>
-              <Link href="/contact" className="btn-primary inline-flex items-center gap-2 px-8 py-4 font-bold tracking-wide">
-                Ask Piers Directly
-              </Link>
+            )) : (
+              <div className="res-no-results fade-in-up">
+                <div className="res-no-results-inner">
+                  <span className="res-no-results-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                  </span>
+                  <h2>No resources found</h2>
+                  <p>Can&apos;t find what you&apos;re looking for? Ask Piers directly.</p>
+                  <Link href="/contact" className="btn btn-primary">Contact Piers →</Link>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {visibleLimit < filteredTopics.length && (
+            <div className="res-load-more">
+              <button onClick={() => setVisibleLimit(prev => prev + incrementCount)} className="btn btn-primary">
+                Load More Resources ↓
+              </button>
             </div>
           )}
-        </div>
 
-        {/* Load More Control */}
-        {visibleLimit < filteredTopics.length && (
-          <div className="load-more-container flex justify-center mt-12 pb-12 fade-in-up">
-            <button
-              onClick={() => setVisibleLimit(prev => prev + incrementCount)}
-              className="btn btn-primary"
-            >
-              Load More Resources &darr;
-            </button>
-          </div>
-        )}
-      </div>
+        </div>
+      </section>
 
       <style jsx>{`
-        .pt-32 { padding-top: 8rem; }
-        .pb-24 { padding-bottom: 6rem; }
-        .mb-2 { margin-bottom: 0.5rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mb-8 { margin-bottom: 2rem; }
-        .mb-10 { margin-bottom: 2.5rem; }
-        .mb-12 { margin-bottom: 3rem; }
-        .mb-16 { margin-bottom: 4rem; }
-        .mt-12 { margin-top: 3rem; }
-        .pb-6 { padding-bottom: 1.5rem; }
-        .pt-10 { padding-top: 2.5rem; }
-        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-        .px-8 { padding-left: 2rem; padding-right: 2rem; }
-        .border-b { border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .border-t { border-top: 1px solid rgba(255,255,255,0.05); }
-        .m-0 { margin: 0; }
-        .text-center { text-align: center; }
-        .text-3xl { font-size: 2rem; }
-        .text-xl { font-size: 1.25rem; }
-        .text-sm { font-size: 0.875rem; }
-        .text-white { color: white; }
-        .text-gray { color: var(--color-text-muted); }
-        .text-accent-gold { color: var(--color-accent-gold); }
-        .hero-sub { font-size: 1.25rem; color: var(--color-text-muted); max-width: 800px; line-height: 1.6; }
-        .mx-auto { margin-left: auto; margin-right: auto; }
-        .max-w-xl { max-width: 36rem; }
-        .max-w-lg { max-width: 32rem; }
-        .max-w-3xl { max-width: 48rem; }
-        .max-w-4xl { max-width: 56rem; }
-        .max-w-5xl { max-width: 64rem; }
-        .p-4 { padding: 1rem; }
-        .p-5 { padding: 1.25rem; }
-        .p-6 { padding: 1.5rem; }
-        .p-8 { padding: 2rem; }
-        .p-10 { padding: 2.5rem; }
-        .flex { display: flex; }
-        .flex-1 { flex: 1 1 0%; }
-        .flex-col { flex-direction: column; }
-        .justify-between { justify-content: space-between; }
-        .justify-start { justify-content: flex-start; }
-        .items-center { align-items: center; }
-        .gap-2 { gap: 0.5rem; }
-        .gap-4 { gap: 1rem; }
-        .rounded-md { border-radius: 0.5rem; }
-        .rounded-xl { border-radius: 0.75rem; }
-        .rounded-2xl { border-radius: 1rem; }
-        .border { border-width: 1px; }
-        .border-white\\/10 { border-color: rgba(255, 255, 255, 0.1); }
-        .border-gray-200 { border-color: #E5E7EB; }
-        .border-accent-gold\\/20 { border-color: rgba(107,174,138,0.2); }
-        .border-accent-gold\\/30 { border-color: rgba(107,174,138,0.3); }
-        .bg-white\\/5 { background-color: rgba(255, 255, 255, 0.05); }
-        .bg-accent-gold\\/5 { background-color: rgba(107,174,138,0.05); }
-        .bg-\\[\\#f8f9fc\\] { background-color: #f8f9fc; }
-        .text-\\[\\#1A202C\\] { color: #1A202C; }
-        .text-gray-600 { color: #4B5563; }
-        .text-gray-700 { color: #374151; }
-        .tracking-widest { letter-spacing: 0.1em; }
-        .tracking-wide { letter-spacing: 0.025em; }
-        .uppercase { text-transform: uppercase; }
-        .font-bold { font-weight: 700; }
-        .font-medium { font-weight: 500; }
-        .inline-block { display: inline-block; }
-        .inline-flex { display: inline-flex; }
-        .text-left { text-align: left; }
-        .pr-4 { padding-right: 1rem; }
-        .pt-0 { padding-top: 0; }
-        .pt-4 { padding-top: 1rem; }
-        .mt-2 { margin-top: 0.5rem; }
-        .leading-relaxed { line-height: 1.625; }
-        .flex-shrink-0 { flex-shrink: 0; }
-        .cursor-pointer { cursor: pointer; }
-        .focus\\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
-        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-        .transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-        .duration-300 { transition-duration: 300ms; }
+        /* ── PAGE ──────────────────────────────────────────────── */
+        .res-page { background: #fafaf9; min-height: 100vh; }
 
-        .search-container {
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .search-wrapper {
-          display: flex;
-          align-items: center;
-          padding: 0.5rem 1rem;
-          border-radius: var(--radius-full);
-          border: 1px solid var(--glass-border);
-          background: rgba(255, 255, 255, 0.05);
-          transition: border-color 0.3s ease, background 0.3s ease;
-        }
-        .search-wrapper:focus-within {
-          border-color: var(--color-accent-gold);
-          background: rgba(255, 255, 255, 0.1);
-        }
-        .search-icon { font-size: 1.25rem; margin-right: 0.75rem; opacity: 0.7; }
-        .search-input { flex-grow: 1; background: transparent; border: none; color: white; font-size: 1.125rem; padding: 0.75rem 0; outline: none; font-family: inherit; }
-        .search-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-
-        .bg-gold { background-color: var(--color-accent-gold); }
-        .text-navy-deep { color: var(--color-bg-deep); }
-        .rotate-180 { transform: rotate(180deg); }
-        .scale-110 { transform: scale(1.1); }
-        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-
-        .topic-stream {
-          display: flex;
-          flex-direction: column;
-        }
-        .mega-card {
-          padding: var(--space-8);
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .mega-card.collapsed {
-          padding-bottom: 1.5rem;
-        }
-        .mega-card.collapsed .card-header {
-           border-bottom: none;
-           margin-bottom: 0;
-           padding-bottom: 0;
-        }
-        .mega-card.collapsed .title {
-           font-size: 1.125rem;
-           letter-spacing: 0.5px;
-        }
-        .mega-card:hover {
-          border-color: rgba(107, 174, 138, 0.4);
-        }
-        .tag-badge {
-          background: rgba(107, 174, 138, 0.1);
-          color: var(--color-accent-gold);
-          padding: 0.25rem 0.75rem;
-          border-radius: var(--radius-full);
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          border: 1px solid rgba(107, 174, 138, 0.2);
-        }
-        
-        .read-more-btn {
-          background: transparent;
-          color: var(--color-text-main);
-          font-weight: 600;
-          font-size: 0.875rem;
-          border: none;
-          border-bottom: 1px solid rgba(255,255,255,0.3);
-          padding: 0 0 2px 0;
-          cursor: pointer;
-          transition: color 0.2s ease, border-color 0.2s ease;
-        }
-        .read-more-btn:hover {
-          color: var(--color-accent-gold);
-          border-color: var(--color-accent-gold);
-        }
-
-        .back-btn {
-          background: transparent;
-          color: var(--color-text-muted);
-          border: none;
-          font-weight: 500;
-          cursor: pointer;
-          transition: color 0.2s ease;
-        }
-        .back-btn:hover {
-          color: var(--color-white);
-        }
-        
-        .prose p {
-          color: var(--color-text-muted);
-        }
-
-        .pagination-btn:disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
-        }
-        .pagination-btn:not(:disabled):hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: var(--color-accent-gold);
-        }
-
-        /* ===== FAQ SECTION CONTAINER ===== */
-        .faq-section-container {
-          max-width: 56rem;
-          margin: 3rem auto 0;
-          padding: 2rem;
-          background: rgba(10, 17, 40, 0.5);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 16px;
-        }
-
-        .faq-section-header {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-          padding-bottom: 1.5rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .faq-section-icon {
-          width: 48px;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, var(--accent-20), var(--accent-10));
-          border: 1px solid var(--accent-30);
-          border-radius: 12px;
-          color: var(--color-accent);
-          font-size: 1.5rem;
-          font-weight: 700;
-        }
-
-        .faq-section-title-group {
-          flex: 1;
-        }
-
-        .faq-section-title {
-          margin: 0 0 0.25rem 0;
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: var(--color-white);
-          letter-spacing: 0.02em;
-        }
-
-        .faq-section-subtitle {
-          margin: 0;
-          font-size: 0.875rem;
-          color: var(--color-text-55);
-        }
-
-        .faq-list {
-          display: flex;
-          flex-direction: column;
-        }
-
-        /* ===== FAQ ITEMS ===== */
-        .faq-item {
+        /* ── HERO ──────────────────────────────────────────────── */
+        .res-hero {
+          background: #0C1B2E;
+          padding: 8rem 1rem 3.5rem;
           position: relative;
-          margin-bottom: 0.6rem;
-          border-radius: 14px;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          background: rgba(12, 27, 46, 0.45);
           overflow: hidden;
-          transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
-        .faq-item:last-child { margin-bottom: 0; }
-
-        /* left accent bar */
-        .faq-item::before {
+        .res-hero::before {
           content: '';
-          position: absolute;
-          left: 0; top: 0; bottom: 0;
-          width: 3px;
-          background: transparent;
-          transition: background 0.3s ease;
-          border-radius: 14px 0 0 14px;
+          position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 70% 40%, rgba(107,174,138,0.09) 0%, transparent 60%);
+          pointer-events: none;
         }
-        .faq-item:hover { border-color: rgba(107,174,138,0.18); background: rgba(12,27,46,0.6); }
-        .faq-item:hover::before { background: rgba(107,174,138,0.3); }
-        .faq-item.faq-item--open {
-          border-color: rgba(107,174,138,0.28);
-          background: rgba(12,27,46,0.65);
-          box-shadow: 0 8px 32px rgba(107,174,138,0.07);
+        .res-hero-inner {
+          text-align: center;
+          max-width: 680px;
+          margin: 0 auto 2.5rem;
         }
-        .faq-item.faq-item--open::before {
-          background: linear-gradient(to bottom, #6BAE8A, rgba(107,174,138,0.35));
-        }
-
-        /* trigger button */
-        .faq-trigger {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 1.35rem 1.4rem 1.35rem 1.6rem;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          text-align: left;
-        }
-        .faq-item.faq-item--open .faq-trigger {
-          border-bottom: 1px solid rgba(107,174,138,0.1);
-          padding-bottom: 1.1rem;
-        }
-
-        /* number label */
-        .faq-num {
-          font-size: 0.62rem;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: rgba(107,174,138,0.4);
-          flex-shrink: 0;
-          font-variant-numeric: tabular-nums;
-          align-self: flex-start;
-          padding-top: 4px;
-          transition: color 0.25s ease;
-        }
-        .faq-item:hover .faq-num,
-        .faq-item.faq-item--open .faq-num { color: rgba(107,174,138,0.85); }
-
-        /* question text — Playfair italic */
-        .faq-q {
-          flex: 1;
+        .res-hero-inner .eyebrow { color: #C4906A; }
+        .res-hero-h1 {
           font-family: 'Playfair Display', serif;
-          font-style: italic;
-          font-weight: 400;
-          font-size: 1.05rem;
-          line-height: 1.55;
-          color: rgba(237,233,227,0.6);
-          letter-spacing: 0.01em;
-          transition: color 0.25s ease;
+          font-size: clamp(2.6rem, 5vw, 4rem);
+          font-weight: 500;
+          color: #f5f0e8;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          margin: 0.5rem 0 1rem;
         }
-        .faq-item:hover .faq-q,
-        .faq-item.faq-item--open .faq-q { color: #EDE9E3; }
-
-        /* + / × toggle icon */
-        .faq-icon {
-          flex-shrink: 0;
-          width: 30px;
-          height: 30px;
-          border-radius: 8px;
-          border: 1px solid rgba(107,174,138,0.2);
-          background: rgba(107,174,138,0.05);
-          color: rgba(107,174,138,0.55);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
-        }
-        .faq-item:hover .faq-icon {
-          border-color: rgba(107,174,138,0.4);
-          color: rgba(107,174,138,0.9);
-          background: rgba(107,174,138,0.1);
-        }
-        .faq-item.faq-item--open .faq-icon {
-          border-color: rgba(107,174,138,0.5);
-          color: #6BAE8A;
-          background: rgba(107,174,138,0.14);
-        }
-
-        /* answer slide panel */
-        .faq-panel {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-        }
-        .faq-item.faq-item--open .faq-panel { max-height: 600px; }
-
-        /* answer content — keep existing design */
-        .faq-answer-content {
-          display: flex;
-          align-items: flex-start;
-          gap: 0.875rem;
-          padding: 1.1rem 1.4rem 1.4rem 1.6rem;
-          background: rgba(0,0,0,0.18);
-          border-left: 3px solid rgba(94,155,181,0.4);
-        }
-
-        .faq-a-badge {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-          min-width: 28px;
-          background: rgba(94,155,181,0.12);
-          border: 1px solid rgba(94,155,181,0.3);
-          border-radius: 8px;
-          color: #5E9BB5;
-          font-weight: 700;
-          font-size: 0.75rem;
-          margin-top: 1px;
-        }
-
-        .faq-answer-text {
-          color: #8AAAB8;
-          font-size: 0.975rem;
-          line-height: 1.8;
+        .res-hero-sub {
+          color: rgba(245,240,232,0.65);
+          font-size: 1.08rem;
+          line-height: 1.7;
           margin: 0;
-          font-weight: 400;
-          letter-spacing: 0.01em;
         }
 
-        .faq-header-box {
-          background: linear-gradient(135deg, rgba(107,174,138,0.1), rgba(107,174,138,0.05));
-          border: 1px solid rgba(107,174,138,0.2);
-        }
-
-        @media (max-width: 640px) {
-          .faq-trigger { padding: 1.1rem 1.2rem 1.1rem 1.3rem; }
-          .faq-q { font-size: 0.97rem; }
-          .faq-answer-text { font-size: 0.875rem; line-height: 1.7; }
-          .faq-a-badge { width: 24px; height: 24px; min-width: 24px; font-size: 0.65rem; }
-        }
-
-        /* ===== CONTENT FILTER TABS ===== */
-        .filter-tabs {
+        /* ── SEARCH ────────────────────────────────────────────── */
+        .res-search {
           display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          margin-bottom: 2.5rem;
-          flex-wrap: wrap;
-        }
-
-        .filter-tab {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.45rem;
-          padding: 0.55rem 1.2rem;
-          border-radius: var(--radius-full);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(255, 255, 255, 0.04);
-          color: rgba(255, 255, 255, 0.5);
-          font-size: 0.78rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .filter-tab:hover {
-          border-color: rgba(107, 174, 138, 0.35);
-          background: rgba(107, 174, 138, 0.07);
-          color: rgba(255, 255, 255, 0.8);
-        }
-        .filter-tab--active {
-          border-color: rgba(107, 174, 138, 0.6);
-          background: rgba(107, 174, 138, 0.14);
-          color: #6BAE8A;
-          box-shadow: 0 0 16px rgba(107, 174, 138, 0.12);
-        }
-        .filter-tab-icon {
-          font-style: normal;
-          font-size: 0.7rem;
-          opacity: 0.85;
-        }
-
-        /* ===== CLOSED CARD CONTENT CHIPS ===== */
-        .content-chips {
-          display: flex;
-          gap: 0.35rem;
-          align-items: center;
-          flex-shrink: 0;
-          margin-left: auto;
-          margin-right: 0.75rem;
-        }
-
-        .content-chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.25rem;
-          padding: 0.22rem 0.6rem;
-          border-radius: var(--radius-full);
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          white-space: nowrap;
-        }
-        .content-chip--video {
-          border: 1px solid rgba(94, 155, 181, 0.35);
-          background: rgba(94, 155, 181, 0.08);
-          color: #5E9BB5;
-        }
-        .content-chip--article {
-          border: 1px solid rgba(201, 144, 106, 0.35);
-          background: rgba(201, 144, 106, 0.08);
-          color: #C4906A;
-        }
-        .content-chip--faq {
-          border: 1px solid rgba(107, 174, 138, 0.35);
-          background: rgba(107, 174, 138, 0.08);
-          color: #6BAE8A;
-        }
-
-        /* ===== FILTER EMPTY NOTICE ===== */
-        .filter-empty-notice {
-          display: flex;
-          flex-direction: column;
           align-items: center;
           gap: 0.75rem;
-          padding: 2.5rem;
-          text-align: center;
-          color: rgba(255, 255, 255, 0.3);
+          max-width: 540px;
+          margin: 0 auto;
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.14);
+          border-radius: 9999px;
+          padding: 0.55rem 1.25rem;
+          transition: border-color 0.25s ease, background 0.25s ease;
         }
-        .filter-empty-icon {
-          font-size: 1.5rem;
-          opacity: 0.4;
+        .res-search:focus-within {
+          border-color: rgba(107,174,138,0.65);
+          background: rgba(255,255,255,0.1);
         }
-        .filter-empty-notice p {
-          margin: 0;
-          font-size: 0.9rem;
+        .res-search-icon { color: rgba(245,240,232,0.4); display: flex; align-items: center; flex-shrink: 0; }
+        .res-search-input {
+          flex: 1; background: transparent; border: none; outline: none;
+          color: #f5f0e8; font-size: 1rem; font-family: inherit; padding: 0.6rem 0;
+        }
+        .res-search-input::placeholder { color: rgba(245,240,232,0.38); }
+
+        /* ── BODY ──────────────────────────────────────────────── */
+        .res-body { padding: 3rem 1rem 6rem; }
+        .res-container { max-width: 860px; margin: 0 auto; }
+
+        /* ── FILTER TABS ───────────────────────────────────────── */
+        .res-tabs {
+          display: flex; justify-content: center; gap: 0.5rem;
+          margin-bottom: 2.25rem; flex-wrap: wrap;
+        }
+        .res-tab {
+          display: inline-flex; align-items: center; gap: 0.4rem;
+          padding: 0.5rem 1.1rem; border-radius: 9999px;
+          border: 1px solid rgba(107,174,138,0.2); background: #fff;
+          color: #6b7f8e; font-size: 0.75rem; font-weight: 600;
+          letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+        .res-tab:hover { border-color: rgba(107,174,138,0.45); color: #1a2b3c; }
+        .res-tab--active {
+          border-color: rgba(107,174,138,0.55);
+          background: rgba(107,174,138,0.1); color: #1a2b3c;
+        }
+        .res-tab-icon { font-style: normal; opacity: 0.75; }
+
+        /* ── STREAM ────────────────────────────────────────────── */
+        .res-stream { display: flex; flex-direction: column; gap: 0.7rem; }
+
+        /* ── MEGA CARD ─────────────────────────────────────────── */
+        .res-card {
+          background: #fff;
+          border: 1px solid rgba(107,174,138,0.15);
+          border-radius: 12px; overflow: hidden;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease;
+          position: relative;
+        }
+        .res-card::before {
+          content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+          width: 3px; background: transparent; transition: background 0.25s ease;
+        }
+        .res-card:hover {
+          border-color: rgba(107,174,138,0.4);
+          box-shadow: 0 4px 24px rgba(107,174,138,0.08);
+        }
+        .res-card:hover::before,
+        .res-card--open::before {
+          background: linear-gradient(to bottom, #6BAE8A, rgba(107,174,138,0.3));
+        }
+        .res-card--open {
+          border-color: rgba(107,174,138,0.35);
+          box-shadow: 0 6px 36px rgba(107,174,138,0.1);
         }
 
-        @media (max-width: 640px) {
-          .content-chips { display: none; }
-          .filter-tabs { gap: 0.4rem; }
-          .filter-tab { padding: 0.5rem 0.9rem; font-size: 0.72rem; }
+        /* Card header */
+        .res-card-header {
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 1rem; padding: 1.1rem 1.4rem 1.1rem 1.6rem;
+          cursor: pointer; user-select: none;
+        }
+        .res-card--open .res-card-header {
+          border-bottom: 1px solid rgba(107,174,138,0.12);
+        }
+        .res-card-meta {
+          display: flex; align-items: center; gap: 0.8rem;
+          min-width: 0; flex: 1;
+        }
+        .res-card--open .res-card-meta { flex-direction: column; align-items: flex-start; gap: 0.45rem; }
+        .res-card-tag {
+          font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.1em; color: #C4906A;
+          background: rgba(196,144,106,0.09); border: 1px solid rgba(196,144,106,0.24);
+          padding: 0.18rem 0.6rem; border-radius: 9999px;
+          white-space: nowrap; flex-shrink: 0;
+        }
+        .res-card-title {
+          font-family: 'Playfair Display', serif; font-weight: 500;
+          font-size: 1.05rem; color: #1a2b3c; margin: 0;
+          line-height: 1.3; letter-spacing: -0.01em;
+          transition: font-size 0.3s ease;
+        }
+        .res-card--open .res-card-title { font-size: 1.5rem; letter-spacing: -0.015em; }
+        .res-card-right { display: flex; align-items: center; gap: 0.55rem; flex-shrink: 0; }
+        .res-chips { display: flex; gap: 0.3rem; align-items: center; }
+        .res-chip {
+          display: inline-flex; align-items: center; gap: 0.2rem;
+          padding: 0.16rem 0.5rem; border-radius: 9999px;
+          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.07em;
+          text-transform: uppercase; white-space: nowrap;
+        }
+        .res-chip--video  { border: 1px solid rgba(94,155,181,0.3);  background: rgba(94,155,181,0.07);  color: #4a8eaa; }
+        .res-chip--article{ border: 1px solid rgba(196,144,106,0.3); background: rgba(196,144,106,0.07); color: #b8835a; }
+        .res-chip--faq    { border: 1px solid rgba(107,174,138,0.3); background: rgba(107,174,138,0.07); color: #4e9e74; }
+        .res-chevron {
+          color: #9ab0be; display: flex; align-items: center;
+          transition: transform 0.3s ease, color 0.2s ease;
+        }
+        .res-chevron--open { transform: rotate(180deg); color: #6BAE8A; }
+
+        /* Card body */
+        .res-card-body { padding: 1.75rem 1.6rem 2rem; }
+
+        /* Section eyebrow */
+        .res-section-eyebrow {
+          display: inline-block; font-size: 0.65rem; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.12em;
+          color: #6BAE8A; margin-bottom: 0.35rem;
         }
 
-        @media (min-width: 768px) {
-          .md\\:p-6 { padding: 1.5rem; }
-          .md\\:text-base { font-size: 1rem; }
-          .md\\:text-lg { font-size: 1.125rem; }
+        /* ── VIDEO ─────────────────────────────────────────────── */
+        .res-video-wrap { margin-bottom: 1.75rem; }
+        .res-video-embed {
+          position: relative; padding-bottom: 56.25%; height: 0;
+          border-radius: 12px; overflow: hidden;
+          box-shadow: 0 8px 32px rgba(26,43,60,0.12);
+          border: 1px solid rgba(107,174,138,0.1);
+        }
+        .res-video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* ── ARTICLE EXCERPT ───────────────────────────────────── */
+        .res-excerpt {
+          padding: 1.4rem 1.5rem; background: #f8fbf9;
+          border-radius: 10px; border: 1px solid rgba(107,174,138,0.13);
+          margin-bottom: 1.5rem;
+        }
+        .res-excerpt-headline {
+          font-family: 'Playfair Display', serif; font-size: 1.15rem;
+          font-weight: 500; color: #1a2b3c; margin: 0 0 0.6rem; line-height: 1.3;
+        }
+        .res-excerpt-body { color: #6b7f8e; font-size: 0.955rem; line-height: 1.75; margin: 0 0 0.9rem; }
+        .res-read-more {
+          background: transparent; border: none;
+          border-bottom: 1.5px solid rgba(107,174,138,0.45);
+          color: #1a2b3c; font-size: 0.875rem; font-weight: 600;
+          cursor: pointer; padding: 0 0 2px; font-family: inherit;
+          transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .res-read-more:hover { color: #4e9e74; border-color: #6BAE8A; }
+
+        /* ── FAQ ZONE ──────────────────────────────────────────── */
+        .res-faqs {
+          background: #f4f9f6; border-radius: 12px;
+          border: 1px solid rgba(107,174,138,0.14); padding: 1.4rem 1.5rem;
+        }
+        .res-faqs-header { margin-bottom: 0.9rem; padding-bottom: 0.9rem; border-bottom: 1px solid rgba(107,174,138,0.12); }
+        .res-faqs-title {
+          font-family: 'Playfair Display', serif; font-size: 1rem;
+          font-weight: 500; color: #1a2b3c; margin: 0;
+        }
+        .res-faq-list { display: flex; flex-direction: column; gap: 0.4rem; }
+
+        /* ── FAQ ITEM (light theme) ────────────────────────────── */
+        .faq-item {
+          position: relative; border-radius: 9px;
+          border: 1px solid rgba(107,174,138,0.13); background: #fff;
+          overflow: hidden; transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .faq-item::before {
+          content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+          width: 3px; background: transparent; transition: background 0.25s ease;
+        }
+        .faq-item:hover { border-color: rgba(107,174,138,0.3); }
+        .faq-item.faq-item--open {
+          border-color: rgba(107,174,138,0.35);
+          box-shadow: 0 2px 12px rgba(107,174,138,0.06);
+        }
+        .faq-item.faq-item--open::before {
+          background: linear-gradient(to bottom, #6BAE8A, rgba(107,174,138,0.3));
+        }
+        .faq-trigger {
+          width: 100%; display: flex; align-items: center; gap: 0.8rem;
+          padding: 1rem 1.1rem 1rem 1.3rem;
+          background: transparent; border: none; cursor: pointer; text-align: left;
+        }
+        .faq-item.faq-item--open .faq-trigger {
+          border-bottom: 1px solid rgba(107,174,138,0.1); padding-bottom: 0.85rem;
+        }
+        .faq-num {
+          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+          color: rgba(107,174,138,0.4); flex-shrink: 0; align-self: flex-start;
+          padding-top: 3px; transition: color 0.2s ease;
+        }
+        .faq-item:hover .faq-num,
+        .faq-item.faq-item--open .faq-num { color: #6BAE8A; }
+        .faq-q {
+          flex: 1; font-family: 'Playfair Display', serif; font-style: italic;
+          font-size: 0.955rem; line-height: 1.55; color: #4a6275; transition: color 0.2s ease;
+        }
+        .faq-item:hover .faq-q,
+        .faq-item.faq-item--open .faq-q { color: #1a2b3c; }
+        .faq-icon {
+          flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px;
+          border: 1px solid rgba(107,174,138,0.2); background: rgba(107,174,138,0.05);
+          color: rgba(107,174,138,0.55); display: flex; align-items: center; justify-content: center;
+          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+        .faq-item.faq-item--open .faq-icon {
+          border-color: rgba(107,174,138,0.45); background: rgba(107,174,138,0.1); color: #6BAE8A;
+        }
+        .faq-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .faq-item.faq-item--open .faq-panel { max-height: 600px; }
+        .faq-answer-content {
+          display: flex; align-items: flex-start; gap: 0.7rem;
+          padding: 0.85rem 1.1rem 1rem 1.3rem;
+          background: rgba(107,174,138,0.04); border-left: 3px solid rgba(107,174,138,0.32);
+        }
+        .faq-a-badge {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 24px; height: 24px; min-width: 24px;
+          background: rgba(107,174,138,0.09); border: 1px solid rgba(107,174,138,0.26);
+          border-radius: 7px; color: #4e9e74; font-weight: 700; font-size: 0.68rem; margin-top: 1px;
+        }
+        .faq-answer-text { color: #6b7f8e; font-size: 0.925rem; line-height: 1.75; margin: 0; }
+
+        /* ── FULL ARTICLE VIEW ─────────────────────────────────── */
+        .res-back-btn {
+          background: transparent; border: none; color: #6b7f8e;
+          font-size: 0.875rem; font-weight: 500; cursor: pointer;
+          padding: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.4rem;
+          transition: color 0.2s ease; font-family: inherit;
+        }
+        .res-back-btn:hover { color: #1a2b3c; }
+        .res-article-headline {
+          font-family: 'Playfair Display', serif; font-size: 1.65rem;
+          font-weight: 500; color: #1a2b3c; margin: 0 0 1.25rem; line-height: 1.25;
+        }
+        .res-article-prose p { color: #4a6275; font-size: 1.02rem; line-height: 1.8; margin-bottom: 1rem; }
+        .res-article-cta {
+          margin-top: 2.5rem;
+          background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 100%);
+          border-radius: 14px; padding: 2rem 2rem 2.25rem; text-align: center;
+        }
+        .res-article-cta h4 {
+          font-family: 'Playfair Display', serif; font-size: 1.35rem;
+          color: #f5f0e8; margin: 0 0 0.6rem; font-weight: 500;
+        }
+        .res-article-cta p { color: rgba(245,240,232,0.65); font-size: 0.975rem; margin: 0 0 1.5rem; }
+
+        /* ── EMPTY / NO RESULTS ────────────────────────────────── */
+        .res-empty-notice { padding: 2rem; text-align: center; color: #9ab0be; font-size: 0.9rem; }
+        .res-no-results { text-align: center; padding: 2rem 0 1rem; }
+        .res-no-results-inner {
+          display: inline-flex; flex-direction: column; align-items: center; gap: 0.75rem;
+          max-width: 400px; padding: 2.5rem 2rem;
+          background: #fff; border: 1px solid rgba(107,174,138,0.2); border-radius: 16px;
+        }
+        .res-no-results-icon { color: rgba(107,174,138,0.5); display: flex; align-items: center; justify-content: center; }
+        .res-no-results-inner h2 {
+          font-family: 'Playfair Display', serif; font-size: 1.35rem;
+          color: #1a2b3c; margin: 0; font-weight: 500;
+        }
+        .res-no-results-inner p { color: #6b7f8e; font-size: 0.95rem; margin: 0; }
+
+        /* ── LOAD MORE ─────────────────────────────────────────── */
+        .res-load-more { display: flex; justify-content: center; margin-top: 2.5rem; }
+
+        /* ── RESPONSIVE ────────────────────────────────────────── */
+        @media (max-width: 600px) {
+          .res-hero { padding: 7rem 1rem 2.5rem; }
+          .res-chips { display: none; }
+          .res-card-header { padding: 1rem 1rem 1rem 1.3rem; }
+          .res-card--open .res-card-title { font-size: 1.25rem; }
+          .res-card-body { padding: 1.25rem 1.1rem 1.5rem; }
+          .res-faqs { padding: 1.1rem; }
+          .res-article-cta { padding: 1.5rem 1.25rem; }
+          .res-excerpt { padding: 1.1rem; }
         }
       `}</style>
-    </main>
+    </div>
   );
 }
