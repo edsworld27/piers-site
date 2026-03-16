@@ -248,27 +248,24 @@
   border-color: #2D6A4F;
 }
 
-/* Cart icon */
-.nav-cart {
+/* Cart icon — inline next to Tapes link */
+.nav-tapes-cart {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  color: #333333;
-  transition: color 0.2s ease;
-  flex-shrink: 0;
+  margin-left: 4px;
 }
-.nav-cart:hover { color: #2D6A4F; }
 
 .nav-cart-badge {
   position: absolute;
-  top: -7px;
+  top: -6px;
   right: -8px;
   background: #B8752E;
   color: #fff;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  min-width: 16px;
-  height: 16px;
+  min-width: 15px;
+  height: 15px;
   border-radius: 9999px;
   display: flex;
   align-items: center;

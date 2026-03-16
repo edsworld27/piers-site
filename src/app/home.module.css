@@ -606,9 +606,9 @@
 
 .planGrid {
   display: grid;
-  grid-template-columns: 1fr 64px 1fr 64px 1fr;
+  grid-template-columns: 1fr 48px 1fr 48px 1fr 48px 1fr;
   align-items: center;
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto var(--space-14);
   gap: 0;
 }

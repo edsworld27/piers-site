@@ -1,258 +1,333 @@
-import React from "react";
-import Script from "next/script";
+import Link from "next/link";
 import "./services.css";
 
 export const metadata = {
-  title: "Hypnotherapy Services | Anxiety, Smoking, Weight Loss & Confidence",
-  description: "Explore clinical hypnotherapy for anxiety, smoking cessation, weight management, and confidence. Direct subconscious intervention. Online & Bury St Edmunds.",
+  title: "How I Can Help | Hypnotherapy for Anxiety, Fears, Habits & More | Piers Day",
+  description: "Clinical hypnotherapy for anxiety, phobias, trauma, confidence, smoking, weight loss, sleep, OCD, grief, and hundreds of specific fears. Online & Bury St Edmunds.",
   alternates: { canonical: "https://www.piersday.com/services" },
   openGraph: {
-    title: "Hypnotherapy Services | Anxiety, Smoking, Weight Loss",
-    description: "Clinical hypnotherapy for anxiety, smoking cessation, weight management, and confidence building.",
+    title: "How I Can Help | Piers Day Hypnotherapy",
+    description: "A complete list of every condition, fear, and challenge Piers Day treats with clinical hypnotherapy.",
     url: "https://www.piersday.com/services",
     type: "website",
   },
-  twitter: {
-    card: "summary",
-    title: "Hypnotherapy Services",
-    description: "Clinical hypnotherapy for anxiety, smoking, weight loss, and confidence.",
-  },
 };
 
+const CATEGORIES = [
+  {
+    id: "anxiety",
+    label: "Anxiety & Worry",
+    items: [
+      "Generalised anxiety disorder (GAD)",
+      "Panic attacks",
+      "Social anxiety",
+      "Health anxiety / hypochondria",
+      "Separation anxiety",
+      "Anticipatory anxiety",
+      "Morning anxiety",
+      "Anxiety in pregnancy",
+      "Postpartum anxiety",
+      "Performance anxiety",
+      "Relationship anxiety",
+      "Existential anxiety",
+      "Intrusive thoughts",
+      "Constant overthinking",
+      "Worry spirals",
+      "Fear of the future",
+    ],
+  },
+  {
+    id: "phobias",
+    label: "Phobias & Specific Fears",
+    items: [
+      "Fear of flying (aerophobia)",
+      "Fear of spiders (arachnophobia)",
+      "Fear of needles / injections",
+      "Fear of vomiting (emetophobia)",
+      "Fear of dogs (cynophobia)",
+      "Fear of heights (acrophobia)",
+      "Fear of driving",
+      "Fear of dentists",
+      "Fear of doctors / hospitals",
+      "Fear of death (thanatophobia)",
+      "Fear of choking",
+      "Fear of the dark",
+      "Fear of open spaces (agoraphobia)",
+      "Fear of enclosed spaces (claustrophobia)",
+      "Fear of water",
+      "Fear of crowds",
+      "Fear of loud noises",
+      "Fear of blood",
+      "Fear of buttons (koumpounophobia)",
+      "Fear of birds",
+      "Fear of cats",
+      "Fear of being sick in public",
+      "Fear of losing control",
+      "Fear of abandonment",
+      "Fear of failure",
+      "Fear of success",
+      "Fear of rejection",
+      "Fear of judgement",
+      "Fear of making decisions",
+      "Fear of being alone",
+    ],
+  },
+  {
+    id: "trauma",
+    label: "Trauma & PTSD",
+    items: [
+      "Post-traumatic stress disorder (PTSD)",
+      "Complex PTSD (C-PTSD)",
+      "Childhood trauma",
+      "Emotional abuse recovery",
+      "Physical abuse recovery",
+      "Sexual trauma recovery",
+      "Medical trauma",
+      "Birth trauma",
+      "Accident trauma",
+      "Bereavement & grief",
+      "Sudden loss",
+      "Divorce & relationship breakdown",
+      "Workplace trauma",
+      "Bullying recovery",
+      "Emotional flashbacks",
+      "Dissociation",
+    ],
+  },
+  {
+    id: "habits",
+    label: "Habits & Addictions",
+    items: [
+      "Stop smoking",
+      "Quit vaping",
+      "Alcohol reduction",
+      "Drug dependency support",
+      "Gambling addiction",
+      "Pornography addiction",
+      "Social media addiction",
+      "Nail biting",
+      "Hair pulling (trichotillomania)",
+      "Skin picking (dermatillomania)",
+      "Teeth grinding (bruxism)",
+      "Thumb sucking",
+      "Compulsive lying",
+      "Compulsive checking",
+      "Hoarding behaviours",
+      "Shopping addiction",
+    ],
+  },
+  {
+    id: "weight",
+    label: "Weight, Food & Body",
+    items: [
+      "Emotional eating",
+      "Comfort eating",
+      "Binge eating disorder",
+      "Sugar cravings",
+      "Overeating",
+      "Weight loss motivation",
+      "Food aversions",
+      "Fear of certain foods",
+      "Anorexia support (adjunct)",
+      "Bulimia support (adjunct)",
+      "Body dysmorphia",
+      "Poor body image",
+      "Intuitive eating",
+      "Exercise motivation",
+    ],
+  },
+  {
+    id: "sleep",
+    label: "Sleep & Rest",
+    items: [
+      "Insomnia",
+      "Difficulty falling asleep",
+      "Early morning waking",
+      "Sleep anxiety",
+      "Nightmares & night terrors",
+      "Teeth grinding at night",
+      "Restless legs syndrome support",
+      "Broken sleep patterns",
+      "Shift work sleep issues",
+      "Jet lag reset",
+    ],
+  },
+  {
+    id: "confidence",
+    label: "Confidence & Self-Worth",
+    items: [
+      "Low self-esteem",
+      "Imposter syndrome",
+      "Self-doubt",
+      "People pleasing",
+      "Inability to say no",
+      "Fear of conflict",
+      "Public speaking anxiety",
+      "Interview nerves",
+      "Social confidence",
+      "Body confidence",
+      "Confidence in relationships",
+      "Confidence after redundancy",
+      "Confidence after illness",
+      "Assertiveness",
+    ],
+  },
+  {
+    id: "performance",
+    label: "Performance & Achievement",
+    items: [
+      "Sports performance",
+      "Golf mental game",
+      "Tennis performance",
+      "Exam nerves & test anxiety",
+      "Driving test anxiety",
+      "Presentation skills",
+      "Stage fright",
+      "Creative blocks",
+      "Writer's block",
+      "Procrastination",
+      "Perfectionism",
+      "Fear of feedback",
+      "Business performance anxiety",
+      "Sales confidence",
+      "Leadership presence",
+    ],
+  },
+  {
+    id: "mental-health",
+    label: "Mental Health & Mood",
+    items: [
+      "Depression (mild to moderate)",
+      "Low mood",
+      "Burnout & exhaustion",
+      "Stress management",
+      "Emotional regulation",
+      "Anger management",
+      "OCD (obsessive-compulsive disorder)",
+      "Seasonal affective disorder (SAD)",
+      "Loneliness",
+      "Lack of motivation",
+      "Apathy",
+      "Emotional numbness",
+      "Negative self-talk",
+      "Shame & guilt",
+    ],
+  },
+  {
+    id: "relationships",
+    label: "Relationships & Intimacy",
+    items: [
+      "Fear of intimacy",
+      "Attachment issues (anxious/avoidant)",
+      "Fear of commitment",
+      "Jealousy",
+      "Controlling behaviours",
+      "Co-dependency",
+      "Recovering from a toxic relationship",
+      "Sexual anxiety",
+      "Vaginismus support",
+      "Erectile dysfunction (psychological)",
+      "Trust issues",
+      "Infidelity recovery",
+      "Divorce recovery",
+    ],
+  },
+  {
+    id: "health",
+    label: "Health & Medical",
+    items: [
+      "Chronic pain management",
+      "IBS & gut-brain axis",
+      "Fibromyalgia support",
+      "Skin conditions (psychosomatic)",
+      "Tinnitus relief",
+      "Preparation for surgery",
+      "Recovery after surgery",
+      "Cancer care support",
+      "Fertility & IVF stress",
+      "Chronic fatigue syndrome support",
+      "Immune system support",
+      "Migraines (tension-based)",
+      "High blood pressure (stress-related)",
+      "Fear of medical procedures",
+    ],
+  },
+  {
+    id: "life",
+    label: "Life Transitions",
+    items: [
+      "Career change anxiety",
+      "Redundancy recovery",
+      "Retirement adjustment",
+      "Moving country / relocation stress",
+      "Empty nest syndrome",
+      "New parent anxiety",
+      "Menopause support",
+      "Midlife identity crisis",
+      "Returning to work after illness",
+      "Starting a business (fear & doubt)",
+      "Leaving a cult or high-control group",
+    ],
+  },
+];
+
 export default function ServicesPage() {
-  const serviceListSchema = {
-    "@context": "https://schema.org",
-    "@type": "MedicalOrganization",
-    "name": "Piers Day Hypnotherapy",
-    "url": "https://www.piersday.com/services",
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Hypnotherapy Services",
-      "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Anxiety & Trauma Hypnotherapy", "url": "https://www.piersday.com/services/anxiety" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stop Smoking Hypnotherapy", "url": "https://www.piersday.com/services/stop-smoking" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Weight Management Hypnotherapy", "url": "https://www.piersday.com/services/weight-loss" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Confidence & Phobia Hypnotherapy", "url": "https://www.piersday.com/services/confidence" } }
-      ]
-    }
-  };
-
   return (
-    <>
-      <Script id="service-list-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceListSchema) }} />
-      <div className="services-page-wrap">
-        {/* 1. PAGE HEADER */}
-        <section className="page-header">
-          <div className="container-inner">
-            <span className="eyebrow-label">Service Directory</span>
-            <h1>What We Treat</h1>
-            <p className="muted-text">An A–Z of the most common ways I help clients reclaim their lives.</p>
-            <hr className="gold-hr" />
-          </div>
-        </section>
+    <div className="services-page-wrap">
 
-        {/* 2. HOW IT WORKS — INFOGRAPHIC STRIP */}
-        <section className="how-it-works">
-          <div className="container">
-            <div className="section-intro">
-              <span className="eyebrow-label">The Method</span>
-              <h2>How Clinical Hypnotherapy Works</h2>
-            </div>
-            
-            <div className="method-steps-container">
-              <div className="method-line"></div>
-              <div className="steps-grid">
-                <div className="step-item">
-                  <div className="circle">I</div>
-                  <h3>Identify the Script</h3>
-                  <p>We locate the subconscious belief driving your behaviour.</p>
-                </div>
-                <div className="step-item">
-                  <div className="circle">II</div>
-                  <h3>Enter the State</h3>
-                  <p>Guided hypnosis accesses the subconscious directly.</p>
-                </div>
-                <div className="step-item">
-                  <div className="circle">III</div>
-                  <h3>Rewrite the Code</h3>
-                  <p>The limiting belief is dissolved and replaced at source.</p>
-                </div>
-                <div className="step-item">
-                  <div className="circle">IV</div>
-                  <h3>Anchor the Change</h3>
-                  <p>The new response becomes your natural default.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Header */}
+      <section className="page-header">
+        <div className="container-inner">
+          <span className="eyebrow-label">How I Can Help</span>
+          <h1>Everything I Work With</h1>
+          <p className="muted-text">
+            25+ years of clinical practice. If something is holding you back — whether it's on this list or not — get in touch. If hypnotherapy can help, I'll tell you honestly.
+          </p>
+          <hr className="gold-hr" />
+        </div>
+      </section>
 
-        {/* 3. SERVICE CARDS GRID */}
-        <section className="service-grid-section">
-          <div className="container">
-            <div className="cards-grid">
-              {/* Card 1 */}
-              <article className="service-card">
-                <div className="icon">
-                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="22" cy="22" r="18" stroke="#6BAE8A" strokeWidth="1.5"/>
-                    <path d="M22 10V22L30 30" stroke="#6BAE8A" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <span className="card-tag">MENTAL HEALTH</span>
-                <h3>Anxiety & Panic</h3>
-                <p className="description">Stop the constant fight-or-flight cycle. We go to the root of the alarm so calm becomes your default state.</p>
-                <div className="pills">
-                  <span>Generalised Anxiety</span>
-                  <span>Panic Attacks</span>
-                  <span>Social Anxiety</span>
-                  <span>OCD</span>
-                </div>
-                <a href="/contact" className="learn-more">Learn More <span className="arrow">→</span></a>
-              </article>
+      {/* Intro */}
+      <section className="services-intro-section">
+        <div className="container-inner">
+          <p className="services-intro-text">
+            Below is a comprehensive list of the conditions, fears, habits, and challenges I work with using clinical hypnotherapy. This isn't exhaustive — the subconscious mind underlies almost every pattern of thought and behaviour. If you don't see your specific issue, <Link href="/contact">reach out</Link> and we'll talk it through.
+          </p>
+        </div>
+      </section>
 
-              {/* Card 2 */}
-              <article className="service-card">
-                <div className="icon">
-                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="8" y="8" width="28" height="28" rx="2" stroke="#6BAE8A" strokeWidth="1.5"/>
-                    <path d="M14 22H30M22 14V30" stroke="#6BAE8A" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <span className="card-tag">BEHAVIOUR</span>
-                <h3>Addictions & Habits</h3>
-                <p className="description">Break free from patterns that no longer serve you without white-knuckling it.</p>
-                <div className="pills">
-                  <span>Smoking</span>
-                  <span>Alcohol</span>
-                  <span>Gambling</span>
-                  <span>Compulsive Eating</span>
-                </div>
-                <a href="/contact" className="learn-more">Learn More <span className="arrow">→</span></a>
-              </article>
-
-              {/* Card 3 */}
-              <article className="service-card">
-                <div className="icon">
-                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 34L22 10L34 34H10Z" stroke="#6BAE8A" strokeWidth="1.5" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <span className="card-tag">MINDSET</span>
-                <h3>Confidence & Self-Esteem</h3>
-                <p className="description">Erase the 'I'm not enough' script. Step into your potential with unshakeable self-belief.</p>
-                <div className="pills">
-                  <span>Imposter Syndrome</span>
-                  <span>Body Image</span>
-                  <span>Self-Worth</span>
-                </div>
-                <a href="/contact" className="learn-more">Learn More <span className="arrow">→</span></a>
-              </article>
-
-              {/* Card 4 */}
-              <article className="service-card">
-                <div className="icon">
-                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 6L40 22L22 38L4 22L22 6Z" stroke="#6BAE8A" strokeWidth="1.5" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <span className="card-tag">PERFORMANCE</span>
-                <h3>Peak Performance</h3>
-                <p className="description">Remove the mental ceiling. Perform at your true potential, not the limit fear imposes.</p>
-                <div className="pills">
-                  <span>Sports Performance</span>
-                  <span>Public Speaking</span>
-                  <span>Exam Nerves</span>
-                </div>
-                <a href="/contact" className="learn-more">Learn More <span className="arrow">→</span></a>
-              </article>
-
-              {/* Card 5 */}
-              <article className="service-card">
-                <div className="icon">
-                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 38L18 34C10 26 4 20 4 13C4 7 8 3 13 3C16 3 19 5 22 7C25 5 28 3 31 3C36 3 40 7 40 13C40 20 34 26 26 34L22 38Z" stroke="#6BAE8A" strokeWidth="1.5"/>
-                  </svg>
-                </div>
-                <span className="card-tag">RELATIONSHIPS</span>
-                <h3>Love & Connection</h3>
-                <p className="description">Open yourself to real intimacy without fear of abandonment or rejection.</p>
-                <div className="pills">
-                  <span>Fear of Intimacy</span>
-                  <span>Attachment Patterns</span>
-                  <span>Grief & Loss</span>
-                </div>
-                <a href="/contact" className="learn-more">Learn More <span className="arrow">→</span></a>
-              </article>
-
-              {/* Card 6 */}
-              <article className="service-card">
-                <div className="icon">
-                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 34C6 34 10 26 22 26C34 26 38 34 38 34" stroke="#6BAE8A" strokeWidth="1.5" strokeLinecap="round"/>
-                    <circle cx="22" cy="14" r="6" stroke="#6BAE8A" strokeWidth="1.5"/>
-                  </svg>
-                </div>
-                <span className="card-tag">MENTAL HEALTH</span>
-                <h3>Phobias & Trauma</h3>
-                <p className="description">Dissolve irrational fears and past trauma at their root. Fast, gentle, lasting results.</p>
-                <div className="pills">
-                  <span>PTSD</span>
-                  <span>Phobias</span>
-                  <span>Childhood Trauma</span>
-                </div>
-                <a href="/contact" className="learn-more">Learn More <span className="arrow">→</span></a>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. BEFORE & AFTER INFOGRAPHIC */}
-        <section className="transformation-section">
-          <div className="container">
-            <div className="section-intro">
-              <span className="eyebrow-label">The Transformation</span>
-              <h2>Before & After</h2>
-            </div>
-
-            <div className="transformation-content">
-              {/* Before Column */}
-              <div className="trans-col before-col">
-                <h3>Before</h3>
-                <ul>
-                  <li>Controlled by fear, not guided by choice</li>
-                  <li>Using willpower to fight your own mind</li>
-                  <li>Waking up anxious without knowing why</li>
-                  <li>Patterns that repeat no matter what you try</li>
-                  <li>Surviving — not thriving</li>
+      {/* Categories */}
+      <section className="services-list-section">
+        <div className="container">
+          <div className="services-categories">
+            {CATEGORIES.map(cat => (
+              <div key={cat.id} className="services-category">
+                <h2 className="services-cat-title">{cat.label}</h2>
+                <ul className="services-item-list">
+                  {cat.items.map(item => (
+                    <li key={item} className="services-item">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6BAE8A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
-
-              {/* Center Shift */}
-              <div className="shift-indicator">
-                <div className="arrow-wrap">
-                  <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 12H38M38 12L28 2M38 12L28 22" stroke="#6BAE8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <span className="shift-label">The Shift</span>
-              </div>
-
-              {/* After Column */}
-              <div className="trans-col after-col">
-                <h3>After</h3>
-                <ul>
-                  <li>Responding from calm, not reacting from fear</li>
-                  <li>Your subconscious working with you, not against</li>
-                  <li>Waking up with energy and a clear mind</li>
-                  <li>New defaults that feel effortless and natural</li>
-                  <li>Actually living — fully and freely</li>
-                </ul>
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
-      </div>
-    </>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="services-cta-section">
+        <div className="container-inner">
+          <h2>Don&rsquo;t see your issue?</h2>
+          <p>This list covers the most common presentations — but every person is different. If something is affecting your life and you think hypnotherapy might help, the first step is a conversation.</p>
+          <Link href="/contact" className="btn btn-primary">Let&rsquo;s Talk →</Link>
+        </div>
+      </section>
+
+    </div>
   );
 }

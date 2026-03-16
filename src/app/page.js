@@ -329,20 +329,20 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── 5. THE PROCESS ── */}
+        {/* ── 5. THE METHOD ── */}
         <section id="process" className={styles.planSection}>
           <div className="container">
             <div className={`${styles.sectionHeader} fade-in-up`}>
-              <h2>How It Works</h2>
-              <p>Getting started is easier than you think. Three simple steps stand between you and a calmer, freer mind.</p>
+              <span className="eyebrow">The Method</span>
+              <h2>How Clinical Hypnotherapy Works</h2>
+              <p>Every session follows the same four-step process — working directly with your subconscious to dissolve what isn&rsquo;t serving you and replace it with something better.</p>
             </div>
 
             <div className={styles.planGrid}>
               <div className={`${styles.planCard} glass-panel fade-in-up`}>
-                <div className={styles.planIcon}><HeartHandIcon /></div>
-                <div className={styles.planNum}>01</div>
-                <h3>Reach Out Your Way</h3>
-                <p>Fill out a quick form, call, or email. Choose the method that feels easiest for you. Zero pressure.</p>
+                <div className={styles.planNum} style={{ color: "#6BAE8A", fontSize: "2rem", fontFamily: "var(--font-heading)", fontStyle: "italic" }}>I</div>
+                <h3>Identify the Script</h3>
+                <p>We locate the subconscious belief, pattern, or memory driving your behaviour — the root, not just the symptoms.</p>
               </div>
 
               <div className={styles.planConnector} aria-hidden="true">
@@ -352,11 +352,10 @@ export default function Home() {
                 </svg>
               </div>
 
-              <div className={`${styles.planCard} glass-panel fade-in-up`} style={{ animationDelay: "0.2s" }}>
-                <div className={styles.planIcon}><ConnectionIcon /></div>
-                <div className={styles.planNum}>02</div>
-                <h3>Free Intake Review</h3>
-                <p>We figure out exactly what your problem is, why you are stuck, and how we can solve it for you.</p>
+              <div className={`${styles.planCard} glass-panel fade-in-up`} style={{ animationDelay: "0.15s" }}>
+                <div className={styles.planNum} style={{ color: "#6BAE8A", fontSize: "2rem", fontFamily: "var(--font-heading)", fontStyle: "italic" }}>II</div>
+                <h3>Enter the State</h3>
+                <p>Guided hypnosis brings you into a deeply relaxed state where your subconscious becomes directly accessible.</p>
               </div>
 
               <div className={styles.planConnector} aria-hidden="true">
@@ -366,11 +365,23 @@ export default function Home() {
                 </svg>
               </div>
 
-              <div className={`${styles.planCard} glass-panel fade-in-up`} style={{ animationDelay: "0.4s" }}>
-                <div className={styles.planIcon}><PathStarIcon /></div>
-                <div className={styles.planNum}>03</div>
-                <h3>Get Your Plan &amp; Tools</h3>
-                <p>You&rsquo;ll walk away with a clear plan and the mental equipment to support you so you can finally thrive.</p>
+              <div className={`${styles.planCard} glass-panel fade-in-up`} style={{ animationDelay: "0.30s" }}>
+                <div className={styles.planNum} style={{ color: "#6BAE8A", fontSize: "2rem", fontFamily: "var(--font-heading)", fontStyle: "italic" }}>III</div>
+                <h3>Rewrite the Code</h3>
+                <p>The limiting belief is dissolved and replaced at source — not managed or suppressed, but genuinely gone.</p>
+              </div>
+
+              <div className={styles.planConnector} aria-hidden="true">
+                <svg viewBox="0 0 60 24" fill="none">
+                  <path d="M 0 12 Q 30 2 60 12" stroke="rgba(107,174,138,0.45)" strokeWidth="1.5" fill="none" strokeDasharray="3 4"/>
+                  <polygon points="57,8 60,12 57,16" fill="rgba(107,174,138,0.50)"/>
+                </svg>
+              </div>
+
+              <div className={`${styles.planCard} glass-panel fade-in-up`} style={{ animationDelay: "0.45s" }}>
+                <div className={styles.planNum} style={{ color: "#6BAE8A", fontSize: "2rem", fontFamily: "var(--font-heading)", fontStyle: "italic" }}>IV</div>
+                <h3>Anchor the Change</h3>
+                <p>The new response is reinforced so it becomes your natural default — effortless, automatic, and lasting.</p>
               </div>
             </div>
 
