@@ -248,12 +248,22 @@
   border-color: #2D6A4F;
 }
 
-/* Cart icon — inline next to Tapes link */
-.nav-tapes-cart {
+/* Cart icon link — sits next to Tapes in the nav */
+.nav-cart-link {
   position: relative;
   display: inline-flex;
   align-items: center;
-  margin-left: 4px;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #333333;
+  transition: background 0.18s ease, color 0.18s ease;
+  margin-left: -4px;
+}
+.nav-cart-link:hover {
+  background: rgba(26, 43, 60, 0.07);
+  color: #2D6A4F;
 }
 
 .nav-cart-badge {
