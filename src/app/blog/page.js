@@ -79,28 +79,150 @@ function VideoEmbed({ videoId, title, tag }) {
   );
 }
 
-function FAQAccordion({ faq, index }) {
-  const [isOpen, setIsOpen] = useState(false);
+function FAQAccordion({ question, answer }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className={`faq-item${isOpen ? ' faq-item--open' : ''}`}>
+    <div className={`faq-item${open ? ' faq-item--open' : ''}`}>
       <button
         className="faq-trigger"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
       >
-        <span className="faq-n" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-        <span className="faq-q-text">{faq.question}</span>
-        <span className="faq-toggle" aria-hidden="true">
-          <span className="faq-bar faq-bar-h" />
-          <span className="faq-bar faq-bar-v" />
+        <span className="faq-q-text">{question}</span>
+        <span className="faq-chevron" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </span>
       </button>
       <div className="faq-panel">
-        <p className="faq-a-text">{faq.answer}</p>
+        <div className="faq-panel-inner">
+          <p className="faq-a-text">{answer}</p>
+        </div>
       </div>
     </div>
   );
 }
+
+const faqData = [
+  {
+    category: "About Hypnotherapy",
+    items: [
+      {
+        q: "What is clinical hypnotherapy and how does it work?",
+        a: "Clinical hypnotherapy uses guided relaxation to bring your mind into a focused, receptive state — similar to deep daydreaming. In this state, the critical, analytical part of the mind steps aside, allowing us to work directly with the subconscious beliefs and patterns that drive your behaviour. Unlike stage hypnosis, you remain fully aware and in control at all times."
+      },
+      {
+        q: "Is hypnotherapy scientifically proven?",
+        a: "Yes. Clinical hypnotherapy is recognised by the British Medical Association and is backed by decades of peer-reviewed research. Neuroimaging studies show measurable changes in brain activity during hypnotic states, and clinical trials support its effectiveness for anxiety, chronic pain, IBS, smoking cessation, and more."
+      },
+      {
+        q: "Will I be unconscious or out of control during hypnosis?",
+        a: "Not at all. Hypnosis is not sleep. You are aware of everything around you and can open your eyes and end the session whenever you choose. You retain complete control throughout. No one can make you do or say anything against your values or will."
+      },
+      {
+        q: "Can everyone be hypnotised?",
+        a: "Almost everyone can be hypnotised. The only requirements are a willingness to participate and the ability to follow simple instructions. People who are resistant or sceptical can still benefit — often just experiencing it as a very deep relaxation from which the therapeutic work still proceeds effectively."
+      },
+      {
+        q: "How is hypnotherapy different from counselling or CBT?",
+        a: "Counselling and CBT primarily work at the conscious level — analysing thoughts and behaviours. Hypnotherapy works directly with the subconscious, where the root beliefs and emotional responses are stored. This often means faster, more lasting change without years of talk therapy. Rather than managing symptoms, we aim to remove the underlying cause."
+      }
+    ]
+  },
+  {
+    category: "Anxiety & Panic Attacks",
+    items: [
+      {
+        q: "Can hypnotherapy cure anxiety?",
+        a: "Hypnotherapy can produce profound and lasting reductions in anxiety — often described by clients as a complete resolution rather than just management. By identifying and rewriting the subconscious beliefs that trigger the anxiety response, the mind stops interpreting safe situations as threatening. Results vary, but many clients experience significant relief within 2–4 sessions."
+      },
+      {
+        q: "Can hypnotherapy help with panic attacks?",
+        a: "Yes. Panic attacks are a subconscious emergency response that has been misfired. Hypnotherapy works to recalibrate this response — teaching the nervous system that the trigger is safe and interrupting the cycle before it escalates. Clients typically learn to reduce or eliminate panic attacks within a handful of sessions."
+      },
+      {
+        q: "Does hypnotherapy work for social anxiety?",
+        a: "Social anxiety is rooted in subconscious beliefs about judgement, rejection, and self-worth. Hypnotherapy is particularly effective here because it addresses those core beliefs directly, rather than trying to override them with conscious affirmations. Many clients report a genuine shift in how they feel in social situations, not just coping strategies."
+      },
+      {
+        q: "Can hypnotherapy help with trauma and PTSD?",
+        a: "Yes. Hypnotherapy is one of the most effective tools for trauma processing. It allows us to access the stored memory safely, reduce the emotional charge attached to it, and update how the mind has filed that experience. This is not about forgetting — it is about no longer being controlled by the past."
+      },
+      {
+        q: "What causes anxiety at the subconscious level?",
+        a: "Anxiety is typically rooted in a subconscious belief formed during a past experience — often in childhood — that something is dangerous or that you are not safe, capable, or worthy. The conscious mind may know logically that a situation is fine, but the subconscious overrides it with the old survival programme. Hypnotherapy finds and updates that programme."
+      }
+    ]
+  },
+  {
+    category: "Stop Smoking & Vaping",
+    items: [
+      {
+        q: "Can I stop smoking in a single hypnotherapy session?",
+        a: "Yes — and this is the standard approach for most clients. A single, focused stop-smoking session typically lasts around 90 minutes and addresses both the physical habit loop and the emotional dependency. The majority of clients leave as non-smokers and do not return for further sessions."
+      },
+      {
+        q: "What is the success rate for hypnotherapy to quit smoking?",
+        a: "Studies consistently show hypnotherapy outperforms nicotine patches, gum, and willpower alone. A widely cited New Scientist meta-analysis ranked hypnotherapy as the most effective method for smoking cessation. Individual results depend on motivation, but clients who genuinely want to stop have very high success rates."
+      },
+      {
+        q: "Does hypnotherapy work for vaping and e-cigarette addiction?",
+        a: "Yes. Vaping creates the same psychological dependency patterns as cigarettes — the habit loop, the trigger responses, the emotional association with the device. The approach is identical: we target the subconscious programming that keeps you reaching for it."
+      },
+      {
+        q: "Will I get cravings or withdrawal symptoms after the session?",
+        a: "Most clients report little to no cravings because the session works on the part of the mind generating the desire. Physical nicotine withdrawal is typically mild and brief. The key is that after the session, you simply don't want to smoke — the craving has been addressed at the source."
+      }
+    ]
+  },
+  {
+    category: "Weight Management",
+    items: [
+      {
+        q: "How does hypnotherapy help with weight loss?",
+        a: "Most weight issues are not about information (everyone knows vegetables are healthier than crisps) — they are about emotional eating, subconscious comfort associations, and self-image beliefs. Hypnotherapy addresses these root drivers: stress eating, boredom eating, reward patterns, and the internal story you hold about your body and worth."
+      },
+      {
+        q: "What is virtual gastric band hypnotherapy?",
+        a: "Virtual gastric band is a hypnotherapy programme that uses guided visualisation to create the psychological experience of having a gastric band fitted. The subconscious treats this as real, reducing portion-size comfort and appetite responses. It is non-invasive, carries none of the surgical risks, and works for clients who need help reducing quantity rather than changing emotional patterns."
+      },
+      {
+        q: "How many sessions do I need for weight management?",
+        a: "This varies by individual. Some clients see significant shifts in just 2–3 sessions. Others benefit from a longer programme addressing emotional eating, motivation, and body image over 4–6 sessions. We discuss this in the initial consultation based on your specific relationship with food and your body."
+      },
+      {
+        q: "Can hypnotherapy change my relationship with food long-term?",
+        a: "Yes — this is exactly the goal. Rather than willpower-based dieting (which requires constant conscious effort), we aim to change what you want at a subconscious level. When you genuinely no longer desire a nightly biscuit habit or emotional snacking, no effort is required to resist it."
+      }
+    ]
+  },
+  {
+    category: "Sessions, Pricing & Location",
+    items: [
+      {
+        q: "Where are sessions held — online or in person?",
+        a: "The majority of sessions are held online via Zoom. This is just as effective as in-person therapy and allows you to work from the safety and comfort of your own home, anywhere in the UK. Face-to-face sessions are available at the clinic in Bury St Edmunds, Suffolk, by arrangement."
+      },
+      {
+        q: "How long is a hypnotherapy session?",
+        a: "Initial sessions typically run 75–90 minutes to allow time for thorough discussion, history-taking, and the therapeutic work itself. Follow-up sessions are usually 60 minutes. Stop-smoking sessions are a dedicated 90-minute single appointment."
+      },
+      {
+        q: "How many sessions will I need?",
+        a: "Piers' approach aims for rapid, lasting results — not open-ended therapy. Smoking and many phobias: 1 session. Anxiety, confidence, and weight management: typically 2–4 sessions. Complex trauma or PTSD: 3–6 sessions. You will always be given an honest assessment at your first consultation."
+      },
+      {
+        q: "Do you offer a free initial consultation?",
+        a: "Yes. Piers offers a no-obligation initial consultation to understand what you want to change, answer your questions honestly, and confirm that hypnotherapy is the right approach for you. There is no pressure and no hard sell. Book through the contact page."
+      },
+      {
+        q: "Is hypnotherapy covered by private health insurance?",
+        a: "Some private health insurers do cover clinical hypnotherapy, particularly for anxiety, IBS, and pain management. It is worth checking your policy or speaking with your provider. Piers can provide receipts and session notes to support a claim where required."
+      }
+    ]
+  }
+];
 
 const blogSchema = {
   "@context": "https://schema.org",
@@ -1208,16 +1330,16 @@ export default function BlogIndex() {
           {/* FAQs — grouped by topic                                  */}
           {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
           {contentFilter === 'faq' && (() => {
-            if (faqTopics.length === 0) return <p className="res-empty">No FAQs match your search.</p>;
-            const allTags = [...new Set(faqTopics.map(t => t.tag))];
-            const shownTopics = faqCategory === 'all' ? faqTopics : faqTopics.filter(t => t.tag === faqCategory);
-            const totalCount = faqTopics.reduce((s, t) => s + t.faqs.length, 0);
+            const shownCategories = faqCategory === 'all'
+              ? faqData
+              : faqData.filter(c => c.category === faqCategory);
+            const totalCount = faqData.reduce((s, c) => s + c.items.length, 0);
             return (
               <div className="faq-layout">
 
                 {/* ── Category nav ── */}
                 <aside className="faq-nav">
-                  <p className="faq-nav-label">Categories</p>
+                  <p className="faq-nav-label">Topics</p>
                   <button
                     onClick={() => setFaqCategory('all')}
                     className={`faq-nav-btn${faqCategory === 'all' ? ' faq-nav-btn--active' : ''}`}
@@ -1225,31 +1347,27 @@ export default function BlogIndex() {
                     <span>All Questions</span>
                     <span className="faq-nav-count">{totalCount}</span>
                   </button>
-                  {allTags.map(tag => {
-                    const count = faqTopics.filter(t => t.tag === tag).reduce((s, t) => s + t.faqs.length, 0);
-                    return (
-                      <button
-                        key={tag}
-                        onClick={() => setFaqCategory(tag)}
-                        className={`faq-nav-btn${faqCategory === tag ? ' faq-nav-btn--active' : ''}`}
-                      >
-                        <span>{tag}</span>
-                        <span className="faq-nav-count">{count}</span>
-                      </button>
-                    );
-                  })}
+                  {faqData.map(cat => (
+                    <button
+                      key={cat.category}
+                      onClick={() => setFaqCategory(cat.category)}
+                      className={`faq-nav-btn${faqCategory === cat.category ? ' faq-nav-btn--active' : ''}`}
+                    >
+                      <span>{cat.category}</span>
+                      <span className="faq-nav-count">{cat.items.length}</span>
+                    </button>
+                  ))}
                 </aside>
 
                 {/* ── FAQ content ── */}
                 <div className="faq-content">
-                  {shownTopics.map((item) => (
-                    <div key={item.id} className="faq-section">
+                  {shownCategories.map(cat => (
+                    <div key={cat.category} className="faq-section">
                       <div className="faq-section-hd">
-                        <span className="faq-section-tag">{item.tag}</span>
-                        <h2 className="faq-section-title">{item.title}</h2>
+                        <h2 className="faq-section-title">{cat.category}</h2>
                       </div>
-                      {item.faqs.map((faq, idx) => (
-                        <FAQAccordion key={idx} faq={faq} index={idx} />
+                      {cat.items.map((item, idx) => (
+                        <FAQAccordion key={idx} question={item.q} answer={item.a} />
                       ))}
                     </div>
                   ))}
@@ -1602,14 +1720,12 @@ export default function BlogIndex() {
         .art-cta p { color: rgba(245,240,232,0.65); font-size: 0.975rem; margin: 0 0 1.5rem; }
 
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        /* FAQ TAB — full redesign                                  */
+        /* FAQ TAB                                                  */
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-        /* Two-column layout */
         .faq-layout {
           display: grid;
-          grid-template-columns: 210px 1fr;
+          grid-template-columns: 220px 1fr;
           gap: 3rem;
           align-items: start;
         }
@@ -1620,7 +1736,7 @@ export default function BlogIndex() {
           top: 100px;
           display: flex;
           flex-direction: column;
-          gap: 0.2rem;
+          gap: 0.15rem;
         }
         .faq-nav-label {
           font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
@@ -1630,155 +1746,104 @@ export default function BlogIndex() {
         .faq-nav-btn {
           display: flex; align-items: center; justify-content: space-between;
           gap: 0.5rem;
-          width: 100%; padding: 0.6rem 0.75rem;
+          width: 100%; padding: 0.58rem 0.75rem;
           background: transparent; border: none; border-radius: 10px;
           text-align: left; cursor: pointer;
-          font-size: 0.9rem; font-weight: 500; color: #5c7080;
+          font-size: 0.88rem; font-weight: 500; color: #5c7080;
           transition: background 0.18s, color 0.18s;
         }
-        .faq-nav-btn:hover {
-          background: rgba(107,174,138,0.08);
-          color: #1a2b3c;
-        }
-        .faq-nav-btn--active {
-          background: #0C1B2E;
-          color: #f5f0e8;
-        }
-        .faq-nav-btn--active:hover {
-          background: #142638;
-          color: #f5f0e8;
-        }
+        .faq-nav-btn:hover { background: rgba(107,174,138,0.08); color: #1a2b3c; }
+        .faq-nav-btn--active { background: #0C1B2E; color: #f5f0e8; }
+        .faq-nav-btn--active:hover { background: #142638; color: #f5f0e8; }
         .faq-nav-count {
-          font-size: 0.72rem; font-weight: 600;
-          color: inherit; opacity: 0.55;
-          background: rgba(255,255,255,0.1);
-          padding: 0.1rem 0.45rem;
-          border-radius: 9999px;
-          flex-shrink: 0;
+          font-size: 0.7rem; font-weight: 600;
+          color: inherit; opacity: 0.5;
+          background: rgba(0,0,0,0.06);
+          padding: 0.1rem 0.42rem;
+          border-radius: 9999px; flex-shrink: 0;
         }
-        .faq-nav-btn--active .faq-nav-count {
-          background: rgba(255,255,255,0.15);
-          opacity: 0.8;
-        }
+        .faq-nav-btn--active .faq-nav-count { background: rgba(255,255,255,0.15); opacity: 0.8; }
 
-        /* ── Right: FAQ content ── */
-        .faq-content {
-          display: flex;
-          flex-direction: column;
-          gap: 3rem;
-        }
+        /* ── Right: FAQ sections ── */
+        .faq-content { display: flex; flex-direction: column; gap: 2.75rem; }
 
-        /* Section header */
         .faq-section-hd {
-          padding-bottom: 1.25rem;
+          padding-bottom: 1rem;
           border-bottom: 1.5px solid #e8eff4;
-          margin-bottom: 0.25rem;
-        }
-        .faq-section-tag {
-          display: inline-block;
-          font-size: 0.67rem; font-weight: 700; text-transform: uppercase;
-          letter-spacing: 0.13em; color: #6BAE8A;
-          margin-bottom: 0.45rem;
+          margin-bottom: 0.75rem;
         }
         .faq-section-title {
           font-family: 'Playfair Display', serif;
-          font-size: 1.5rem; font-weight: 500; color: #1a2b3c;
+          font-size: 1.45rem; font-weight: 500; color: #1a2b3c;
           margin: 0; line-height: 1.2;
         }
 
-        /* ── Individual FAQ row ── */
+        /* ── Individual FAQ card ── */
         .faq-item {
-          border-bottom: 1px solid #edf2f5;
+          border: 1px solid #e8eff4;
+          border-radius: 12px;
+          margin-bottom: 0.5rem;
+          overflow: hidden;
+          transition: border-color 0.22s, box-shadow 0.22s;
         }
-        .faq-item:first-of-type { border-top: 1px solid #edf2f5; }
+        .faq-item:hover {
+          border-color: rgba(107,174,138,0.3);
+          box-shadow: 0 2px 14px rgba(107,174,138,0.07);
+        }
+        .faq-item.faq-item--open {
+          border-color: rgba(107,174,138,0.42);
+          box-shadow: 0 4px 20px rgba(107,174,138,0.09);
+        }
 
-        /* Trigger */
         .faq-trigger {
-          width: 100%; display: grid;
-          grid-template-columns: 2.5rem 1fr 2.25rem;
-          align-items: center;
-          gap: 1rem;
-          padding: 1.4rem 0;
+          width: 100%;
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 1.25rem;
+          padding: 1.15rem 1.3rem;
           background: transparent; border: none; cursor: pointer; text-align: left;
+          transition: background 0.18s;
+        }
+        .faq-item.faq-item--open .faq-trigger {
+          background: rgba(107,174,138,0.04);
         }
 
-        /* Editorial number */
-        .faq-n {
-          font-family: 'Playfair Display', serif;
-          font-size: 1rem; font-weight: 400;
-          color: #c8d8e2;
-          line-height: 1;
-          transition: color 0.22s;
-          user-select: none;
-        }
-        .faq-item:hover .faq-n,
-        .faq-item.faq-item--open .faq-n { color: #6BAE8A; }
-
-        /* Question */
         .faq-q-text {
-          font-size: 1.05rem; font-weight: 500;
-          color: #2a3f54; line-height: 1.45;
-          transition: color 0.22s;
+          font-size: 0.975rem; font-weight: 500;
+          color: #2a3f54; line-height: 1.5; flex: 1;
+          transition: color 0.18s;
         }
-        .faq-item:hover .faq-q-text { color: #1a2b3c; }
-        .faq-item.faq-item--open .faq-q-text {
-          color: #1a2b3c; font-weight: 600;
-        }
+        .faq-item:hover .faq-q-text,
+        .faq-item.faq-item--open .faq-q-text { color: #1a2b3c; }
 
-        /* +/− toggle */
-        .faq-toggle {
-          position: relative;
-          width: 30px; height: 30px; border-radius: 50%;
-          border: 1.5px solid #dce8f0;
-          background: #f5f9fb;
+        .faq-chevron {
           flex-shrink: 0;
-          transition: border-color 0.22s, background 0.22s;
+          width: 28px; height: 28px;
+          display: flex; align-items: center; justify-content: center;
+          border-radius: 8px;
+          background: #f0f5f8;
+          color: #9ab0be;
+          transition: background 0.22s, color 0.22s,
+                      transform 0.35s cubic-bezier(0.4,0,0.2,1);
         }
-        .faq-item:hover .faq-toggle {
-          border-color: rgba(107,174,138,0.4);
-          background: rgba(107,174,138,0.06);
-        }
-        .faq-item.faq-item--open .faq-toggle {
-          border-color: rgba(107,174,138,0.55);
-          background: rgba(107,174,138,0.1);
-        }
-        .faq-bar {
-          position: absolute;
-          top: 50%; left: 50%;
-          border-radius: 2px;
-          background: #8fa8b8;
-          transition: background 0.22s;
-        }
-        .faq-item:hover .faq-bar,
-        .faq-item.faq-item--open .faq-bar { background: #4e9e74; }
-        .faq-bar-h {
-          width: 12px; height: 1.5px;
-          transform: translate(-50%, -50%);
-        }
-        .faq-bar-v {
-          width: 1.5px; height: 12px;
-          transform: translate(-50%, -50%);
-          transition: transform 0.32s cubic-bezier(0.4,0,0.2,1),
-                      opacity 0.25s ease, background 0.22s;
-        }
-        .faq-item.faq-item--open .faq-bar-v {
-          transform: translate(-50%, -50%) scaleY(0);
-          opacity: 0;
+        .faq-item:hover .faq-chevron { background: rgba(107,174,138,0.1); color: #4e9e74; }
+        .faq-item.faq-item--open .faq-chevron {
+          background: rgba(107,174,138,0.12); color: #3d8a63;
+          transform: rotate(180deg);
         }
 
-        /* Answer panel */
         .faq-panel {
           max-height: 0; overflow: hidden;
-          transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
         }
-        .faq-item.faq-item--open .faq-panel { max-height: 500px; }
+        .faq-item.faq-item--open .faq-panel { max-height: 600px; }
 
-        /* Answer text — indented to align with question column */
+        .faq-panel-inner {
+          padding: 0 1.3rem 1.3rem;
+          border-top: 1px solid rgba(107,174,138,0.1);
+        }
         .faq-a-text {
-          margin: 0;
-          padding: 0 0 1.5rem 3.5rem;
-          font-size: 1rem; line-height: 1.82;
-          color: #5c7080;
+          font-size: 0.95rem; line-height: 1.82;
+          color: #5c7080; margin: 1rem 0 0;
         }
 
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -1861,7 +1926,6 @@ export default function BlogIndex() {
             font-size: 0.82rem;
           }
           .faq-nav-btn--active { border-color: transparent; }
-          .faq-a-text { padding-left: 0; }
         }
         @media (max-width: 720px) {
           .topic-grid { grid-template-columns: 1fr; }
@@ -1875,7 +1939,7 @@ export default function BlogIndex() {
           .art-card-body { padding: 1.25rem 1.25rem 1.5rem; }
           .topic-card-header { padding: 1rem 1.1rem; }
           .topic-card-body { padding: 0 1.1rem 1.25rem; }
-          .faq-trigger { padding: 1.1rem 0; grid-template-columns: 2rem 1fr 2rem; gap: 0.75rem; }
+          .faq-trigger { padding: 1rem 1rem; }
         }
       `}</style>
     </div>
