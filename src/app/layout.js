@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import TabTitleHandler from "./components/TabTitleHandler";
 import { CartProvider } from "./components/CartContext";
+import { VideoPlayerProvider } from "./components/VideoPlayerContext";
+import MiniVideoPlayer from "./components/MiniVideoPlayer";
 import CookieBanner from "./components/CookieBanner";
 import ScrollAnimator from "./components/ScrollAnimator";
 import Script from "next/script";
@@ -96,14 +98,17 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <a href="#main-content" className="skip-link">Skip to main content</a>
-        <CartProvider>
-          <TabTitleHandler />
-          <Navbar />
-          <main id="main-content">{children}</main>
-          <Footer />
-          <CookieBanner />
-          <ScrollAnimator />
-        </CartProvider>
+        <VideoPlayerProvider>
+          <CartProvider>
+            <TabTitleHandler />
+            <Navbar />
+            <main id="main-content">{children}</main>
+            <Footer />
+            <CookieBanner />
+            <ScrollAnimator />
+            <MiniVideoPlayer />
+          </CartProvider>
+        </VideoPlayerProvider>
 
         <Script
           src="https://widgets.leadconnectorhq.com/loader.js"
