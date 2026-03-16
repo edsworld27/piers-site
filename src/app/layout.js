@@ -1,4 +1,3 @@
-import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import "./components/navbar.css";
 import Navbar from "./components/Navbar";
@@ -10,19 +9,6 @@ import MiniVideoPlayer from "./components/MiniVideoPlayer";
 import CookieBanner from "./components/CookieBanner";
 import ScrollAnimator from "./components/ScrollAnimator";
 import Script from "next/script";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: 'optional',
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: 'optional',
-  weight: ['400', '500'],
-});
 
 export const metadata = {
   title: "Piers Day | Clinical Hypnotherapy in Suffolk & Online UK",
@@ -86,8 +72,11 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:wght@400;500&display=swap" />
         <link rel="preconnect" href="https://widgets.leadconnectorhq.com" />
         <link rel="dns-prefetch" href="https://widgets.leadconnectorhq.com" />
         <link rel="dns-prefetch" href="https://link.msgsndr.com" />

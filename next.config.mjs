@@ -10,6 +10,7 @@ const securityHeaders = [
 const nextConfig = {
   poweredByHeader: false,
   compress: true,
+  swcMinify: false,
   images: {
     formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true,

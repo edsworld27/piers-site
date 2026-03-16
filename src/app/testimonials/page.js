@@ -1,3 +1,5 @@
+"use client";
+
 import { testimonials } from './data';
 
 const aggregateRatingSchema = {
