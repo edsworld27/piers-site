@@ -1,5 +1,6 @@
 import Script from "next/script";
 import styles from "./contact.module.css";
+import ContactForm from "./ContactForm";
 
 export const metadata = {
   title: "Contact Piers Day | Book Your Free Consultation",
@@ -40,7 +41,8 @@ export default function ContactPage() {
   return (
     <>
       <Script id="contact-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }} />
-      {/* ── DARK HERO ─────────────────────────────────────── */}
+
+      {/* ── HERO ────────────────────────────────────────────── */}
       <section className={styles.hero}>
         <div className="container">
           <div className={styles.heroInner}>
@@ -51,17 +53,25 @@ export default function ContactPage() {
               going on and whether I can help. I read every message personally.
             </p>
 
-            {/* Contact methods — inside hero */}
             <div className={styles.contactRow}>
               <a href="tel:07716008836" className={styles.methodCard}>
-                <div className={styles.methodIcon}>📞</div>
+                <div className={styles.methodIcon}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.6 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                </div>
                 <div className={styles.methodText}>
                   <span className={styles.methodLabel}>Call or text</span>
                   <span className={styles.methodValue}>07716 008 836</span>
                 </div>
               </a>
               <a href="mailto:piersday@me.com" className={styles.methodCard}>
-                <div className={styles.methodIcon}>✉️</div>
+                <div className={styles.methodIcon}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </div>
                 <div className={styles.methodText}>
                   <span className={styles.methodLabel}>Email</span>
                   <span className={styles.methodValue}>piersday@me.com</span>
@@ -72,40 +82,14 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ── FORM SECTION ──────────────────────────────────── */}
+      {/* ── FORM SECTION ────────────────────────────────────── */}
       <div className={styles.sheet}>
         <div className={styles.sheetInner}>
-
-          {/* Form heading */}
           <span className={styles.formLabel}>Send a message</span>
           <h2 className={styles.formTitle}>Tell me what&apos;s going on.</h2>
 
-          {/* Glass form card */}
-          <div className={styles.glassCard}>
-            <iframe
-              src="https://api.leadconnectorhq.com/widget/form/4zbXsudLy7F8TIOYgMB9"
-              style={{ height: "1050px" }}
-              id="inline-4zbXsudLy7F8TIOYgMB9"
-              data-layout="{'id':'INLINE'}"
-              data-trigger-type="alwaysShow"
-              data-activation-type="alwaysActivated"
-              data-form-name="main website form"
-              data-height="1050"
-              data-layout-iframe-id="inline-4zbXsudLy7F8TIOYgMB9"
-              data-form-id="4zbXsudLy7F8TIOYgMB9"
-              title="Contact form — book a hypnotherapy session"
-              loading="lazy"
-              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-            />
-            <Script src="https://link.msgsndr.com/js/form_embed.js" strategy="lazyOnload" />
+          <ContactForm />
 
-            <div className={styles.glassFooter}>
-              <a href="/legal/privacy" className={styles.glassFooterLink}>Privacy Policy</a>
-              <a href="/legal/terms" className={styles.glassFooterLink}>Terms of Service</a>
-            </div>
-          </div>
-
-          {/* Location / trust chips */}
           <div className={styles.bottomRow}>
             <a
               href="https://maps.app.goo.gl/jBSZKEUmrxy4QFjF8"
@@ -113,19 +97,18 @@ export default function ContactPage() {
               rel="noopener noreferrer"
               className={styles.infoChip}
             >
-              <span className={styles.chipDot}></span>
+              <span className={styles.chipDot}/>
               Bury St Edmunds clinic — view on map →
             </a>
             <span className={styles.infoChip}>
-              <span className={styles.chipDot}></span>
+              <span className={styles.chipDot}/>
               Online sessions available worldwide
             </span>
             <span className={styles.infoChip}>
-              <span className={styles.chipDot}></span>
+              <span className={styles.chipDot}/>
               100% confidential
             </span>
           </div>
-
         </div>
       </div>
     </>

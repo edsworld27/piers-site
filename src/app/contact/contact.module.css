@@ -1,6 +1,6 @@
 /* ── Contact Page ─────────────────────────────────────────────── */
 
-/* HERO — dark blue, full-bleed */
+/* HERO */
 .hero {
   padding: var(--space-32) 0 var(--space-16);
   text-align: left;
@@ -8,13 +8,11 @@
   overflow: hidden;
   background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 60%, #0F1E30 100%);
 }
-
 .hero::after {
   content: '';
   position: absolute;
   top: -10%; left: -5%;
-  width: 600px;
-  height: 500px;
+  width: 600px; height: 500px;
   background: radial-gradient(circle, var(--accent-7) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
@@ -53,14 +51,14 @@
 .heroSub {
   font-size: var(--font-size-lg);
   line-height: var(--line-height-loose);
-  color: rgba(245, 240, 232, 0.6);
+  color: rgba(245,240,232,0.6);
   margin: 0 0 var(--space-10);
   font-weight: 300;
   opacity: 0;
   animation: fadeUp 0.7s 0.2s ease forwards;
 }
 
-/* ── CONTACT METHODS — inside hero ──────────────────── */
+/* Contact method cards */
 .contactRow {
   display: flex;
   flex-wrap: wrap;
@@ -74,72 +72,56 @@
   align-items: center;
   gap: var(--space-3);
   padding: 0.85rem var(--space-5);
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
   border-radius: var(--radius-lg);
   text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
   flex: 1;
   min-width: 200px;
 }
 .methodCard:hover {
-  background: rgba(107, 174, 138, 0.12);
-  border-color: rgba(107, 174, 138, 0.45);
+  background: rgba(107,174,138,0.12);
+  border-color: rgba(107,174,138,0.45);
   transform: translateY(-2px);
 }
 
 .methodIcon {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   border-radius: 9px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-lg);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-accent);
   flex-shrink: 0;
 }
+.methodIcon svg { width: 18px; height: 18px; }
 
-.methodText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
+.methodText { display: flex; flex-direction: column; gap: 0.1rem; }
 .methodLabel {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.45);
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(245,240,232,0.45);
 }
+.methodValue { font-size: 0.95rem; font-weight: 600; color: #f5f0e8; }
 
-.methodValue {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #f5f0e8;
-}
+/* ── FORM SECTION ────────────────────────────────────────────── */
 
-/* ── FORM SECTION — continues the dark blue ─────────── */
 .sheet {
   background: #091728;
   padding: var(--space-14) 0 var(--space-24);
 }
 
 .sheetInner {
-  max-width: var(--max-width-narrow);
+  max-width: 580px;
   margin: 0 auto;
   padding: 0 var(--space-8);
 }
 
-/* ── SECTION HEADING ─────────────────────────────────── */
 .formLabel {
   display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--color-accent);
   margin-bottom: var(--space-2);
 }
@@ -149,44 +131,225 @@
   font-size: var(--font-size-2xl);
   font-weight: 500;
   color: #f5f0e8;
-  margin: 0 0 var(--space-6);
+  margin: 0 0 var(--space-8);
 }
 
-/* ── FORM CONTAINER ──────────────────────────────────── */
-.glassCard {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
-}
+/* ── FORM ────────────────────────────────────────────────────── */
 
-.glassCard iframe {
-  display: block;
-  width: 100%;
-  border: none;
-}
-
-.glassFooter {
-  padding: var(--space-4) var(--space-6);
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+.form {
   display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.label {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: rgba(245,240,232,0.75);
+  letter-spacing: 0.01em;
+}
+
+.req { color: var(--color-accent); margin-left: 2px; }
+.optional { font-weight: 400; color: rgba(245,240,232,0.35); font-size: 0.775rem; }
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  color: #f5f0e8;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  box-sizing: border-box;
+}
+.input::placeholder,
+.textarea::placeholder { color: rgba(245,240,232,0.22); }
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: var(--color-accent);
+  background: rgba(107,174,138,0.07);
+  box-shadow: 0 0 0 3px rgba(107,174,138,0.15);
+}
+
+.inputError {
+  border-color: rgba(255, 100, 100, 0.6) !important;
+}
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(255,100,100,0.15) !important;
+  background: rgba(255,100,100,0.05) !important;
+}
+
+.error {
+  font-size: 0.78rem;
+  color: #ff8080;
+  margin: 0;
+}
+
+/* Select */
+.selectWrap { position: relative; }
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 2.5rem;
+}
+.select option { background: #0c1b2e; color: #f5f0e8; }
+.selectChevron {
+  position: absolute;
+  right: 0.875rem; top: 50%;
+  transform: translateY(-50%);
+  width: 16px; height: 16px;
+  color: rgba(245,240,232,0.4);
+  pointer-events: none;
+}
+
+/* Textarea */
+.textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+/* Radio cards */
+.radioGroup {
+  display: flex;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+
+.radioCard {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: rgba(245,240,232,0.65);
+  cursor: pointer;
+  transition: border-color 0.16s, background 0.16s, color 0.16s;
+  user-select: none;
+}
+.radioCard:hover {
+  border-color: rgba(107,174,138,0.4);
+  color: rgba(245,240,232,0.9);
+}
+.radioCardActive {
+  border-color: var(--color-accent);
+  background: rgba(107,174,138,0.12);
+  color: #f5f0e8;
+}
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+
+/* Submit */
+.submitBtn {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: var(--space-6);
-  background: rgba(0, 0, 0, 0.15);
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+  margin-top: 0.25rem;
+}
+.submitBtn:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(107,174,138,0.35);
+}
+.submitBtn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
 
-.glassFooterLink {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.35);
-  text-decoration: none;
-  transition: color 0.2s ease;
+/* Footnote */
+.formFootnote {
+  font-size: 0.775rem;
+  color: rgba(245,240,232,0.3);
+  text-align: center;
+  margin: 0;
 }
-.glassFooterLink:hover { color: var(--color-accent); }
+.footLink {
+  color: rgba(245,240,232,0.45);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.16s;
+}
+.footLink:hover { color: var(--color-accent); }
 
-/* ── LOCATION / TRUST ROW ────────────────────────────── */
+/* ── SUCCESS STATE ───────────────────────────────────────────── */
+
+.successWrap {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+}
+.successIcon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(107,174,138,0.15);
+  border: 2px solid rgba(107,174,138,0.35);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-accent);
+  margin: 0 auto 1.5rem;
+}
+.successIcon svg { width: 32px; height: 32px; }
+
+.successTitle {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #f5f0e8;
+  margin: 0 0 1rem;
+}
+.successBody {
+  font-size: 0.975rem;
+  line-height: 1.8;
+  color: rgba(245,240,232,0.55);
+  font-weight: 300;
+  margin: 0 0 0.5rem;
+  max-width: 420px;
+  margin-left: auto; margin-right: auto;
+}
+.successLink { color: var(--color-accent); text-decoration: none; font-weight: 600; }
+
+/* ── BOTTOM CHIPS ────────────────────────────────────────────── */
+
 .bottomRow {
   display: flex;
   flex-wrap: wrap;
@@ -195,41 +358,43 @@
 }
 
 .infoChip {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  display: flex; align-items: center; gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-full);
   font-size: 0.85rem;
-  color: rgba(245, 240, 232, 0.55);
+  color: rgba(245,240,232,0.55);
   text-decoration: none;
   transition: border-color 0.2s, color 0.2s;
 }
-.infoChip:hover {
-  border-color: rgba(107, 174, 138, 0.45);
-  color: rgba(245, 240, 232, 0.9);
-}
+.infoChip:hover { border-color: rgba(107,174,138,0.45); color: rgba(245,240,232,0.9); }
 
 .chipDot {
-  width: 7px;
-  height: 7px;
+  width: 7px; height: 7px;
   background: var(--color-accent);
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-/* ── ANIMATIONS ──────────────────────────────────────── */
+/* ── ANIMATIONS ──────────────────────────────────────────────── */
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
-/* ── RESPONSIVE ──────────────────────────────────────── */
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+
 @media (max-width: 640px) {
   .hero { padding: var(--space-24) 0 var(--space-12); }
-  .sheetInner { padding: 0 var(--space-5); }
   .contactRow { flex-direction: column; }
   .methodCard { min-width: unset; }
+  .sheetInner { padding: 0 var(--space-5); }
+  .fieldRow { grid-template-columns: 1fr; }
+  .radioGroup { flex-direction: column; }
+  .radioCard { justify-content: flex-start; }
 }
