@@ -3,29 +3,41 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useVideoPlayer } from "./VideoPlayerContext";
 
+const DEFAULT_W = 360;
+const MIN_W     = 200;
+const MAX_W     = 680;
+
 export default function MiniVideoPlayer() {
   const { activeVideo, dismissVideo, anchorEl, anchorVisible } = useVideoPlayer();
-  const [pos, setPos]             = useState(null);
+
+  const [pos, setPos]               = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [anchorRect, setAnchorRect] = useState(null);
-  const dragOrigin = useRef(null);
-  const playerRef  = useRef(null);
+  const [width, setWidth]           = useState(DEFAULT_W);
+  const [isResizing, setIsResizing] = useState(false);
 
-  // Reset drag position when a new video opens
+  const dragOrigin   = useRef(null);
+  const resizeOrigin = useRef(null);
+  const widthRef     = useRef(DEFAULT_W);  // avoids stale closure in callbacks
+  const playerRef    = useRef(null);
+
+  // Keep widthRef in sync
+  useEffect(() => { widthRef.current = width; }, [width]);
+
+  // Reset when a new video opens
   useEffect(() => {
     setPos(null);
+    setWidth(DEFAULT_W);
+    widthRef.current = DEFAULT_W;
   }, [activeVideo?.videoId]);
 
-  // Capture the anchor rect once when the anchor attaches — never update on scroll
+  // Capture anchor rect once when anchor becomes visible
   useEffect(() => {
-    if (!anchorEl || !anchorVisible) {
-      setAnchorRect(null);
-      return;
-    }
+    if (!anchorEl || !anchorVisible) { setAnchorRect(null); return; }
     setAnchorRect(anchorEl.getBoundingClientRect());
   }, [anchorEl, anchorVisible]);
 
-  // ── Mouse drag (floating mode only) ──
+  // ── Mouse drag (move) ──
   const onMouseDown = useCallback((e) => {
     if (e.button !== 0) return;
     e.preventDefault();
@@ -36,23 +48,20 @@ export default function MiniVideoPlayer() {
 
   useEffect(() => {
     if (!isDragging) return;
-    const W = 360, H = 240;
     const move = (e) => {
       const { mouseX, mouseY, elX, elY } = dragOrigin.current;
-      const x = Math.max(0, Math.min(window.innerWidth  - W, elX + e.clientX - mouseX));
-      const y = Math.max(0, Math.min(window.innerHeight - H, elY + e.clientY - mouseY));
+      const w = widthRef.current;
+      const x = Math.max(0, Math.min(window.innerWidth  - w,   elX + e.clientX - mouseX));
+      const y = Math.max(0, Math.min(window.innerHeight - 260, elY + e.clientY - mouseY));
       setPos({ x, y });
     };
     const up = () => setIsDragging(false);
     window.addEventListener("mousemove", move);
     window.addEventListener("mouseup",   up);
-    return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseup",   up);
-    };
+    return () => { window.removeEventListener("mousemove", move); window.removeEventListener("mouseup", up); };
   }, [isDragging]);
 
-  // ── Touch drag ──
+  // ── Touch drag (move) ──
   const onTouchStart = useCallback((e) => {
     const t = e.touches[0];
     const rect = playerRef.current.getBoundingClientRect();
@@ -62,28 +71,69 @@ export default function MiniVideoPlayer() {
 
   useEffect(() => {
     if (!isDragging) return;
-    const W = 360, H = 240;
     const move = (e) => {
       const t = e.touches[0];
       const { mouseX, mouseY, elX, elY } = dragOrigin.current;
-      const x = Math.max(0, Math.min(window.innerWidth  - W, elX + t.clientX - mouseX));
-      const y = Math.max(0, Math.min(window.innerHeight - H, elY + t.clientY - mouseY));
+      const w = widthRef.current;
+      const x = Math.max(0, Math.min(window.innerWidth  - w,   elX + t.clientX - mouseX));
+      const y = Math.max(0, Math.min(window.innerHeight - 260, elY + t.clientY - mouseY));
       setPos({ x, y });
     };
     const end = () => setIsDragging(false);
     window.addEventListener("touchmove", move, { passive: true });
     window.addEventListener("touchend",  end);
-    return () => {
-      window.removeEventListener("touchmove", move);
-      window.removeEventListener("touchend",  end);
-    };
+    return () => { window.removeEventListener("touchmove", move); window.removeEventListener("touchend", end); };
   }, [isDragging]);
+
+  // ── Mouse resize ──
+  const onResizeMouseDown = useCallback((e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    resizeOrigin.current = { mouseX: e.clientX, startW: widthRef.current };
+    setIsResizing(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isResizing) return;
+    const move = (e) => {
+      const dx  = e.clientX - resizeOrigin.current.mouseX;
+      const newW = Math.max(MIN_W, Math.min(MAX_W, resizeOrigin.current.startW + dx));
+      setWidth(newW);
+      widthRef.current = newW;
+    };
+    const up = () => setIsResizing(false);
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup",   up);
+    return () => { window.removeEventListener("mousemove", move); window.removeEventListener("mouseup", up); };
+  }, [isResizing]);
+
+  // ── Touch resize ──
+  const onResizeTouchStart = useCallback((e) => {
+    e.stopPropagation();
+    const t = e.touches[0];
+    resizeOrigin.current = { mouseX: t.clientX, startW: widthRef.current };
+    setIsResizing(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isResizing) return;
+    const move = (e) => {
+      const t = e.touches[0];
+      const dx  = t.clientX - resizeOrigin.current.mouseX;
+      const newW = Math.max(MIN_W, Math.min(MAX_W, resizeOrigin.current.startW + dx));
+      setWidth(newW);
+      widthRef.current = newW;
+    };
+    const end = () => setIsResizing(false);
+    window.addEventListener("touchmove", move, { passive: true });
+    window.addEventListener("touchend",  end);
+    return () => { window.removeEventListener("touchmove", move); window.removeEventListener("touchend", end); };
+  }, [isResizing]);
 
   if (!activeVideo) return null;
 
   const isInline = anchorVisible && anchorRect;
 
-  // Inline: overlay exactly on the thumbnail container
   const inlineStyle = isInline ? {
     position: "fixed",
     top:    anchorRect.top,
@@ -95,23 +145,23 @@ export default function MiniVideoPlayer() {
     transition: "none",
   } : {};
 
-  // Floating: use drag position or default corner
-  const floatStyle = !isInline && pos
-    ? { left: pos.x, top: pos.y, right: "auto", bottom: "auto" }
+  const floatStyle = !isInline
+    ? {
+        width: width + "px",
+        ...(pos ? { left: pos.x, top: pos.y, right: "auto", bottom: "auto" } : {}),
+      }
     : {};
-
-  const style = { ...inlineStyle, ...floatStyle };
 
   return (
     <div
       ref={playerRef}
-      className={`mini-player mini-player--visible${isInline ? " mini-player--inline" : ""}${isDragging ? " mini-player--dragging" : ""}`}
-      style={style}
+      className={`mini-player mini-player--visible${isInline ? " mini-player--inline" : ""}${isDragging || isResizing ? " mini-player--dragging" : ""}`}
+      style={{ ...inlineStyle, ...floatStyle }}
       role="region"
       aria-label="Mini video player"
     >
+      {/* Floating mode: drag handle + title + close */}
       {!isInline && (
-        /* Floating mode: drag handle with title and close */
         <div className="mini-player-handle" onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
           <span className="mini-player-grip" aria-hidden="true">
             <svg width="16" height="10" viewBox="0 0 16 10" fill="currentColor">
@@ -132,6 +182,7 @@ export default function MiniVideoPlayer() {
         </div>
       )}
 
+      {/* Iframe */}
       <div className="mini-player-iframe-wrap">
         <iframe
           src={`https://www.youtube.com/embed/${activeVideo.videoId}?autoplay=1&rel=0`}
@@ -141,6 +192,16 @@ export default function MiniVideoPlayer() {
           title={activeVideo.title}
         />
       </div>
+
+      {/* Resize handle — floating mode only */}
+      {!isInline && (
+        <div
+          className="mini-player-resize"
+          onMouseDown={onResizeMouseDown}
+          onTouchStart={onResizeTouchStart}
+          aria-hidden="true"
+        />
+      )}
     </div>
   );
 }
