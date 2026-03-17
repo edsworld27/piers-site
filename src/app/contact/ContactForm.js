@@ -35,7 +35,7 @@ const HOW = [
 export default function ContactForm() {
   const [form, setForm] = useState({
     firstName: "", lastName: "", email: "", phone: "",
-    issue: "", preference: "", message: "", how: "",
+    issue: "", preference: "", contactMethod: "", message: "", how: "",
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -168,6 +168,24 @@ export default function ContactForm() {
                 type="radio" name="preference" value={opt}
                 checked={form.preference === opt}
                 onChange={set("preference")}
+                className={styles.radioInput}
+              />
+              {opt}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Preferred contact method */}
+      <div className={styles.fieldGroup}>
+        <span className={styles.label}>Preferred contact method <span className={styles.optional}>(optional)</span></span>
+        <div className={styles.radioGroup}>
+          {["No preference", "Email", "Phone call", "Text / WhatsApp"].map(opt => (
+            <label key={opt} className={`${styles.radioCard}${form.contactMethod === opt ? " " + styles.radioCardActive : ""}`}>
+              <input
+                type="radio" name="contactMethod" value={opt}
+                checked={form.contactMethod === opt}
+                onChange={set("contactMethod")}
                 className={styles.radioInput}
               />
               {opt}

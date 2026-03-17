@@ -7,6 +7,7 @@ import { CartProvider } from "./components/CartContext";
 import { VideoPlayerProvider } from "./components/VideoPlayerContext";
 import MiniVideoPlayer from "./components/MiniVideoPlayer";
 import CookieBanner from "./components/CookieBanner";
+import Chatbot from "./components/Chatbot";
 import ScrollAnimator from "./components/ScrollAnimator";
 import Script from "next/script";
 
@@ -96,15 +97,9 @@ export default function RootLayout({ children }) {
             <CookieBanner />
             <ScrollAnimator />
             <MiniVideoPlayer />
+            <Chatbot />
           </CartProvider>
         </VideoPlayerProvider>
-
-        <Script
-          src="https://widgets.leadconnectorhq.com/loader.js"
-          data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
-          data-widget-id="68065d4930666bdf1727d1d2"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );

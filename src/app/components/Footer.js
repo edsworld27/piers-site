@@ -75,7 +75,7 @@ export default function Footer() {
 
       {/* ── Bottom bar ── */}
       <div className="footer-bottom container">
-        <p className="footer-copy">© {new Date().getFullYear()} Piers Day Hypnotherapy. All rights reserved.</p>
+        <p className="footer-copy">© {new Date().getFullYear()} Piers Day Hypnotherapy. All rights reserved. &nbsp;·&nbsp; Crafted by <a href="https://milesymedia.com" target="_blank" rel="noopener noreferrer" className="footer-crafted-link">Milesymedia</a></p>
         <p className="footer-location">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
           Bury St Edmunds, Suffolk &amp; Online UK
@@ -176,6 +176,8 @@ export default function Footer() {
           margin-top: 0.25rem;
         }
         .footer-directions:hover { color: #8ecba8; }
+        .footer-crafted-link { color: #6BAE8A; text-decoration: none; font-weight: 600; transition: opacity 0.16s; }
+        .footer-crafted-link:hover { opacity: 0.75; }
 
         .footer-col { display: flex; flex-direction: column; gap: 0.2rem; padding-top: 0.25rem; }
         .footer-col-heading {
