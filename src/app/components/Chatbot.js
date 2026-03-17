@@ -1,185 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-
-// ── Flappy Piers game ────────────────────────────────────────────────
-const GW = 320, GH = 200;
-const BIRD_X = 65, BIRD_R = 12;
-const GRAVITY = 0.42, JUMP = -7.5;
-const PIPE_W = 30, PIPE_GAP = 72, PIPE_SPEED = 2.2, PIPE_INTERVAL = 128;
-
-function FlappyGame() {
-  const canvasRef = useRef(null);
-  const gs = useRef({
-    phase: "idle",   // idle | playing | dead
-    bird:  { y: GH / 2, vy: 0 },
-    pipes: [],
-    score: 0,
-    frame: 0,
-    raf:   null,
-  });
-
-  const act = useCallback(() => {
-    const s = gs.current;
-    if (s.phase === "idle" || s.phase === "dead") {
-      s.phase = "playing";
-      s.bird  = { y: GH / 2, vy: 0 };
-      s.pipes = [];
-      s.score = 0;
-      s.frame = 0;
-    }
-    if (s.phase === "playing") s.bird.vy = JUMP;
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx    = canvas.getContext("2d");
-    const s      = gs.current;
-
-    function draw() {
-      // Sky
-      ctx.fillStyle = "#091422";
-      ctx.fillRect(0, 0, GW, GH);
-      // Ground
-      ctx.fillStyle = "#1e3a28";
-      ctx.fillRect(0, GH - 22, GW, 22);
-      ctx.fillStyle = "#2a5038";
-      ctx.fillRect(0, GH - 22, GW, 3);
-
-      if (s.phase === "idle") {
-        ctx.font = "bold 16px system-ui,sans-serif";
-        ctx.fillStyle = "rgba(245,240,232,0.9)";
-        ctx.textAlign = "center";
-        ctx.fillText("Flappy Piers 🐦", GW / 2, GH / 2 - 12);
-        ctx.font = "12px system-ui,sans-serif";
-        ctx.fillStyle = "rgba(245,240,232,0.5)";
-        ctx.fillText("tap or click to fly!", GW / 2, GH / 2 + 10);
-        return;
-      }
-
-      // Pipes
-      s.pipes.forEach(p => {
-        ctx.fillStyle = "#3d7a58";
-        ctx.fillRect(p.x, 0, PIPE_W, p.topH - 10);
-        ctx.fillStyle = "#6BAE8A";
-        ctx.fillRect(p.x - 4, p.topH - 10, PIPE_W + 8, 10);
-        ctx.fillStyle = "#3d7a58";
-        ctx.fillRect(p.x, p.topH + PIPE_GAP + 10, PIPE_W, GH - p.topH - PIPE_GAP - 22 - 10);
-        ctx.fillStyle = "#6BAE8A";
-        ctx.fillRect(p.x - 4, p.topH + PIPE_GAP, PIPE_W + 8, 10);
-      });
-
-      // Bird
-      ctx.save();
-      ctx.translate(BIRD_X, s.bird.y);
-      ctx.rotate(Math.max(-0.45, Math.min(0.55, s.bird.vy * 0.065)));
-      // body
-      ctx.fillStyle = "#f5f0e8";
-      ctx.beginPath();
-      ctx.ellipse(0, 0, BIRD_R, BIRD_R * 0.82, 0, 0, Math.PI * 2);
-      ctx.fill();
-      // wing
-      ctx.fillStyle = "#d4c9b8";
-      ctx.beginPath();
-      ctx.ellipse(-2, 2, 7, 4, -0.3, 0, Math.PI * 2);
-      ctx.fill();
-      // eye
-      ctx.fillStyle = "#0C1B2E";
-      ctx.beginPath();
-      ctx.arc(5, -3, 3, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#fff";
-      ctx.beginPath();
-      ctx.arc(6, -3.8, 1.3, 0, Math.PI * 2);
-      ctx.fill();
-      // beak
-      ctx.fillStyle = "#e89030";
-      ctx.beginPath();
-      ctx.moveTo(BIRD_R - 1, -1);
-      ctx.lineTo(BIRD_R + 7, -2);
-      ctx.lineTo(BIRD_R + 7, 3);
-      ctx.closePath();
-      ctx.fill();
-      ctx.restore();
-
-      // Score
-      ctx.fillStyle = "rgba(255,255,255,0.92)";
-      ctx.font = "bold 22px system-ui,sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(s.score, GW / 2, 30);
-
-      if (s.phase === "dead") {
-        ctx.fillStyle = "rgba(9,20,34,0.72)";
-        ctx.fillRect(0, 0, GW, GH);
-        ctx.fillStyle = "#f5f0e8";
-        ctx.font = "bold 18px system-ui,sans-serif";
-        ctx.textAlign = "center";
-        ctx.fillText("Game Over!", GW / 2, GH / 2 - 18);
-        ctx.fillStyle = "#6BAE8A";
-        ctx.font = "bold 14px system-ui,sans-serif";
-        ctx.fillText(`Score: ${s.score}`, GW / 2, GH / 2 + 4);
-        ctx.fillStyle = "rgba(245,240,232,0.5)";
-        ctx.font = "12px system-ui,sans-serif";
-        ctx.fillText("tap to play again", GW / 2, GH / 2 + 26);
-      }
-    }
-
-    function tick() {
-      if (s.phase !== "playing") {
-        draw();
-        s.raf = requestAnimationFrame(tick);
-        return;
-      }
-      s.frame++;
-      s.bird.vy += GRAVITY;
-      s.bird.y  += s.bird.vy;
-
-      // Spawn pipe
-      if (s.frame % PIPE_INTERVAL === 0) {
-        const lo = 28, hi = GH - PIPE_GAP - 28 - 22;
-        s.pipes.push({ x: GW + 10, topH: lo + Math.random() * (hi - lo), scored: false });
-      }
-
-      s.pipes = s.pipes.filter(p => p.x + PIPE_W + 4 > 0);
-      s.pipes.forEach(p => {
-        p.x -= PIPE_SPEED;
-        if (!p.scored && p.x + PIPE_W < BIRD_X - BIRD_R) { p.scored = true; s.score++; }
-      });
-
-      // Collisions
-      if (s.bird.y + BIRD_R > GH - 22 || s.bird.y - BIRD_R < 0) s.phase = "dead";
-      for (const p of s.pipes) {
-        if (
-          BIRD_X + BIRD_R > p.x - 4 &&
-          BIRD_X - BIRD_R < p.x + PIPE_W + 4 &&
-          (s.bird.y - BIRD_R < p.topH || s.bird.y + BIRD_R > p.topH + PIPE_GAP)
-        ) s.phase = "dead";
-      }
-
-      draw();
-      s.raf = requestAnimationFrame(tick);
-    }
-
-    s.raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(s.raf);
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      width={GW}
-      height={GH}
-      onClick={act}
-      onTouchStart={e => { e.preventDefault(); act(); }}
-      style={{ display: "block", width: "100%", borderRadius: "8px", cursor: "pointer", touchAction: "none" }}
-    />
-  );
-}
+import { useState } from "react";
 
 // ── Main component ───────────────────────────────────────────────────
 export default function Chatbot() {
   const [open, setOpen]               = useState(false);
-  const [view, setView]               = useState("form"); // form | success | game
+  const [view, setView]               = useState("form"); // form | success
   const [name, setName]               = useState("");
   const [email, setEmail]             = useState("");
   const [message, setMessage]         = useState("");
@@ -288,13 +114,13 @@ export default function Chatbot() {
                   </svg>
                   Call Piers now
                 </a>
-                <button className="cb-game-btn" onClick={() => setView("game")}>
+                <a href="/waiting-room" className="cb-game-btn">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="6" width="20" height="12" rx="2"/>
                     <path d="M12 12h.01M8 10v4M6 12h4M16 10l2 2-2 2"/>
                   </svg>
-                  Play Flappy Piers while you wait!
-                </button>
+                  Play a game
+                </a>
                 <a href="/blog" className="cb-resources-btn">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
@@ -304,13 +130,6 @@ export default function Chatbot() {
               </div>
             )}
 
-            {/* ── Game view ── */}
-            {view === "game" && (
-              <div className="cb-game-wrap">
-                <FlappyGame />
-                <button className="cb-back-btn" onClick={() => setView("success")}>← Back</button>
-              </div>
-            )}
           </div>
 
           {/* Branding */}
@@ -462,6 +281,7 @@ export default function Chatbot() {
           padding: 0.75rem 1.25rem; font-size: 0.875rem; font-weight: 500;
           width: 100%; justify-content: center; cursor: pointer;
           transition: border-color 0.18s, color 0.18s; font-family: var(--font-body);
+          text-decoration: none;
         }
         :global(.cb-game-btn svg) { width: 16px; height: 16px; flex-shrink: 0; }
         :global(.cb-game-btn:hover) { border-color: #6BAE8A; color: #2D6A4F; }
@@ -475,15 +295,6 @@ export default function Chatbot() {
         }
         :global(.cb-resources-btn svg) { width: 16px; height: 16px; flex-shrink: 0; }
         :global(.cb-resources-btn:hover) { border-color: #6BAE8A; color: #2D6A4F; }
-
-        /* Game */
-        :global(.cb-game-wrap) { padding: 0.875rem; display: flex; flex-direction: column; gap: 0.625rem; }
-        :global(.cb-back-btn) {
-          background: none; border: none; color: #6BAE8A;
-          font-size: 0.8rem; font-weight: 600; cursor: pointer;
-          text-align: left; padding: 0; font-family: var(--font-body);
-        }
-        :global(.cb-back-btn:hover) { color: #4a9070; }
 
         /* Branding */
         :global(.cb-branding) {
