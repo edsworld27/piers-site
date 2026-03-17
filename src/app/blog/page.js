@@ -99,7 +99,7 @@ function FAQAccordion({ question, answer }) {
       >
         <span className="faq-q-text">{question}</span>
         <span className="faq-chevron" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </span>
@@ -1788,55 +1788,46 @@ export default function BlogIndex() {
 
         /* ── Individual FAQ card ── */
         .faq-item {
-          border: 1px solid #e8eff4;
-          border-radius: 12px;
-          margin-bottom: 0.5rem;
+          border: 1.5px solid #e8eff4;
+          border-radius: 14px;
+          margin-bottom: 0.75rem;
           overflow: hidden;
           transition: border-color 0.22s, box-shadow 0.22s;
         }
         .faq-item:hover {
-          border-color: rgba(107,174,138,0.3);
+          border-color: rgba(107,174,138,0.35);
           box-shadow: 0 2px 14px rgba(107,174,138,0.07);
         }
         .faq-item.faq-item--open {
-          border-color: rgba(107,174,138,0.42);
-          box-shadow: 0 4px 20px rgba(107,174,138,0.09);
+          border-color: rgba(107,174,138,0.5);
+          box-shadow: 0 4px 20px rgba(107,174,138,0.1);
+          background: rgba(107,174,138,0.03);
         }
 
         .faq-trigger {
           width: 100%;
           display: flex; align-items: center; justify-content: space-between;
           gap: 1.25rem;
-          padding: 1.15rem 1.3rem;
+          padding: 1.25rem 1.5rem;
           background: transparent; border: none; cursor: pointer; text-align: left;
-          transition: background 0.18s;
-        }
-        .faq-item.faq-item--open .faq-trigger {
-          background: rgba(107,174,138,0.04);
         }
 
         .faq-q-text {
-          font-size: 0.975rem; font-weight: 500;
-          color: #2a3f54; line-height: 1.5; flex: 1;
+          font-size: 1rem; font-weight: 600;
+          color: #1a2b3c; line-height: 1.45; flex: 1;
           transition: color 0.18s;
         }
-        .faq-item:hover .faq-q-text,
-        .faq-item.faq-item--open .faq-q-text { color: #1a2b3c; }
+        .faq-item.faq-item--open .faq-q-text { color: #6BAE8A; }
 
         .faq-chevron {
           flex-shrink: 0;
-          width: 28px; height: 28px;
           display: flex; align-items: center; justify-content: center;
-          border-radius: 8px;
-          background: #f0f5f8;
-          color: #9ab0be;
-          transition: background 0.22s, color 0.22s,
-                      transform 0.35s cubic-bezier(0.4,0,0.2,1);
+          color: rgba(42,63,84,0.35);
+          transition: color 0.18s, transform 0.25s ease;
         }
-        .faq-item:hover .faq-chevron { background: rgba(107,174,138,0.1); color: #4e9e74; }
         .faq-item.faq-item--open .faq-chevron {
-          background: rgba(107,174,138,0.12); color: #3d8a63;
           transform: rotate(180deg);
+          color: #6BAE8A;
         }
 
         .faq-panel {
@@ -1846,12 +1837,11 @@ export default function BlogIndex() {
         .faq-item.faq-item--open .faq-panel { max-height: 600px; }
 
         .faq-panel-inner {
-          padding: 0 1.3rem 1.3rem;
-          border-top: 1px solid rgba(107,174,138,0.1);
+          padding: 0 1.5rem 1.3rem;
         }
         .faq-a-text {
-          font-size: 0.95rem; line-height: 1.82;
-          color: #5c7080; margin: 1rem 0 0;
+          font-size: 0.95rem; line-height: 1.8;
+          color: #5c7080; margin: 0;
         }
 
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
