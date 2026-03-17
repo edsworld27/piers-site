@@ -295,6 +295,12 @@ export default function Chatbot() {
                   </svg>
                   Play Flappy Piers while you wait!
                 </button>
+                <a href="/blog" className="cb-resources-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                  </svg>
+                  Browse resources &amp; videos
+                </a>
               </div>
             )}
 
@@ -459,6 +465,16 @@ export default function Chatbot() {
         }
         :global(.cb-game-btn svg) { width: 16px; height: 16px; flex-shrink: 0; }
         :global(.cb-game-btn:hover) { border-color: #6BAE8A; color: #2D6A4F; }
+        :global(.cb-resources-btn) {
+          display: flex; align-items: center; gap: 0.5rem;
+          background: none; color: #4a6070;
+          border: 1.5px solid #d8e5e0; border-radius: 8px;
+          padding: 0.75rem 1.25rem; font-size: 0.875rem; font-weight: 500;
+          width: 100%; justify-content: center; text-decoration: none;
+          transition: border-color 0.18s, color 0.18s;
+        }
+        :global(.cb-resources-btn svg) { width: 16px; height: 16px; flex-shrink: 0; }
+        :global(.cb-resources-btn:hover) { border-color: #6BAE8A; color: #2D6A4F; }
 
         /* Game */
         :global(.cb-game-wrap) { padding: 0.875rem; display: flex; flex-direction: column; gap: 0.625rem; }

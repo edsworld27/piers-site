@@ -70,6 +70,7 @@ export default function Footer() {
           <Link href="/legal/privacy">Privacy Policy</Link>
           <Link href="/legal/terms">Terms of Service</Link>
           <Link href="/legal/cookies">Cookie Policy</Link>
+          <Link href="/login" style={{ marginTop: "0.75rem", color: "rgba(245,240,232,0.2)" }}>Login</Link>
         </nav>
       </div>
 

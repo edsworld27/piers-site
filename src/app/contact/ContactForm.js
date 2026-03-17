@@ -78,13 +78,30 @@ export default function ContactForm() {
         </div>
         <h2 className={styles.successTitle}>Message received.</h2>
         <p className={styles.successBody}>
-          Thank you, {form.firstName}. I read every message personally and will
-          be in touch within one working day — usually much sooner.
+          Thank you, {form.firstName}. Piers will get back to you as soon as he can —
+          usually within one working day, often much sooner.
         </p>
-        <p className={styles.successBody}>
-          If it&rsquo;s urgent, call or text me directly on{" "}
-          <a href="tel:07716008836" className={styles.successLink}>07716 008 836</a>.
-        </p>
+        <div className={styles.successActions}>
+          <a href="tel:07716008836" className={styles.successCallBtn}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91A16 16 0 0 0 14 16l.94-.93a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            Call Piers now
+          </a>
+          <Link href="/waiting-room" className={styles.successGameBtn}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="2" y="6" width="20" height="12" rx="2"/>
+              <path d="M12 12h.01M8 10v4M6 12h4M16 10l2 2-2 2"/>
+            </svg>
+            The Waiting Room
+          </Link>
+          <Link href="/blog" className={styles.successResourceBtn}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            Resources &amp; videos
+          </Link>
+        </div>
       </div>
     );
   }
