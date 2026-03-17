@@ -23,6 +23,21 @@ function clearSession() {
   localStorage.removeItem(SESSION_KEY);
 }
 
+// ── All site pages (admin quick-access) ──────────────────────────────
+const SITE_PAGES = [
+  { label: "Home",         href: "/",             emoji: "🏠" },
+  { label: "About",        href: "/about",         emoji: "👤" },
+  { label: "Services",     href: "/services",      emoji: "💼" },
+  { label: "Blog",         href: "/blog",          emoji: "📖" },
+  { label: "Contact",      href: "/contact",       emoji: "✉️" },
+  { label: "Testimonials", href: "/testimonials",  emoji: "⭐" },
+  { label: "Shop",         href: "/shop",          emoji: "🛍️" },
+  { label: "Cart",         href: "/cart",          emoji: "🛒" },
+  { label: "Games Room",   href: "/waiting-room",  emoji: "🎮" },
+  { label: "Legal",        href: "/legal",         emoji: "📄" },
+  { label: "404 Page",     href: "/404",           emoji: "🚧" },
+];
+
 // ── Portal links ─────────────────────────────────────────────────────
 const LINKS = [
   {
@@ -208,6 +223,19 @@ function PortalDashboard({ onLogout }) {
               </Tag>
             );
           })}
+        </div>
+
+        {/* All site pages */}
+        <div className="pd-pages-section">
+          <h2 className="pd-pages-title">All Site Pages</h2>
+          <div className="pd-pages-grid">
+            {SITE_PAGES.map(p => (
+              <Link key={p.href} href={p.href} className="pd-page-pill">
+                <span className="pd-page-emoji">{p.emoji}</span>
+                <span className="pd-page-label">{p.label}</span>
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div className="pd-bottom">
@@ -433,6 +461,36 @@ export default function LoginPage() {
         .pd-card-desc {
           font-size: 0.78rem; color: rgba(245,240,232,0.4); margin: 0; line-height: 1.5;
         }
+
+        /* All pages section */
+        .pd-pages-section { margin-top: 2rem; }
+        .pd-pages-title {
+          font-size: 0.67rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.13em; color: rgba(245,240,232,0.35);
+          margin: 0 0 0.875rem;
+        }
+        .pd-pages-grid {
+          display: flex; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .pd-page-pill {
+          display: inline-flex; align-items: center; gap: 0.375rem;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 8px; padding: 0.4rem 0.75rem;
+          text-decoration: none;
+          transition: background 0.16s, border-color 0.16s, transform 0.15s;
+        }
+        .pd-page-pill:hover {
+          background: rgba(107,174,138,0.1);
+          border-color: rgba(107,174,138,0.35);
+          transform: translateY(-1px);
+        }
+        .pd-page-emoji { font-size: 0.875rem; line-height: 1; }
+        .pd-page-label {
+          font-size: 0.8rem; font-weight: 600; color: rgba(245,240,232,0.65);
+          white-space: nowrap;
+        }
+        .pd-page-pill:hover .pd-page-label { color: rgba(245,240,232,0.9); }
 
         .pd-bottom { margin-top: 2rem; }
         .pd-site-link {
