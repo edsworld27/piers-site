@@ -19,7 +19,7 @@ function VideoEmbed({ videoId, title, tag }) {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting && interacted.current && !isActive) {
+        if (!entry.isIntersecting && !isActive) {
           // Pause page iframe then send to mini player
           try {
             iframeRef.current?.contentWindow?.postMessage(
