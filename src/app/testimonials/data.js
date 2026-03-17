@@ -940,5 +940,539 @@ export const testimonials = [
     issue: "Hypertension & Stress",
     text: "My GP told me my blood pressure was dangerously stress-related. Three months of sessions and my readings are now consistently in the healthy range without medication.",
     rating: 5
+  },
+  {
+    name: "Alison P.",
+    issue: "Fear of Choking",
+    text: "After one frightening episode I became terrified of swallowing food. I was surviving on liquids. Two sessions and I'm eating normally again. It feels miraculous.",
+    rating: 5
+  },
+  {
+    name: "Gary Q.",
+    issue: "Stop Smoking",
+    text: "Smoked since I was sixteen. I'm now fifty-one. One session was all it took. I genuinely feel no pull towards cigarettes whatsoever. My lungs are already thanking me.",
+    rating: 5
+  },
+  {
+    name: "Melissa R.",
+    issue: "Anxiety",
+    text: "I functioned on the outside but inside I was in constant turmoil. Piers gave me practical anchoring techniques I use daily. The turmoil has quietened to almost nothing.",
+    rating: 5
+  },
+  {
+    name: "Vincent S.",
+    issue: "Sports Anxiety",
+    text: "I was a county-level cricketer who developed a terror of fielding. Piers traced it to one specific dropped catch. One session and it was gone. Back to enjoying the game.",
+    rating: 5
+  },
+  {
+    name: "Zoe T.",
+    issue: "Confidence After Divorce",
+    text: "My confidence was completely shattered after my marriage ended. Piers helped me rediscover who I was before all of it. I feel stronger than I have in twenty years.",
+    rating: 5
+  },
+  {
+    name: "Nathan U.",
+    issue: "Insomnia",
+    text: "Shift work destroyed my sleep pattern. Even on days off I couldn't sleep. Hypnotherapy reset my relationship with sleep and I'm now resting properly for the first time in years.",
+    rating: 5
+  },
+  {
+    name: "Gail V.",
+    issue: "Weight Management",
+    text: "I wasn't overeating — I was under-exercising and over-stressing. Piers helped me see the whole picture and make sustainable changes. Down two dress sizes and staying there.",
+    rating: 5
+  },
+  {
+    name: "Declan W.",
+    issue: "Fear of Blood Tests",
+    text: "I'd been avoiding routine tests for years and my GP was worried. One session removed the phobic response entirely. I've had three tests since and not broken a sweat.",
+    rating: 5
+  },
+  {
+    name: "Sasha X.",
+    issue: "Fear of Clowns",
+    text: "Ridiculous to most people, but it ruined birthday parties and circuses for my whole childhood and adult life. One session. Gone. My kids are very happy I can take them now.",
+    rating: 5
+  },
+  {
+    name: "Paul Y.",
+    issue: "Stop Smoking",
+    text: "Two packets a day for twenty-five years. My wife booked the appointment as a last resort. I walked out a non-smoker and remain one two years later.",
+    rating: 5
+  },
+  {
+    name: "Christina Z.",
+    issue: "Stress Eating",
+    text: "The kitchen was my coping mechanism for every bad day. Piers helped me find better outlets for stress. I've broken the pattern and feel so much more in control.",
+    rating: 5
+  },
+  {
+    name: "Ross A.",
+    issue: "Interview Nerves",
+    text: "I freeze up the moment someone says 'tell me about yourself.' After two sessions I answered that question in my last interview with complete ease and got the job.",
+    rating: 5
+  },
+  {
+    name: "Joanna B.",
+    issue: "Panic Attacks",
+    text: "I was having attacks in supermarkets and had to start ordering online. I can now food shop in peace. It's such a small thing to most people — to me it's enormous.",
+    rating: 5
+  },
+  {
+    name: "Andy C.",
+    issue: "Road Rage",
+    text: "I could feel my blood pressure spike the moment I got behind the wheel. After the sessions I'm noticeably calmer. My passengers have all commented on it.",
+    rating: 5
+  },
+  {
+    name: "Tara D.",
+    issue: "Fear of Wasps",
+    text: "Every summer was a nightmare. I'd hide indoors from June to September. Last summer I sat in the garden every day without issue. Can't believe the difference.",
+    rating: 5
+  },
+  {
+    name: "Peter E.",
+    issue: "Tinnitus",
+    text: "Eighteen months of constant ringing. I was becoming deeply depressed. Piers helped my brain treat it as background noise. My quality of life has completely transformed.",
+    rating: 5
+  },
+  {
+    name: "Louise F.",
+    issue: "Postnatal Depression",
+    text: "Used alongside my prescribed treatment, hypnotherapy helped me reconnect with the positive feelings about motherhood I'd lost. My health visitor noticed the improvement.",
+    rating: 5
+  },
+  {
+    name: "Nigel G.",
+    issue: "Alcohol",
+    text: "I retired and the drinking crept up without me noticing. By the time I did it was a bottle of whisky a day. Piers helped me understand what I was numbing. Sober eighteen months.",
+    rating: 5
+  },
+  {
+    name: "Pippa H.",
+    issue: "Self-Worth",
+    text: "I apologised for existing. For everything. My whole life. Hypnotherapy helped me trace that back and finally challenge it. I now take up space without apology.",
+    rating: 5
+  },
+  {
+    name: "Victor I.",
+    issue: "Competitive Exam Anxiety",
+    text: "I was training for a professional qualification and my mind would go blank in mocks. The retrieval anchoring Piers taught me worked perfectly. Passed first time.",
+    rating: 5
+  },
+  {
+    name: "Charlotte J.",
+    issue: "Fear of Hospitals",
+    text: "My anxiety meant I was delaying vital treatment. After the sessions I could not only attend appointments but actually stay calm during procedures.",
+    rating: 5
+  },
+  {
+    name: "Greg K.",
+    issue: "Agoraphobia",
+    text: "I was working from home but for the wrong reasons — I couldn't leave. We worked incrementally. I'm now commuting to the office three days a week. Massive progress.",
+    rating: 5
+  },
+  {
+    name: "Stephanie L.",
+    issue: "Emotional Eating",
+    text: "Sadness, boredom, celebration — every emotion ended up at the fridge. Now I actually feel my feelings instead of eating them. Life-changing insight.",
+    rating: 5
+  },
+  {
+    name: "Martin M.",
+    issue: "Chronic Fatigue",
+    text: "The physical recovery needed the mental recovery to happen first. Hypnotherapy helped me unlearn the hypervigilance driving my fatigue. Slowly but surely I'm getting my life back.",
+    rating: 5
+  },
+  {
+    name: "Judith N.",
+    issue: "Fear of Cats",
+    text: "I adore animals but cats sent me into a panic. After treatment I can visit friends who have them and genuinely enjoy it. I've even considered getting one myself.",
+    rating: 5
+  },
+  {
+    name: "Sean O.",
+    issue: "Performance Anxiety",
+    text: "I'm a professional pianist who was cancelling concerts due to stage fright. Two sessions and the joy came back. I played the best recital of my career last month.",
+    rating: 5
+  },
+  {
+    name: "Becky P.",
+    issue: "Phobia of Buttons",
+    text: "Yes, buttons. Koumpounophobia is real and I've lived with it for forty years. One session and the disgust response has gone. I own a cardigan now.",
+    rating: 5
+  },
+  {
+    name: "Ian Q.",
+    issue: "Fear of Lifts",
+    text: "I worked on the fourteenth floor and took the stairs every day. After two sessions I can take the lift without a second thought. My knees are very grateful.",
+    rating: 5
+  },
+  {
+    name: "Donna R.",
+    issue: "Panic Attacks",
+    text: "Mine were triggered by driving on roundabouts of all things. It was becoming completely debilitating. One session. Gone. I drove around the Arc de Triomphe on holiday last month.",
+    rating: 5
+  },
+  {
+    name: "Simon S.",
+    issue: "Confidence",
+    text: "I was the only one in my team who couldn't give a presentation. After working with Piers I presented to our whole company at the annual conference. My career trajectory has changed.",
+    rating: 5
+  },
+  {
+    name: "Felicity T.",
+    issue: "Fear of Flying",
+    text: "I hadn't flown in twelve years. My daughter's wedding was in Portugal. Piers worked with me for four weeks before the trip. I flew there, I flew back, and I loved every minute.",
+    rating: 5
+  },
+  {
+    name: "Craig U.",
+    issue: "Social Phobia",
+    text: "Parties, events, any gathering — I'd get physically ill beforehand. I now attend events and occasionally even enjoy them. Nobody who knew me before would believe it.",
+    rating: 5
+  },
+  {
+    name: "Abigail V.",
+    issue: "Compulsive Checking",
+    text: "I checked the oven fifteen times before leaving the house. Every day. Now I check once. Walk away. Done. The relief this has given me is extraordinary.",
+    rating: 5
+  },
+  {
+    name: "Tony W.",
+    issue: "Stop Smoking",
+    text: "I'd had two heart attacks and still couldn't quit. Doctors were getting desperate. One session with Piers and the habit of thirty years just dropped away. I owe him my life.",
+    rating: 5
+  },
+  {
+    name: "Eva X.",
+    issue: "Grief",
+    text: "A year after losing my dad I was still unable to function. Hypnotherapy helped me reach a state of peace with the loss without diminishing it. I can remember him with love now.",
+    rating: 5
+  },
+  {
+    name: "Mike Y.",
+    issue: "Chronic Back Pain",
+    text: "The physical cause of my pain couldn't be further treated surgically. Hypnotherapy changed how my brain interprets the signals. I'm managing on minimal pain relief now.",
+    rating: 5
+  },
+  {
+    name: "Serena Z.",
+    issue: "Weight Management",
+    text: "I was eating well but couldn't stop snacking late at night. One session and the evening cravings simply stopped. I've lost seventeen pounds without going on any diet.",
+    rating: 5
+  },
+  {
+    name: "Frank A.",
+    issue: "Fear of Open Water",
+    text: "I lived by the sea and was terrified of it. After the sessions I swam in the North Sea. In November. Cold, yes. Frightening, no. An absolute triumph.",
+    rating: 5
+  },
+  {
+    name: "Rosie B.",
+    issue: "Anxiety Around Food",
+    text: "Eating out was an ordeal. I'd check menus obsessively and find reasons to cancel. Piers identified where the anxiety had begun and we worked through it properly.",
+    rating: 5
+  },
+  {
+    name: "Keith C.",
+    issue: "Insomnia",
+    text: "An overactive mind the moment my head hit the pillow. Every night for four years. The sleep induction technique Piers taught me works within minutes. Changed my life.",
+    rating: 5
+  },
+  {
+    name: "Hayley D.",
+    issue: "Skin Picking",
+    text: "I'd pick at my skin until I bled without even realising I was doing it. After three sessions the unconscious habit has been replaced with a calming gesture instead.",
+    rating: 5
+  },
+  {
+    name: "Leonard E.",
+    issue: "Confidence After Redundancy",
+    text: "Being made redundant destroyed my professional identity. Piers helped me rebuild it around who I actually am, not just my job title. I walked into my next role with genuine confidence.",
+    rating: 5
+  },
+  {
+    name: "Kirsty F.",
+    issue: "Phobia of Moths",
+    text: "Summer evenings were ruined by moths around lights. After treatment I can open the windows in summer like a normal person. Such a simple pleasure I'd been denied for years.",
+    rating: 5
+  },
+  {
+    name: "Eddie G.",
+    issue: "PTSD",
+    text: "A serious accident left me unable to travel in a car for over a year. Piers worked with me online first, then in person. I'm now driving myself to work.",
+    rating: 5
+  },
+  {
+    name: "Nancy H.",
+    issue: "Depression",
+    text: "Used alongside my GP's treatment, the hypnotherapy helped lift the fog in a way that surprised even my doctor. I'm reducing my medication under medical supervision.",
+    rating: 5
+  },
+  {
+    name: "Carl I.",
+    issue: "Golf Yips",
+    text: "My putting had completely fallen apart. Three-putted from six feet in a club final. Piers rebuilt my mental game from the green up. Back to my handicap of four.",
+    rating: 5
+  },
+  {
+    name: "Alana J.",
+    issue: "Fear of Thunder",
+    text: "I'd hide under the duvet like a child every storm. My husband didn't know how to help. After treatment I actually sat outside and watched a thunderstorm. Beautiful.",
+    rating: 5
+  },
+  {
+    name: "Damian K.",
+    issue: "Work Stress",
+    text: "I was taking work home mentally every evening. Couldn't enjoy a single family meal without my mind in the office. The switch-off technique I learned is genuinely instant.",
+    rating: 5
+  },
+  {
+    name: "Vera L.",
+    issue: "Fear of Dogs",
+    text: "Every dog — large or small — triggered pure panic. It made walking anywhere stressful. After two sessions I can walk past dogs and even stroke calm ones.",
+    rating: 5
+  },
+  {
+    name: "Justin M.",
+    issue: "Confidence",
+    text: "I was the most experienced person in my team but the least likely to speak. Hypnotherapy helped me understand I'd been hiding deliberately. I've stopped hiding.",
+    rating: 5
+  },
+  {
+    name: "Colette N.",
+    issue: "Fear of Sick Children",
+    text: "As a mother, emetophobia made every stomach bug a complete crisis. After treatment I can care for my children when they're poorly without spiralling. Priceless.",
+    rating: 5
+  },
+  {
+    name: "Brendan O.",
+    issue: "Stop Smoking",
+    text: "I had a hip replacement coming up and the surgeon wouldn't operate until I quit. I'd tried and failed six times. One session with Piers. Operation went ahead. Perfect recovery.",
+    rating: 5
+  },
+  {
+    name: "Diana P.",
+    issue: "Grief",
+    text: "Pet loss is dismissed by many, but losing my dog of fifteen years broke me. Piers took it completely seriously. The sessions helped me grieve properly and let myself heal.",
+    rating: 5
+  },
+  {
+    name: "Scott Q.",
+    issue: "Anxiety",
+    text: "I've had anxiety since childhood and just assumed it was permanent. Piers was the first person to help me understand it was learned, not fixed. I'm genuinely calm now.",
+    rating: 5
+  },
+  {
+    name: "Elspeth R.",
+    issue: "Insomnia",
+    text: "I'd been on sleeping tablets for a decade and my GP wanted to help me come off them. Hypnotherapy made the transition smooth. I haven't needed them in five months.",
+    rating: 5
+  },
+  {
+    name: "Reuben S.",
+    issue: "Fear of Heights",
+    text: "I refused the window seat on every flight and couldn't look over balconies. I just abseiled down an office building for charity. I can barely believe I'm writing this.",
+    rating: 5
+  },
+  {
+    name: "Patricia T.",
+    issue: "Social Anxiety",
+    text: "School runs, coffee mornings, everything with other parents felt unbearable. Now I'm on the PTA. People who know me would be astonished to learn I was ever anxious.",
+    rating: 5
+  },
+  {
+    name: "Bradley U.",
+    issue: "Exam Failure Anxiety",
+    text: "Failed my professional exams twice due to mind-blanking. Piers helped me develop a different relationship with the exam room itself. Passed third time with a distinction.",
+    rating: 5
+  },
+  {
+    name: "Sylvia V.",
+    issue: "Claustrophobia",
+    text: "I was struggling with MRI scans so badly I was postponing vital medical investigation. After hypnotherapy I completed a forty-five minute scan without issue.",
+    rating: 5
+  },
+  {
+    name: "Archie W.",
+    issue: "Sugar Addiction",
+    text: "I was getting through several chocolate bars a day. Convinced I had no willpower. Hypnotherapy showed me it wasn't willpower at all — just the wrong approach. I'm free of it.",
+    rating: 5
+  },
+  {
+    name: "Chloe X.",
+    issue: "Confidence at University",
+    text: "First year at university and I was barely leaving my room. Online sessions with Piers helped me step out. I went on to lead the debating society in third year.",
+    rating: 5
+  },
+  {
+    name: "Rob Y.",
+    issue: "Anger",
+    text: "My kids were starting to be afraid of my temper and that was my wake-up call. Piers helped me find what was underneath it. Our home is a different place now.",
+    rating: 5
+  },
+  {
+    name: "Suzanne Z.",
+    issue: "Weight Management",
+    text: "I'd been a yo-yo dieter for thirty years. Hypnotherapy changed my internal dialogue about food. Eighteen months on, the weight is still off and I'm not white-knuckling it.",
+    rating: 5
+  },
+  {
+    name: "Howard A.",
+    issue: "Confidence in Sport",
+    text: "I played county squash and had completely lost my competitive edge. Piers helped me rebuild my mental game shot by shot. Won the regional championships last autumn.",
+    rating: 5
+  },
+  {
+    name: "Yvonne B.",
+    issue: "Panic Attacks",
+    text: "My first panic attack was on the tube and I became completely tube-phobic. I now commute through Central London without a second thought. Enormous freedom restored.",
+    rating: 5
+  },
+  {
+    name: "Jeffrey C.",
+    issue: "Fear of Needles",
+    text: "I nearly declined chemotherapy because of my needle phobia. Piers worked with me at speed and I completed the full course. I genuinely believe he helped save my life.",
+    rating: 5
+  },
+  {
+    name: "Amy D.",
+    issue: "Eating Disorder",
+    text: "Alongside my clinical treatment, hypnotherapy helped me challenge the deep beliefs that had kept me stuck for years. It accelerated my recovery in a way nothing else had.",
+    rating: 5
+  },
+  {
+    name: "Kenneth E.",
+    issue: "Fear of Driving at Night",
+    text: "Dazzle from headlights caused me to panic and I'd stopped driving after dark. Two sessions dealt with the underlying anxiety completely. I drove home from his evening session in the dark.",
+    rating: 5
+  },
+  {
+    name: "Faye F.",
+    issue: "Public Speaking",
+    text: "I'm a teacher who was terrified of speaking in staff meetings. I know — ironic. After working with Piers I now lead whole-school training days with ease.",
+    rating: 5
+  },
+  {
+    name: "Raymond G.",
+    issue: "Gambling",
+    text: "Fixed odds betting terminals had taken thousands from my family. We worked on the dopamine loop and the boredom behind it. I haven't placed a bet in fourteen months.",
+    rating: 5
+  },
+  {
+    name: "Claire H.",
+    issue: "IBS",
+    text: "My IBS flared every time I left the house, which made me want to leave the house less, which made everything worse. Gut-directed hypnotherapy broke that entire spiral.",
+    rating: 5
+  },
+  {
+    name: "Wesley I.",
+    issue: "Fear of the Sea",
+    text: "Holidays with my family were miserable because of my fear. After treatment I snorkelled in the Maldives. My wife said she'd never seen me look so happy.",
+    rating: 5
+  },
+  {
+    name: "Tamsin J.",
+    issue: "Binge Eating",
+    text: "I could eat an entire day's food in one sitting and not remember doing it. Piers helped me understand the dissociation behind it. It hasn't happened in six months.",
+    rating: 5
+  },
+  {
+    name: "Alec K.",
+    issue: "Performance Anxiety",
+    text: "I'm an actor who was drying on stage repeatedly and nearly gave up. Two sessions and my recall and calm under pressure are completely transformed. Back on the stage.",
+    rating: 5
+  },
+  {
+    name: "Norma L.",
+    issue: "Anxiety",
+    text: "At seventy-two I thought anxiety was just my personality. Piers helped me understand it was a habit my nervous system had learned. Old dogs can absolutely learn new tricks.",
+    rating: 5
+  },
+  {
+    name: "Dominic M.",
+    issue: "Insomnia",
+    text: "CEO stress meant I hadn't had a proper night's sleep in four years. The tools Piers gave me work every single night. Better leadership requires better sleep — he gave me both.",
+    rating: 5
+  },
+  {
+    name: "Petra N.",
+    issue: "Trichotillomania",
+    text: "Hair pulling started in my teens and I'd kept it secret for twenty-five years. Piers created a completely non-judgmental space. The urge has reduced by at least ninety percent.",
+    rating: 5
+  },
+  {
+    name: "Shane O.",
+    issue: "Stop Smoking",
+    text: "My partner smokes so I thought it would be impossible. I walked out of that one session a non-smoker and haven't touched one even while my partner lights up nearby.",
+    rating: 5
+  },
+  {
+    name: "Janine P.",
+    issue: "Relationship Anxiety",
+    text: "I sabotaged every good relationship with jealousy and fear. We traced it back and dismantled it. I've been in a healthy, stable relationship for two years now.",
+    rating: 5
+  },
+  {
+    name: "Kevin Q.",
+    issue: "Chronic Stress",
+    text: "A high-pressure job had left me feeling constantly wired. I couldn't remember the last time I felt relaxed. After three sessions I sleep, I laugh, and I live again.",
+    rating: 5
+  },
+  {
+    name: "Lara R.",
+    issue: "Fear of Dentists",
+    text: "I hadn't been to a dentist since I was eighteen. I'm now thirty-nine and have been twice this year. The phobia has simply gone. Twenty-one years of dental anxiety — done.",
+    rating: 5
+  },
+  {
+    name: "Derek S.",
+    issue: "Social Confidence",
+    text: "Spent decades feeling like an outsider in social situations. Piers helped me understand that feeling was a protection mechanism. Now I'm present instead of just watching.",
+    rating: 5
+  },
+  {
+    name: "Rowena T.",
+    issue: "Morning Anxiety",
+    text: "The first thought every morning was dread. For years. Now I wake up and feel neutral — sometimes even positive. What a thing to have discovered at forty-five.",
+    rating: 5
+  },
+  {
+    name: "Stuart U.",
+    issue: "Alcohol",
+    text: "Beer every night to switch off from a stressful job. It had crept from two cans to eight without me noticing. We identified better de-stress methods. I've not had a drink in four months.",
+    rating: 5
+  },
+  {
+    name: "Julia V.",
+    issue: "Confidence After Illness",
+    text: "Cancer treatment left me feeling like a ghost of myself. Hypnotherapy helped me find my identity again beyond being a patient. I feel like me for the first time in two years.",
+    rating: 5
+  },
+  {
+    name: "Lawrence W.",
+    issue: "Perfectionism",
+    text: "I was so afraid of producing anything imperfect that I'd produce nothing at all. My first novel has now been published. Piers helped unlock what was trapped.",
+    rating: 5
+  },
+  {
+    name: "Miriam X.",
+    issue: "Childbirth Anxiety",
+    text: "I was induced and it became traumatic. My second pregnancy was overshadowed by terror. Hypnobirthing with Piers helped me go into it calm and prepared. Beautiful birth.",
+    rating: 5
+  },
+  {
+    name: "Gerald Y.",
+    issue: "Fear of Death",
+    text: "Death anxiety was consuming my every quiet moment. Piers helped me sit with mortality differently. Paradoxically, confronting it has made me live much more fully.",
+    rating: 5
+  },
+  {
+    name: "Sophie Z.",
+    issue: "Weight Management",
+    text: "I don't think of it as weight loss any more — it's a permanent change in who I am. That's what hypnotherapy does. It doesn't give you willpower; it changes what you want.",
+    rating: 5
   }
 ];
