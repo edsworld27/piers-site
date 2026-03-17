@@ -1,23 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useVideoPlayer } from "../components/VideoPlayerContext";
 
 function VideoEmbed({ videoId, title, tag }) {
-  const { playVideo, activeVideo } = useVideoPlayer();
+  const { playVideo, activeVideo, attachAnchor, detachAnchor, updateAnchorVisibility } = useVideoPlayer();
   const isActive = activeVideo?.videoId === videoId;
+  const placeholderRef = useRef(null);
+
+  useEffect(() => {
+    if (!isActive) return;
+    const el = placeholderRef.current;
+    if (!el) return;
+    attachAnchor(el);
+    const observer = new IntersectionObserver(
+      ([entry]) => updateAnchorVisibility(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      detachAnchor();
+    };
+  }, [isActive, attachAnchor, detachAnchor, updateAnchorVisibility]);
 
   if (isActive) {
-    return (
-      <div className="video-popped-out">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polygon points="5 3 19 12 5 21 5 3"/>
-        </svg>
-        <span>Playing in mini player</span>
-        <span className="video-popped-out-label">Drag it anywhere ↘</span>
-      </div>
-    );
+    // Invisible placeholder that holds the layout space while the video plays
+    return <div ref={placeholderRef} className="video-anchor-placeholder" />;
   }
 
   return (

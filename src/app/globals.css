@@ -617,23 +617,13 @@ select:focus-visible {
   border: none;
 }
 
-/* In-page placeholder when video is popped out */
-.video-popped-out {
-  position: relative;
+/* Layout placeholder that holds space while video plays in mini player */
+.video-anchor-placeholder {
   aspect-ratio: 16 / 9;
+  width: 100%;
   border-radius: 12px;
-  background: #0C1B2E;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  color: rgba(245,240,232,0.6);
-  font-size: 0.9rem;
-  border: 1px solid rgba(107,174,138,0.15);
+  background: #0a1520;
 }
-.video-popped-out svg { color: #6BAE8A; }
-.video-popped-out-label { font-size: 0.85rem; color: rgba(245,240,232,0.5); }
 
 /* Video thumbnail play button */
 .video-thumb-btn {
@@ -692,6 +682,50 @@ select:focus-visible {
   letter-spacing: 0.1em;
   padding: 0.2em 0.6em;
   border-radius: 4px;
+}
+
+/* ── Inline mode: player sits exactly over the thumbnail ── */
+.mini-player--inline {
+  overflow: hidden;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+.mini-player--inline .mini-player-iframe-wrap {
+  position: absolute;
+  inset: 0;
+  padding-bottom: 0;
+  height: 100%;
+}
+.mini-player--inline .mini-player-iframe-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Close button overlay for inline mode */
+.mini-player-inline-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(12,27,46,0.75);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.85);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.18s;
+}
+.mini-player--inline:hover .mini-player-inline-close {
+  opacity: 1;
+}
+.mini-player-inline-close:hover {
+  background: rgba(200,50,50,0.85);
+  color: #fff;
 }
 
 @media (max-width: 420px) {

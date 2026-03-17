@@ -4,26 +4,42 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useVideoPlayer } from "./VideoPlayerContext";
 
 export default function MiniVideoPlayer() {
-  const { activeVideo, dismissVideo } = useVideoPlayer();
-  const [pos, setPos] = useState(null);
+  const { activeVideo, dismissVideo, anchorEl, anchorVisible } = useVideoPlayer();
+  const [pos, setPos]             = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [anchorRect, setAnchorRect] = useState(null);
   const dragOrigin = useRef(null);
-  const playerRef = useRef(null);
+  const playerRef  = useRef(null);
 
-  // Reset position whenever a new video opens
+  // Reset drag position when a new video opens
   useEffect(() => {
     setPos(null);
   }, [activeVideo?.videoId]);
 
-  // ── Mouse drag ──
+  // Keep anchorRect synced while the anchor is visible
+  useEffect(() => {
+    if (!anchorEl || !anchorVisible) {
+      setAnchorRect(null);
+      return;
+    }
+    const sync = () => {
+      setAnchorRect(anchorEl.getBoundingClientRect());
+    };
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+    };
+  }, [anchorEl, anchorVisible]);
+
+  // ── Mouse drag (floating mode only) ──
   const onMouseDown = useCallback((e) => {
     if (e.button !== 0) return;
     e.preventDefault();
     const rect = playerRef.current.getBoundingClientRect();
-    dragOrigin.current = {
-      mouseX: e.clientX, mouseY: e.clientY,
-      elX: rect.left,    elY: rect.top,
-    };
+    dragOrigin.current = { mouseX: e.clientX, mouseY: e.clientY, elX: rect.left, elY: rect.top };
     setIsDragging(true);
   }, []);
 
@@ -49,10 +65,7 @@ export default function MiniVideoPlayer() {
   const onTouchStart = useCallback((e) => {
     const t = e.touches[0];
     const rect = playerRef.current.getBoundingClientRect();
-    dragOrigin.current = {
-      mouseX: t.clientX, mouseY: t.clientY,
-      elX: rect.left,    elY: rect.top,
-    };
+    dragOrigin.current = { mouseX: t.clientX, mouseY: t.clientY, elX: rect.left, elY: rect.top };
     setIsDragging(true);
   }, []);
 
@@ -75,50 +88,70 @@ export default function MiniVideoPlayer() {
     };
   }, [isDragging]);
 
-  // Don't render anything when no video is active
   if (!activeVideo) return null;
 
-  const posStyle = pos
+  const isInline = anchorVisible && anchorRect;
+
+  // Inline: overlay exactly on the thumbnail container
+  const inlineStyle = isInline ? {
+    position: "fixed",
+    top:    anchorRect.top,
+    left:   anchorRect.left,
+    width:  anchorRect.width,
+    height: anchorRect.height,
+    right:  "auto",
+    bottom: "auto",
+    transition: "none",
+  } : {};
+
+  // Floating: use drag position or default corner
+  const floatStyle = !isInline && pos
     ? { left: pos.x, top: pos.y, right: "auto", bottom: "auto" }
     : {};
+
+  const style = { ...inlineStyle, ...floatStyle };
 
   return (
     <div
       ref={playerRef}
-      className={`mini-player mini-player--visible${isDragging ? " mini-player--dragging" : ""}`}
-      style={posStyle}
+      className={`mini-player mini-player--visible${isInline ? " mini-player--inline" : ""}${isDragging ? " mini-player--dragging" : ""}`}
+      style={style}
       role="region"
       aria-label="Mini video player"
     >
-      {/* Drag handle */}
-      <div
-        className="mini-player-handle"
-        onMouseDown={onMouseDown}
-        onTouchStart={onTouchStart}
-      >
-        <span className="mini-player-grip" aria-hidden="true">
-          <svg width="16" height="10" viewBox="0 0 16 10" fill="currentColor">
-            <rect x="0" y="0" width="16" height="2" rx="1"/>
-            <rect x="0" y="4" width="16" height="2" rx="1"/>
-            <rect x="0" y="8" width="16" height="2" rx="1"/>
-          </svg>
-        </span>
-        <span className="mini-player-handle-title">
-          <span className="mini-player-tag">{activeVideo.tag}</span>
-          {activeVideo.title}
-        </span>
+      {isInline ? (
+        /* Inline mode: just a close button overlay, iframe fills everything */
         <button
-          className="mini-player-close"
+          className="mini-player-inline-close"
           onClick={dismissVideo}
-          aria-label="Close mini player"
+          aria-label="Close video"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
             <path d="M1 1L11 11M11 1L1 11"/>
           </svg>
         </button>
-      </div>
+      ) : (
+        /* Floating mode: drag handle with title and close */
+        <div className="mini-player-handle" onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
+          <span className="mini-player-grip" aria-hidden="true">
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="currentColor">
+              <rect x="0" y="0" width="16" height="2" rx="1"/>
+              <rect x="0" y="4" width="16" height="2" rx="1"/>
+              <rect x="0" y="8" width="16" height="2" rx="1"/>
+            </svg>
+          </span>
+          <span className="mini-player-handle-title">
+            <span className="mini-player-tag">{activeVideo.tag}</span>
+            {activeVideo.title}
+          </span>
+          <button className="mini-player-close" onClick={dismissVideo} aria-label="Close mini player">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <path d="M1 1L11 11M11 1L1 11"/>
+            </svg>
+          </button>
+        </div>
+      )}
 
-      {/* Iframe */}
       <div className="mini-player-iframe-wrap">
         <iframe
           src={`https://www.youtube.com/embed/${activeVideo.videoId}?autoplay=1&rel=0`}
