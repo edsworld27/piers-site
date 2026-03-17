@@ -1,5 +1,14 @@
 import Link from "next/link";
 import Script from "next/script";
+import FaqAccordion from "@/app/components/FaqAccordion";
+
+const FAQS = [
+  { q: "Can hypnotherapy quickly remove a phobia?", a: "Yes. Most specific phobias (like fear of flying, spiders, or heights) can be completely neutralized in just 1 to 3 sessions using advanced rewind and desensitization techniques." },
+  { q: "Will it help with public speaking anxiety?", a: "Absolutely. Hypnotherapy is incredibly effective at removing the mental blocks associated with public speaking, leaving you feeling calm, authoritative, and unconditionally confident." },
+  { q: "What if my lack of confidence goes back to childhood?", a: "Hypnotherapy is particularly powerful for deeply rooted beliefs formed in childhood. We gently access those formative experiences and reframe them, removing their hold on your adult self." },
+  { q: "How long before I notice a difference in my confidence?", a: "Most clients report a noticeable internal shift after the very first session. The change is often described as feeling more settled and less reactive to situations that previously triggered self-doubt." },
+  { q: "Can imposter syndrome be permanently resolved?", a: "Yes. Imposter syndrome is a subconscious pattern of thinking, not a fixed part of who you are. Hypnotherapy rewires the underlying belief structure so that success feels earned and deserved." },
+];
 
 export const metadata = {
   title: "Confidence Hypnotherapy UK | Overcome Phobias & Imposter Syndrome | Piers Day",
@@ -88,10 +97,25 @@ export default function ConfidencePage() {
               </div>
             </aside>
           </div>
+
+          {/* FAQ Section */}
+          <div className="faq-section">
+            <h2 className="faq-heading">Frequently Asked Questions</h2>
+            <FaqAccordion items={FAQS} />
+          </div>
         </div>
       </main>
 
       <style>{`
+        .faq-section { margin-top: 4rem; max-width: 760px; margin-left: auto; margin-right: auto; }
+        .faq-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.4rem, 3vw, 1.9rem);
+          font-weight: 500;
+          color: #f5f0e8;
+          margin: 0 0 1.5rem;
+          text-align: center;
+        }
         .pt-32 { padding-top: 8rem; }
         .pb-24 { padding-bottom: 6rem; }
         .mb-16 { margin-bottom: 4rem; }

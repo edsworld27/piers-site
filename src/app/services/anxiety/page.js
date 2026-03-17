@@ -1,5 +1,14 @@
 import Link from "next/link";
 import Script from "next/script";
+import FaqAccordion from "@/app/components/FaqAccordion";
+
+const FAQS = [
+  { q: "Can hypnotherapy really cure anxiety?", a: "Hypnotherapy is a highly effective tool for managing and overcoming anxiety. It works by addressing the root subconscious triggers and rewiring your mind's automated stress responses, allowing for deep and lasting calm." },
+  { q: "How many sessions will I need for anxiety?", a: "While every individual is different, most clients experience significant relief within 3 to 6 sessions of targeted hypnotherapy." },
+  { q: "Is online hypnotherapy as effective as in-person?", a: "Yes — online sessions are equally effective. Many clients actually find it easier to relax in their own environment, which can enhance the hypnotic response." },
+  { q: "What does hypnotherapy feel like?", a: "It feels deeply relaxing — similar to that calm state just before sleep. You remain aware and in control throughout. Most clients describe it as one of the most peaceful experiences they've had." },
+  { q: "Will it work if I've tried other therapies before?", a: "Many clients come to hypnotherapy having already tried CBT, medication, or counselling. Hypnotherapy works at a subconscious level that other approaches don't always reach, which is why it often succeeds where others have not." },
+];
 
 export const metadata = {
   title: "Anxiety Hypnotherapy UK | Overcome Panic Attacks & Stress | Piers Day",
@@ -88,10 +97,25 @@ export default function AnxietyPage() {
               </div>
             </aside>
           </div>
+
+          {/* FAQ Section */}
+          <div className="faq-section">
+            <h2 className="faq-heading">Frequently Asked Questions</h2>
+            <FaqAccordion items={FAQS} />
+          </div>
         </div>
       </main>
 
       <style>{`
+        .faq-section { margin-top: 4rem; max-width: 760px; margin-left: auto; margin-right: auto; }
+        .faq-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.4rem, 3vw, 1.9rem);
+          font-weight: 500;
+          color: #f5f0e8;
+          margin: 0 0 1.5rem;
+          text-align: center;
+        }
         .pt-32 { padding-top: 8rem; }
         .pb-24 { padding-bottom: 6rem; }
         .mb-16 { margin-bottom: 4rem; }
