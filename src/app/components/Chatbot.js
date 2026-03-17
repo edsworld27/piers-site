@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const LS_KEY = "cb_state";
 
 // ── Main component ───────────────────────────────────────────────────
 export default function Chatbot() {
@@ -8,15 +10,28 @@ export default function Chatbot() {
   const [view, setView]               = useState("form"); // form | success
   const [name, setName]               = useState("");
   const [email, setEmail]             = useState("");
+  const [phone, setPhone]             = useState("");
   const [message, setMessage]         = useState("");
   const [errors, setErrors]           = useState({});
   const [submitting, setSubmitting]   = useState(false);
   const [submittedName, setSubmittedName] = useState("");
 
+  // Restore success state across navigations (links navigate away + come back)
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LS_KEY);
+      if (saved) {
+        const { submittedName: sn } = JSON.parse(saved);
+        if (sn) { setView("success"); setSubmittedName(sn); }
+      }
+    } catch {}
+  }, []);
+
   const validate = () => {
     const e = {};
-    if (!name.trim()) e.name = "Please enter your name";
+    if (!name.trim())    e.name    = "Please enter your name";
     if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) e.email = "Please enter a valid email";
+    if (phone.trim() && !/^[\d\s+\-().]{7,20}$/.test(phone)) e.phone = "Please enter a valid phone number";
     if (!message.trim()) e.message = "Please enter a message";
     return e;
   };
@@ -27,9 +42,17 @@ export default function Chatbot() {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setSubmitting(true);
     await new Promise(r => setTimeout(r, 900));
-    setSubmittedName(name.trim().split(" ")[0]);
+    const firstName = name.trim().split(" ")[0];
+    setSubmittedName(firstName);
     setSubmitting(false);
     setView("success");
+    try { localStorage.setItem(LS_KEY, JSON.stringify({ submittedName: firstName })); } catch {}
+  };
+
+  const sendAnother = () => {
+    setView("form");
+    setName(""); setEmail(""); setPhone(""); setMessage(""); setErrors({});
+    try { localStorage.removeItem(LS_KEY); } catch {}
   };
 
   const clearField = (field) => setErrors(x => ({ ...x, [field]: null }));
@@ -61,6 +84,7 @@ export default function Chatbot() {
             {view === "form" && (
               <form className="cb-form" onSubmit={handleSubmit} noValidate>
                 <p className="cb-intro">Send Piers a message and he'll get back to you personally.</p>
+
                 <div className="cb-field">
                   <label className="cb-label" htmlFor="cb-name">Your name</label>
                   <input
@@ -71,6 +95,7 @@ export default function Chatbot() {
                   />
                   {errors.name && <span className="cb-err">{errors.name}</span>}
                 </div>
+
                 <div className="cb-field">
                   <label className="cb-label" htmlFor="cb-email">Email address</label>
                   <input
@@ -81,6 +106,20 @@ export default function Chatbot() {
                   />
                   {errors.email && <span className="cb-err">{errors.email}</span>}
                 </div>
+
+                <div className="cb-field">
+                  <label className="cb-label" htmlFor="cb-phone">
+                    Phone number <span className="cb-optional">(optional)</span>
+                  </label>
+                  <input
+                    id="cb-phone"
+                    className={`cb-input${errors.phone ? " cb-input--err" : ""}`}
+                    type="tel" placeholder="+44 7700 000000" value={phone}
+                    onChange={e => { setPhone(e.target.value); clearField("phone"); }}
+                  />
+                  {errors.phone && <span className="cb-err">{errors.phone}</span>}
+                </div>
+
                 <div className="cb-field">
                   <label className="cb-label" htmlFor="cb-msg">Message</label>
                   <textarea
@@ -92,6 +131,7 @@ export default function Chatbot() {
                   />
                   {errors.message && <span className="cb-err">{errors.message}</span>}
                 </div>
+
                 <button type="submit" className="cb-submit" disabled={submitting}>
                   {submitting
                     ? <><span className="cb-spinner" /> Sending…</>
@@ -127,6 +167,13 @@ export default function Chatbot() {
                   </svg>
                   Browse resources &amp; videos
                 </a>
+                <button className="cb-new-msg-btn" onClick={sendAnother}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                  Send another message
+                </button>
               </div>
             )}
 
@@ -179,7 +226,7 @@ export default function Chatbot() {
         /* ── Panel ───────────────────────────────────────── */
         :global(.cb-panel) {
           position: fixed; bottom: 5rem; right: 1.5rem; z-index: 9099;
-          width: 360px; max-height: 580px;
+          width: 360px; max-height: 600px;
           display: flex; flex-direction: column;
           background: #fff; border-radius: 18px;
           box-shadow: 0 12px 48px rgba(12,27,46,0.22), 0 2px 8px rgba(12,27,46,0.1);
@@ -220,6 +267,7 @@ export default function Chatbot() {
         :global(.cb-intro) { font-size: 0.85rem; color: #4a6070; margin: 0; line-height: 1.5; }
         :global(.cb-field) { display: flex; flex-direction: column; gap: 0.3rem; }
         :global(.cb-label) { font-size: 0.78rem; font-weight: 600; color: #1a2b3c; }
+        :global(.cb-optional) { font-weight: 400; color: #7a9aaa; font-size: 0.72rem; }
         :global(.cb-input) {
           border: 1.5px solid #d8e5e0; border-radius: 8px;
           padding: 0.55rem 0.75rem; font-size: 0.875rem; color: #1a2b3c;
@@ -256,7 +304,7 @@ export default function Chatbot() {
         :global(.cb-success) {
           padding: 1.5rem 1.25rem;
           display: flex; flex-direction: column; align-items: center;
-          gap: 0.8rem; text-align: center;
+          gap: 0.75rem; text-align: center;
         }
         :global(.cb-success-icon) {
           width: 52px; height: 52px; border-radius: 50%;
@@ -295,6 +343,17 @@ export default function Chatbot() {
         }
         :global(.cb-resources-btn svg) { width: 16px; height: 16px; flex-shrink: 0; }
         :global(.cb-resources-btn:hover) { border-color: #6BAE8A; color: #2D6A4F; }
+        :global(.cb-new-msg-btn) {
+          display: flex; align-items: center; gap: 0.5rem;
+          background: none; color: #7a9aaa;
+          border: 1.5px dashed #d8e5e0; border-radius: 8px;
+          padding: 0.65rem 1.25rem; font-size: 0.8rem; font-weight: 500;
+          width: 100%; justify-content: center; cursor: pointer;
+          transition: border-color 0.18s, color 0.18s; font-family: var(--font-body);
+          margin-top: 0.25rem;
+        }
+        :global(.cb-new-msg-btn svg) { width: 14px; height: 14px; flex-shrink: 0; }
+        :global(.cb-new-msg-btn:hover) { border-color: #6BAE8A; color: #2D6A4F; }
 
         /* Branding */
         :global(.cb-branding) {

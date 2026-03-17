@@ -26,7 +26,7 @@ function clearSession() {
 // ── Portal links ─────────────────────────────────────────────────────
 const LINKS = [
   {
-    label: "The Waiting Room",
+    label: "Games Room",
     desc: "Games & activities for clients waiting for their session",
     href: "/waiting-room",
     internal: true,
