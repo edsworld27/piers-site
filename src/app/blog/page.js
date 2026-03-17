@@ -5,17 +5,25 @@ import { useState, useEffect, useRef } from "react";
 import { useVideoPlayer } from "../components/VideoPlayerContext";
 
 function VideoEmbed({ videoId, title, tag }) {
-  const { playVideo, activeVideo, attachAnchor, detachAnchor, updateAnchorVisibility } = useVideoPlayer();
+  const {
+    playVideo, activeVideo,
+    attachAnchor, detachAnchor, updateAnchorVisibility,
+    isFloating, exitMiniMode,
+  } = useVideoPlayer();
   const isActive = activeVideo?.videoId === videoId;
   const placeholderRef = useRef(null);
+  const [anchorInView, setAnchorInView] = useState(false);
 
   useEffect(() => {
-    if (!isActive) return;
+    if (!isActive) { setAnchorInView(false); return; }
     const el = placeholderRef.current;
     if (!el) return;
     attachAnchor(el);
     const observer = new IntersectionObserver(
-      ([entry]) => updateAnchorVisibility(entry.isIntersecting),
+      ([entry]) => {
+        setAnchorInView(entry.isIntersecting);
+        updateAnchorVisibility(entry.isIntersecting);
+      },
       { threshold: 0.3 }
     );
     observer.observe(el);
@@ -26,8 +34,32 @@ function VideoEmbed({ videoId, title, tag }) {
   }, [isActive, attachAnchor, detachAnchor, updateAnchorVisibility]);
 
   if (isActive) {
-    // Invisible placeholder that holds the layout space while the video plays
-    return <div ref={placeholderRef} className="video-anchor-placeholder" />;
+    // When floating and user scrolls back: show a "resume here" banner
+    // instead of automatically snapping the player back to this position.
+    const showResume = isFloating && anchorInView;
+    return (
+      <div
+        ref={placeholderRef}
+        className={`video-anchor-placeholder${showResume ? " video-anchor-resume" : ""}`}
+      >
+        {showResume && (
+          <div className="video-anchor-banner">
+            <span className="video-anchor-banner-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="4" width="20" height="14" rx="2"/>
+                <path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <p className="video-anchor-banner-text">
+              Video is playing in the mini player.
+            </p>
+            <button className="video-anchor-resume-btn" onClick={exitMiniMode}>
+              Resume here →
+            </button>
+          </div>
+        )}
+      </div>
+    );
   }
 
   return (

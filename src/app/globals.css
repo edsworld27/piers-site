@@ -625,6 +625,59 @@ select:focus-visible {
   background: #0a1520;
 }
 
+/* "Resume here" state — flex so the banner centres inside the placeholder */
+.video-anchor-resume {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed rgba(107,174,138,0.35);
+}
+
+/* Banner content */
+.video-anchor-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.25rem;
+  text-align: center;
+  animation: bannerFadeIn 0.22s ease;
+}
+@keyframes bannerFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.video-anchor-banner-icon {
+  color: rgba(107,174,138,0.7);
+}
+.video-anchor-banner-icon svg {
+  width: 36px;
+  height: 36px;
+}
+.video-anchor-banner-text {
+  font-size: 0.8rem;
+  color: rgba(245,240,232,0.5);
+  margin: 0;
+  line-height: 1.4;
+}
+.video-anchor-resume-btn {
+  background: #6BAE8A;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.825rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.15s;
+  font-family: var(--font-body, system-ui);
+  letter-spacing: 0.01em;
+}
+.video-anchor-resume-btn:hover {
+  background: #4a9070;
+  transform: translateY(-1px);
+}
+
 /* Video thumbnail play button */
 .video-thumb-btn {
   position: relative;
