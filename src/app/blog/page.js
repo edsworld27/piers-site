@@ -1072,12 +1072,19 @@ export default function BlogIndex() {
   const [visibleLimit, setVisibleLimit] = useState(8);
   const [videoVisible, setVideoVisible] = useState(12);
   const [expandedCards, setExpandedCards] = useState({});
-  const [expandedArticles, setExpandedArticles] = useState({});
+  const [articleModal, setArticleModal] = useState(null);
   const [contentFilter, setContentFilter] = useState('all');
   const [faqCategory, setFaqCategory] = useState('all');
 
-  const toggleCard    = (id) => setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }));
-  const toggleArticle = (id) => setExpandedArticles(prev => ({ ...prev, [id]: !prev[id] }));
+  const toggleCard = (id) => setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }));
+  const openArticleModal  = (topic) => { setArticleModal(topic); document.body.style.overflow = 'hidden'; };
+  const closeArticleModal = ()      => { setArticleModal(null);  document.body.style.overflow = ''; };
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') closeArticleModal(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   const filteredTopics = topics.filter(t =>
     !searchQuery ||
@@ -1119,6 +1126,48 @@ export default function BlogIndex() {
   return (
     <div className="res-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
+
+      {/* ── Article modal ── */}
+      {articleModal && (
+        <>
+          <div className="art-modal-backdrop" onClick={closeArticleModal} />
+          <div className="art-modal-wrap" onClick={closeArticleModal}>
+            <div className="art-modal-card" onClick={e => e.stopPropagation()}>
+              <button className="art-modal-close" onClick={closeArticleModal} aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+              {/* Gradient header */}
+              <div className="art-modal-header" style={{ background: tagGrad(articleModal.tag) }}>
+                <div className="art-header-deco" aria-hidden="true" />
+                <span className="art-card-tag">{articleModal.tag}</span>
+                <h2 className="art-modal-headline">{articleModal.article.headline}</h2>
+                <p className="art-modal-topic">{articleModal.title}</p>
+              </div>
+              {/* Scrollable body */}
+              <div className="art-modal-body">
+                <div className="art-modal-article">
+                  {articleModal.article.content.split('\n\n').map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+                {articleModal.faqs?.length > 0 && (
+                  <div className="art-modal-faqs">
+                    <h3 className="art-modal-faqs-heading">Questions on this topic</h3>
+                    {articleModal.faqs.map((faq, i) => (
+                      <FAQAccordion key={i} question={faq.question} answer={faq.answer} />
+                    ))}
+                  </div>
+                )}
+                <div className="art-modal-cta">
+                  <h4>Ready to take the next step?</h4>
+                  <p>If you related to anything in this article, a free conversation is the best place to start.</p>
+                  <Link href="/contact" className="btn btn-primary" onClick={closeArticleModal}>Talk to Piers Today →</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* ── Hero ── */}
       <section className="res-hero">
@@ -1217,26 +1266,50 @@ export default function BlogIndex() {
 
                         {expandedCards[item.id] && (
                           <div className="topic-card-body">
+
+                            {/* ── Video ── */}
                             {item.videoId && (
-                              <div className="topic-video-wrap">
+                              <div className="topic-section-block">
+                                <span className="topic-section-label">
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                  Watch
+                                </span>
                                 <div className="topic-video-embed">
                                   <VideoEmbed videoId={item.videoId} title={item.title} tag={item.tag} />
                                 </div>
                               </div>
                             )}
+
+                            {/* ── Article ── */}
                             {item.article && (
-                              <div className="topic-article-excerpt">
-                                <span className="topic-section-label">Article</span>
+                              <div className="topic-section-block">
+                                <span className="topic-section-label">
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                  Article
+                                </span>
                                 <h3 className="topic-article-title">{item.article.headline}</h3>
-                                <p className="topic-article-text">{item.article.content.substring(0, 220)}…</p>
+                                <p className="topic-article-text">{item.article.content.substring(0, 200)}…</p>
+                                <button onClick={() => openArticleModal(item)} className="topic-read-btn">
+                                  Read full article →
+                                </button>
                               </div>
                             )}
+
+                            {/* ── FAQs ── */}
                             {item.faqs?.length > 0 && (
-                              <div className="topic-faq-summary">
-                                <span className="topic-section-label">FAQs</span>
-                                <p className="topic-faq-count">{item.faqs.length} questions answered on this topic.</p>
+                              <div className="topic-section-block">
+                                <span className="topic-section-label">
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                  FAQs
+                                </span>
+                                <div className="topic-faq-list">
+                                  {item.faqs.map((faq, i) => (
+                                    <FAQAccordion key={i} question={faq.question} answer={faq.answer} />
+                                  ))}
+                                </div>
                               </div>
                             )}
+
                             <Link href="/contact" className="topic-cta-link">Book a free consultation →</Link>
                           </div>
                         )}
@@ -1309,23 +1382,11 @@ export default function BlogIndex() {
                       <div className="art-card-body">
                         <p className="art-excerpt">{item.article.content.substring(0, 260)}…</p>
                         <button
-                          onClick={() => toggleArticle(item.id)}
+                          onClick={() => openArticleModal(item)}
                           className="art-toggle-btn"
                         >
-                          {expandedArticles[item.id] ? '↑ Close article' : 'Read full article →'}
+                          Read full article →
                         </button>
-                        {expandedArticles[item.id] && (
-                          <div className="art-full">
-                            {item.article.content.split('\n\n').map((para, idx) => (
-                              <p key={idx}>{para}</p>
-                            ))}
-                            <div className="art-cta">
-                              <h4>Ready to take the next step?</h4>
-                              <p>If you related to anything in this article, a free conversation is the best place to start.</p>
-                              <Link href="/contact" className="btn btn-primary">Talk to Piers Today →</Link>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
@@ -1784,6 +1845,129 @@ export default function BlogIndex() {
           font-family: 'Playfair Display', serif;
           font-size: 1.45rem; font-weight: 500; color: #1a2b3c;
           margin: 0; line-height: 1.2;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* ARTICLE MODAL                                            */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .art-modal-backdrop {
+          position: fixed; inset: 0;
+          background: rgba(10,14,20,0.62);
+          backdrop-filter: blur(7px);
+          -webkit-backdrop-filter: blur(7px);
+          z-index: 200;
+          animation: artBackdropIn 0.25s ease forwards;
+        }
+        @keyframes artBackdropIn {
+          from { opacity: 0; backdrop-filter: blur(0px); }
+          to   { opacity: 1; backdrop-filter: blur(7px); }
+        }
+        .art-modal-wrap {
+          position: fixed; inset: 0;
+          z-index: 201;
+          display: flex; align-items: center; justify-content: center;
+          padding: 24px 16px;
+        }
+        .art-modal-card {
+          background: #fff;
+          border-radius: 22px;
+          width: 100%; max-width: 780px;
+          max-height: calc(100dvh - 48px);
+          display: flex; flex-direction: column;
+          overflow: hidden;
+          box-shadow: 0 32px 80px rgba(0,0,0,0.28), 0 4px 16px rgba(0,0,0,0.1);
+          position: relative;
+          animation: artModalIn 0.28s cubic-bezier(0.34,1.3,0.64,1) forwards;
+        }
+        @keyframes artModalIn {
+          from { opacity: 0; transform: scale(0.93) translateY(16px); }
+          to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .art-modal-close {
+          position: absolute; top: 14px; right: 14px; z-index: 10;
+          background: rgba(255,255,255,0.85);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(26,43,60,0.12);
+          border-radius: 50%;
+          width: 36px; height: 36px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; color: #555;
+          transition: background 0.18s, color 0.18s;
+        }
+        .art-modal-close:hover { background: #fff; color: #111; }
+        .art-modal-header {
+          padding: 2.5rem 2rem 2rem;
+          flex-shrink: 0;
+          position: relative; overflow: hidden;
+        }
+        .art-modal-headline {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.3rem, 3vw, 1.8rem);
+          font-weight: 600; color: #fff;
+          margin: 0.5rem 0 0.4rem; line-height: 1.25;
+        }
+        .art-modal-topic {
+          font-size: 0.85rem; color: rgba(255,255,255,0.65);
+          margin: 0; font-style: italic;
+        }
+        .art-modal-body {
+          overflow-y: auto; flex: 1; min-height: 0;
+          padding: 1.75rem 2rem 2rem;
+          display: flex; flex-direction: column; gap: 1.75rem;
+        }
+        .art-modal-article p {
+          font-size: 0.95rem; line-height: 1.82;
+          color: rgba(26,43,60,0.72); margin: 0 0 1rem;
+        }
+        .art-modal-article p:last-child { margin-bottom: 0; }
+        .art-modal-faqs-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.15rem; font-weight: 500; color: #1a2b3c;
+          margin: 0 0 1rem;
+        }
+        .art-modal-cta {
+          background: #f7faf9;
+          border: 1px solid rgba(107,174,138,0.18);
+          border-radius: 14px; padding: 1.5rem;
+          text-align: center;
+        }
+        .art-modal-cta h4 {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.1rem; color: #1a2b3c; margin: 0 0 0.4rem;
+        }
+        .art-modal-cta p {
+          font-size: 0.875rem; color: rgba(26,43,60,0.55);
+          margin: 0 0 1.1rem;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* TOPIC CARD SECTIONS (video / article / faqs)             */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .topic-section-block {
+          padding-bottom: 1.5rem;
+          border-bottom: 1px solid rgba(26,43,60,0.07);
+        }
+        .topic-section-block:last-of-type { border-bottom: none; padding-bottom: 0; }
+        .topic-section-label {
+          display: inline-flex; align-items: center; gap: 5px;
+          font-size: 0.68rem; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.12em;
+          color: #6BAE8A; margin-bottom: 0.75rem;
+        }
+        .topic-faq-list { display: flex; flex-direction: column; gap: 0; margin-top: 0; }
+        .topic-read-btn {
+          margin-top: 0.85rem;
+          background: none; border: none; padding: 0; cursor: pointer;
+          font-size: 0.875rem; font-weight: 600; color: #6BAE8A;
+          transition: color 0.18s;
+        }
+        .topic-read-btn:hover { color: #3d8a63; }
+
+        @media (max-width: 640px) {
+          .art-modal-wrap { padding: 0; align-items: flex-end; }
+          .art-modal-card { max-width: 100%; max-height: 94dvh; border-radius: 20px 20px 0 0; }
+          .art-modal-body { padding: 1.25rem 1.25rem 1.75rem; }
+          .art-modal-header { padding: 2rem 1.25rem 1.5rem; }
         }
 
         /* ── Individual FAQ card ── */
