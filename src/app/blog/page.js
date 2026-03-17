@@ -5,11 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useVideoPlayer } from "../components/VideoPlayerContext";
 
 function VideoEmbed({ videoId, title, tag }) {
-  const {
-    playVideo, activeVideo,
-    attachAnchor, detachAnchor, updateAnchorVisibility,
-    isFloating, exitMiniMode,
-  } = useVideoPlayer();
+  const { playVideo, activeVideo, dismissVideo, enterMiniMode, exitMiniMode, isFloating } = useVideoPlayer();
   const isActive = activeVideo?.videoId === videoId;
   const placeholderRef = useRef(null);
   const [anchorInView, setAnchorInView] = useState(false);
@@ -18,31 +14,22 @@ function VideoEmbed({ videoId, title, tag }) {
     if (!isActive) { setAnchorInView(false); return; }
     const el = placeholderRef.current;
     if (!el) return;
-    attachAnchor(el);
     const observer = new IntersectionObserver(
       ([entry]) => {
         setAnchorInView(entry.isIntersecting);
-        updateAnchorVisibility(entry.isIntersecting);
+        if (!entry.isIntersecting) enterMiniMode();
       },
       { threshold: 0.3 }
     );
     observer.observe(el);
-    return () => {
-      observer.disconnect();
-      detachAnchor();
-    };
-  }, [isActive, attachAnchor, detachAnchor, updateAnchorVisibility]);
+    return () => observer.disconnect();
+  }, [isActive, enterMiniMode]);
 
   if (isActive) {
-    // When floating and user scrolls back: show a "resume here" banner
-    // instead of automatically snapping the player back to this position.
-    const showResume = isFloating && anchorInView;
-    return (
-      <div
-        ref={placeholderRef}
-        className={`video-anchor-placeholder${showResume ? " video-anchor-resume" : ""}`}
-      >
-        {showResume && (
+    // Scrolled back while mini player active → resume banner
+    if (isFloating && anchorInView) {
+      return (
+        <div ref={placeholderRef} className="video-anchor-placeholder video-anchor-resume">
           <div className="video-anchor-banner">
             <span className="video-anchor-banner-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -50,34 +37,51 @@ function VideoEmbed({ videoId, title, tag }) {
                 <path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none"/>
               </svg>
             </span>
-            <p className="video-anchor-banner-text">
-              Video is playing in the mini player.
-            </p>
-            <button className="video-anchor-resume-btn" onClick={exitMiniMode}>
-              Resume here →
-            </button>
+            <p className="video-anchor-banner-text">Video is playing in the mini player.</p>
+            <button className="video-anchor-resume-btn" onClick={exitMiniMode}>Resume here →</button>
           </div>
-        )}
+        </div>
+      );
+    }
+
+    // Mini player active, anchor off-screen → preserve layout space
+    if (isFloating) return <div ref={placeholderRef} className="video-anchor-placeholder" />;
+
+    // Inline player — lives naturally in page flow, no fixed overlay
+    return (
+      <div ref={placeholderRef} className="video-anchor-inline">
+        <div className="video-anchor-bar">
+          {title && <span className="video-anchor-title">{title}</span>}
+          <button className="video-anchor-btn" onClick={enterMiniMode} title="Pop out to mini player">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <rect x="13" y="8" width="8" height="7" rx="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </button>
+          <button className="video-anchor-btn" onClick={dismissVideo} title="Close video">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div className="video-anchor-iframe-wrap">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={title}
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <button
-      className="video-thumb-btn"
-      onClick={() => playVideo(videoId, title, tag)}
-      aria-label={`Play: ${title}`}
-    >
-      <img
-        src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-        alt={title}
-        className="video-thumb-img"
-        loading="lazy"
-      />
+    <button className="video-thumb-btn" onClick={() => playVideo(videoId, title, tag)} aria-label={`Play: ${title}`}>
+      <img src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`} alt={title} className="video-thumb-img" loading="lazy" />
       <span className="video-thumb-play" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-          <polygon points="5 3 19 12 5 21 5 3"/>
-        </svg>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       </span>
       {tag && <span className="video-thumb-tag">{tag}</span>}
     </button>

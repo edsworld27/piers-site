@@ -639,10 +639,16 @@ export default function GamesRoom() {
         .wr-card-desc  { font-size: 0.875rem; color: rgba(245,240,232,0.5); line-height: 1.6; margin: 0; flex: 1; }
         .wr-card-play  { font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-top: 0.5rem; }
 
-        /* Game section */
-        .wr-game-section { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+        /* Game section — fills viewport so no scrolling needed */
+        .wr-game-section {
+          height: calc(100vh - 80px);
+          display: flex; flex-direction: column;
+          max-width: 1100px; margin: 0 auto;
+          padding: 1rem 1.5rem; overflow: hidden; box-sizing: border-box;
+        }
         .wr-game-header {
-          display: flex; align-items: center; gap: 1.75rem; margin-bottom: 1.75rem; flex-wrap: wrap;
+          display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+          flex-shrink: 0; margin-bottom: 0.75rem;
         }
         .wr-back {
           background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
@@ -651,15 +657,27 @@ export default function GamesRoom() {
           transition: background 0.16s, color 0.16s;
         }
         .wr-back:hover { background: rgba(255,255,255,0.1); color: #f5f0e8; }
-        .wr-game-title { font-size: 1.5rem; font-weight: 700; margin: 0; color: #f5f0e8; }
-        :global(.game-canvas-wrap) { display: flex; flex-direction: column; align-items: center; }
+        .wr-game-title { font-size: 1.4rem; font-weight: 700; margin: 0; color: #f5f0e8; }
+        .wr-game-area {
+          flex: 1; min-height: 0;
+          display: flex; align-items: center; justify-content: center;
+        }
+        :global(.game-canvas-wrap) {
+          display: flex; flex-direction: column; align-items: center;
+          width: 100%; max-height: 100%;
+        }
         :global(.game-canvas) {
-          display: block; max-width: 100%; border-radius: 14px;
+          display: block;
+          /* Width = whichever is smaller: full container OR the width that fits the available height */
+          width: min(100%, calc((100vh - 320px) * 780 / 520));
+          height: auto;
+          max-height: calc(100vh - 320px);
+          border-radius: 14px;
           box-shadow: 0 12px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
         }
         :global(.game-hint) {
-          font-size: 0.8rem; color: rgba(245,240,232,0.28); margin-top: 0.85rem;
-          text-align: center; font-style: italic;
+          font-size: 0.78rem; color: rgba(245,240,232,0.28); margin-top: 0.6rem;
+          text-align: center; font-style: italic; flex-shrink: 0;
         }
 
         @media(max-width:900px){
@@ -668,7 +686,7 @@ export default function GamesRoom() {
         }
         @media(max-width:580px){
           .wr-cards { grid-template-columns: 1fr; }
-          .wr-game-section { padding: 1.75rem 1rem 3rem; }
+          .wr-game-section { padding: 0.75rem 0.75rem; }
         }
       `}</style>
     </main>
