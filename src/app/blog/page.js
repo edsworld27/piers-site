@@ -1,44 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useVideoPlayer } from "../components/VideoPlayerContext";
 
 function VideoEmbed({ videoId, title, tag }) {
   const { playVideo, activeVideo } = useVideoPlayer();
-  const wrapperRef = useRef(null);
-  const iframeRef  = useRef(null);
-  // Track whether user has interacted with this video (clicked it)
-  const interacted = useRef(false);
-
   const isActive = activeVideo?.videoId === videoId;
-
-  // Intersection Observer — auto pop-out when scrolled away after interaction
-  useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting && !isActive) {
-          // Pause page iframe then send to mini player
-          try {
-            iframeRef.current?.contentWindow?.postMessage(
-              '{"event":"command","func":"pauseVideo","args":""}', '*'
-            );
-          } catch (_) {}
-          playVideo(videoId, title, tag);
-        }
-      },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [videoId, title, tag, playVideo, isActive]);
 
   if (isActive) {
     return (
       <div className="video-popped-out">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polygon points="5 3 19 12 5 21 5 3"/>
         </svg>
         <span>Playing in mini player</span>
@@ -48,34 +21,24 @@ function VideoEmbed({ videoId, title, tag }) {
   }
 
   return (
-    <div
-      ref={wrapperRef}
-      className="video-embed-outer"
-      onClickCapture={() => { interacted.current = true; }}
+    <button
+      className="video-thumb-btn"
+      onClick={() => playVideo(videoId, title, tag)}
+      aria-label={`Play: ${title}`}
     >
-      <iframe
-        ref={iframeRef}
-        src={`https://www.youtube.com/embed/${videoId}?rel=0&enablejsapi=1`}
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
+      <img
+        src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+        alt={title}
+        className="video-thumb-img"
         loading="lazy"
-        title={title}
       />
-      <button
-        className="video-popout-btn"
-        onClick={() => { interacted.current = true; playVideo(videoId, title, tag); }}
-        title="Watch in mini player"
-        aria-label="Pop out to mini player"
-      >
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="15 3 21 3 21 9"/>
-          <polyline points="9 21 3 21 3 15"/>
-          <line x1="21" y1="3" x2="14" y2="10"/>
-          <line x1="3" y1="21" x2="10" y2="14"/>
+      <span className="video-thumb-play" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"/>
         </svg>
-      </button>
-    </div>
+      </span>
+      {tag && <span className="video-thumb-tag">{tag}</span>}
+    </button>
   );
 }
 

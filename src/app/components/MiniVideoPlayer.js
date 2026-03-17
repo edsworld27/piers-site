@@ -5,23 +5,15 @@ import { useVideoPlayer } from "./VideoPlayerContext";
 
 export default function MiniVideoPlayer() {
   const { activeVideo, dismissVideo } = useVideoPlayer();
-  const [pos, setPos] = useState(null); // null = default bottom-right via CSS
+  const [pos, setPos] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [visible, setVisible] = useState(false);
   const dragOrigin = useRef(null);
   const playerRef = useRef(null);
 
-  // Fade in when video becomes active
+  // Reset position whenever a new video opens
   useEffect(() => {
-    if (activeVideo) {
-      // Small delay so CSS transition fires
-      requestAnimationFrame(() => setVisible(true));
-    } else {
-      setVisible(false);
-      // Reset position when closed
-      setPos(null);
-    }
-  }, [activeVideo]);
+    setPos(null);
+  }, [activeVideo?.videoId]);
 
   // ── Mouse drag ──
   const onMouseDown = useCallback((e) => {
@@ -83,6 +75,7 @@ export default function MiniVideoPlayer() {
     };
   }, [isDragging]);
 
+  // Don't render anything when no video is active
   if (!activeVideo) return null;
 
   const posStyle = pos
@@ -92,7 +85,7 @@ export default function MiniVideoPlayer() {
   return (
     <div
       ref={playerRef}
-      className={`mini-player${visible ? " mini-player--visible" : ""}${isDragging ? " mini-player--dragging" : ""}`}
+      className={`mini-player mini-player--visible${isDragging ? " mini-player--dragging" : ""}`}
       style={posStyle}
       role="region"
       aria-label="Mini video player"
