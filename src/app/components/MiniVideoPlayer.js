@@ -16,22 +16,13 @@ export default function MiniVideoPlayer() {
     setPos(null);
   }, [activeVideo?.videoId]);
 
-  // Keep anchorRect synced while the anchor is visible
+  // Capture the anchor rect once when the anchor attaches — never update on scroll
   useEffect(() => {
     if (!anchorEl || !anchorVisible) {
       setAnchorRect(null);
       return;
     }
-    const sync = () => {
-      setAnchorRect(anchorEl.getBoundingClientRect());
-    };
-    sync();
-    window.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
-    };
+    setAnchorRect(anchorEl.getBoundingClientRect());
   }, [anchorEl, anchorVisible]);
 
   // ── Mouse drag (floating mode only) ──
@@ -119,18 +110,7 @@ export default function MiniVideoPlayer() {
       role="region"
       aria-label="Mini video player"
     >
-      {isInline ? (
-        /* Inline mode: just a close button overlay, iframe fills everything */
-        <button
-          className="mini-player-inline-close"
-          onClick={dismissVideo}
-          aria-label="Close video"
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-            <path d="M1 1L11 11M11 1L1 11"/>
-          </svg>
-        </button>
-      ) : (
+      {!isInline && (
         /* Floating mode: drag handle with title and close */
         <div className="mini-player-handle" onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
           <span className="mini-player-grip" aria-hidden="true">

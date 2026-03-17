@@ -703,30 +703,6 @@ select:focus-visible {
   height: 100%;
 }
 
-/* Close button overlay for inline mode */
-.mini-player-inline-close {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 10;
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: rgba(12,27,46,0.75);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.85);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s, background 0.18s;
-}
-.mini-player--inline:hover .mini-player-inline-close {
-  opacity: 1;
-}
-.mini-player-inline-close:hover {
-  background: rgba(200,50,50,0.85);
-  color: #fff;
-}
 
 @media (max-width: 420px) {
   .mini-player { width: calc(100vw - 24px); right: 12px; bottom: 12px; }
