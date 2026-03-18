@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import PodcastSection from "@/app/components/PodcastSection";
 import { useVideoPlayer } from "../components/VideoPlayerContext";
 
 function VideoEmbed({ videoId, title, tag }) {
@@ -1450,28 +1451,7 @@ export default function BlogIndex() {
           {/* PODCAST — placeholder ready for embeds                   */}
           {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
           {contentFilter === 'podcast' && (
-            <div className="podcast-section fade-in-up">
-              <div className="podcast-header">
-                <span className="podcast-eyebrow">Coming Soon</span>
-                <h2 className="podcast-title">The Piers Day Podcast</h2>
-                <p className="podcast-sub">In-depth conversations on the mind, hypnotherapy, NLP, and the science of lasting change. Episodes will appear here.</p>
-              </div>
-              <div className="podcast-placeholder-grid">
-                {[1, 2, 3, 4].map(n => (
-                  <div key={n} className="podcast-placeholder-card">
-                    <div className="podcast-placeholder-thumb" />
-                    <div className="podcast-placeholder-lines">
-                      <div className="pph-line pph-line--short" />
-                      <div className="pph-line pph-line--long" />
-                      <div className="pph-line pph-line--medium" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="podcast-notice">
-                Episodes are being added. <Link href="/contact" className="podcast-contact-link">Get in touch</Link> to be notified when they go live.
-              </p>
-            </div>
+            <PodcastSection />
           )}
 
         </div>
