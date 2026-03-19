@@ -105,11 +105,11 @@ function FAQAccordion({ question, answer }) {
           </svg>
         </span>
       </button>
-      <div className="faq-panel">
+      {open && (
         <div className="faq-panel-inner">
           <p className="faq-a-text">{answer}</p>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -1991,12 +1991,6 @@ export default function BlogIndex() {
           transform: rotate(180deg);
           color: #6BAE8A;
         }
-
-        .faq-panel {
-          max-height: 0; overflow: hidden;
-          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-        }
-        .faq-item.faq-item--open .faq-panel { max-height: 600px; }
 
         .faq-panel-inner {
           padding: 0 1.5rem 1.3rem;
