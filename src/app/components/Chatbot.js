@@ -90,7 +90,7 @@ export default function Chatbot() {
                   <input
                     id="cb-name"
                     className={`cb-input${errors.name ? " cb-input--err" : ""}`}
-                    type="text" placeholder="Jane Smith" value={name}
+                    type="text" placeholder="Your name" value={name}
                     onChange={e => { setName(e.target.value); clearField("name"); }}
                   />
                   {errors.name && <span className="cb-err">{errors.name}</span>}
@@ -101,7 +101,7 @@ export default function Chatbot() {
                   <input
                     id="cb-email"
                     className={`cb-input${errors.email ? " cb-input--err" : ""}`}
-                    type="email" placeholder="jane@example.com" value={email}
+                    type="email" placeholder="piers@piersday.com" value={email}
                     onChange={e => { setEmail(e.target.value); clearField("email"); }}
                   />
                   {errors.email && <span className="cb-err">{errors.email}</span>}
@@ -114,7 +114,7 @@ export default function Chatbot() {
                   <input
                     id="cb-phone"
                     className={`cb-input${errors.phone ? " cb-input--err" : ""}`}
-                    type="tel" placeholder="+44 7700 000000" value={phone}
+                    type="tel" placeholder="+44 7716 008836" value={phone}
                     onChange={e => { setPhone(e.target.value); clearField("phone"); }}
                   />
                   {errors.phone && <span className="cb-err">{errors.phone}</span>}
