@@ -1951,7 +1951,7 @@ export default function BlogIndex() {
         }
 
         /* ── Individual FAQ card ── */
-        .faq-item {
+        :global(.faq-item) {
           background: #fff;
           border: 1.5px solid #e2e8f0;
           border-radius: 14px;
@@ -1959,43 +1959,44 @@ export default function BlogIndex() {
           overflow: hidden;
           transition: border-color 0.22s, box-shadow 0.22s;
         }
-        .faq-item:hover {
+        :global(.faq-item:hover) {
           border-color: #b0c8d8;
           box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-        .faq-item.faq-item--open {
+        :global(.faq-item.faq-item--open) {
           border-color: #6BAE8A;
           box-shadow: 0 4px 18px rgba(107,174,138,0.12);
         }
 
-        .faq-trigger {
+        :global(.faq-trigger) {
           width: 100%;
           display: flex; align-items: center; justify-content: space-between;
           gap: 1.25rem;
           padding: 1.25rem 1.5rem;
           background: transparent; border: none; cursor: pointer; text-align: left;
+          font-family: inherit;
         }
 
-        .faq-q-text {
+        :global(.faq-q-text) {
           font-size: 0.975rem; font-weight: 600;
           color: #1a2b3c; line-height: 1.45; flex: 1;
         }
 
-        .faq-chevron {
+        :global(.faq-chevron) {
           flex-shrink: 0;
           display: flex; align-items: center; justify-content: center;
           color: #9ab0be;
           transition: color 0.2s, transform 0.25s ease;
         }
-        .faq-item.faq-item--open .faq-chevron {
+        :global(.faq-item.faq-item--open .faq-chevron) {
           transform: rotate(180deg);
           color: #6BAE8A;
         }
 
-        .faq-panel-inner {
+        :global(.faq-panel-inner) {
           padding: 0 1.5rem 1.3rem;
         }
-        .faq-a-text {
+        :global(.faq-a-text) {
           font-size: 0.95rem; line-height: 1.8;
           color: #5c7080; margin: 0;
         }
@@ -2093,7 +2094,7 @@ export default function BlogIndex() {
           .art-card-body { padding: 1.25rem 1.25rem 1.5rem; }
           .topic-card-header { padding: 1rem 1.1rem; }
           .topic-card-body { padding: 0 1.1rem 1.25rem; }
-          .faq-trigger { padding: 1rem 1rem; }
+          :global(.faq-trigger) { padding: 1rem 1rem; }
         }
       `}</style>
     </div>
