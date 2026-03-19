@@ -1,9 +1,26 @@
 import Link from "next/link";
 import Script from "next/script";
+import FaqAccordion from "@/app/components/FaqAccordion";
+
+const FAQS = [
+  { q: "Can hypnotherapy really help me stop smoking?", a: "Yes. Hypnotherapy is widely recognized as one of the most effective ways to quit smoking because it directly addresses the subconscious habit loop rather than relying solely on conscious willpower." },
+  { q: "Is it a single session?", a: "Our specialist stop smoking program is designed to be completed in a single, intensive 2-hour session that completely reframes your relationship with cigarettes." },
+  { q: "What if I've tried to quit before and failed?", a: "Previous failed attempts are actually very common and say nothing about your ability to succeed. They simply mean your conscious willpower wasn't enough — hypnotherapy works at the subconscious level where the habit truly lives." },
+  { q: "Will I experience cravings afterwards?", a: "Most clients report dramatically reduced or eliminated cravings immediately after the session. The goal is to change how your brain perceives cigarettes entirely, rather than just suppressing the urge." },
+  { q: "Do I need to be motivated to quit first?", a: "A genuine desire to stop is helpful, but even partial ambivalence is fine — we explore your motivations as part of the session itself. Many clients arrive nervous and leave as committed non-smokers." },
+];
 
 export const metadata = {
-  title: "Stop Smoking Hypnotherapy UK | Elevate Hypnotherapy",
-  description: "Quit smoking for good in a single session with our advanced online hypnotherapy method. No cravings, no patches, just freedom.",
+  title: "Stop Smoking Hypnotherapy | Quit in One Session | Piers Day",
+  description: "Quit smoking for good in a single session with advanced online hypnotherapy. No cravings, no patches, just freedom. Book your session today.",
+  alternates: { canonical: "https://www.piersday.com/services/stop-smoking" },
+  openGraph: {
+    title: "Stop Smoking Hypnotherapy | Quit in One Session",
+    description: "Quit smoking for good in a single session with advanced online hypnotherapy. No cravings, no patches.",
+    url: "https://www.piersday.com/services/stop-smoking",
+    type: "website",
+  },
+  twitter: { card: "summary", title: "Stop Smoking Hypnotherapy", description: "Quit smoking for good in a single session with advanced online hypnotherapy." },
 };
 
 export default function StopSmokingPage() {
@@ -78,10 +95,25 @@ export default function StopSmokingPage() {
               </div>
             </aside>
           </div>
+
+          {/* FAQ Section */}
+          <div className="faq-section">
+            <h2 className="faq-heading">Frequently Asked Questions</h2>
+            <FaqAccordion items={FAQS} />
+          </div>
         </div>
       </main>
 
       <style>{`
+        .faq-section { margin-top: 4rem; max-width: 760px; margin-left: auto; margin-right: auto; }
+        .faq-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.4rem, 3vw, 1.9rem);
+          font-weight: 500;
+          color: #f5f0e8;
+          margin: 0 0 1.5rem;
+          text-align: center;
+        }
         .pt-32 { padding-top: 8rem; }
         .pb-24 { padding-bottom: 6rem; }
         .mb-16 { margin-bottom: 4rem; }

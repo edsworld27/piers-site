@@ -1,110 +1,298 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { testimonials as allTestimonials } from './data';
+import { testimonials } from './data';
+
+const aggregateRatingSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Piers Day Hypnotherapy",
+  "url": "https://www.piersday.com",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "47",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+};
+
+// Split testimonials into 3 columns for masonry effect
+function splitColumns(items, n) {
+  const cols = Array.from({ length: n }, () => []);
+  items.forEach((item, i) => cols[i % n].push(item));
+  return cols;
+}
 
 export default function TestimonialsPage() {
-  const [visibleCount, setVisibleCount] = useState(8);
-  const increment = 8;
-
-  const handleLoadMore = () => {
-    setVisibleCount(prev => prev + increment);
-  };
-
-  const visibleTestimonials = allTestimonials.slice(0, visibleCount);
+  const cols = splitColumns(testimonials, 3);
 
   return (
-    <main className="pt-32 pb-24">
-      <div className="container max-w-6xl">
-        <div className="text-center mb-16 px-4">
-          <h1 className="mb-6 fade-in-up text-gradient-gold">Success Stories</h1>
-          <p className="hero-sub mx-auto fade-in-up md:text-xl" style={{animationDelay: "0.2s"}}>Real transformations from people who decided they were ready for change.</p>
-        </div>
+    <div className="t-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }} />
 
-        <div className="testimonial-grid">
-          {visibleTestimonials.map((t, i) => (
-            <div key={i} className="testimonial-card glass-panel fade-in-up" style={{animationDelay: `${(i % 8) * 0.1}s`}}>
-              <div className="stars">{"★".repeat(t.rating)}</div>
-              <p className="text">"{t.text}"</p>
-              <div className="client-meta mt-auto">
-                <div className="flex flex-col">
-                  <span className="name">{t.name}</span>
-                  <span className="issue">{t.issue}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {visibleCount < allTestimonials.length && (
-          <div className="load-more-container flex justify-center mt-16 fade-in-up">
-            <button 
-              onClick={handleLoadMore}
-              className="btn-primary px-12 py-5 font-bold tracking-widest text-sm uppercase flex items-center gap-3 active:scale-95 transition-all shadow-[0_0_20px_rgba(244,162,97,0.3)]"
-            >
-              Discover More Success Stories
-              <span className="text-xl">↓</span>
-            </button>
+      {/* Hero */}
+      <section className="t-hero">
+        <div className="container">
+          <div className="t-hero-inner fade-in-up">
+            <span className="eyebrow">Client Stories</span>
+            <h1 className="t-hero-h1">Real People.<br/>Real Change.</h1>
+            <p className="t-hero-sub">
+              {testimonials.length}+ testimonials from people who decided they were ready
+              to stop managing symptoms and start erasing the cause.
+            </p>
           </div>
-        )}
-      </div>
+          <div className="t-stats fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="t-stat">
+              <span className="t-stat-n">5.0</span>
+              <span className="t-stat-stars">★★★★★</span>
+              <span className="t-stat-label">Average rating</span>
+            </div>
+            <div className="t-stat-divider" aria-hidden="true"/>
+            <div className="t-stat">
+              <span className="t-stat-n">25+</span>
+              <span className="t-stat-label">Years of practice</span>
+            </div>
+            <div className="t-stat-divider" aria-hidden="true"/>
+            <div className="t-stat">
+              <span className="t-stat-n">1,000s</span>
+              <span className="t-stat-label">Lives transformed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Masonry grid */}
+      <section className="t-body">
+        <div className="container">
+          <div className="t-masonry">
+            {cols.map((col, ci) => (
+              <div key={ci} className="t-col">
+                {col.map((t, i) => (
+                  <article
+                    key={i}
+                    className="t-card fade-in-up"
+                    style={{ animationDelay: `${(ci * col.length + i) * 0.04}s` }}
+                  >
+                    <div className="t-card-top">
+                      <div className="t-card-stars" aria-label={`${t.rating} stars`}>
+                        {'★'.repeat(t.rating)}
+                      </div>
+                      <span className="t-card-issue">{t.issue}</span>
+                    </div>
+                    <blockquote className="t-card-quote">
+                      <p>{t.text}</p>
+                    </blockquote>
+                    <footer className="t-card-footer">
+                      <span className="t-card-name">{t.name}</span>
+                    </footer>
+                  </article>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="t-cta">
+        <div className="container">
+          <div className="t-cta-inner fade-in-up">
+            <span className="eyebrow">Your story starts here</span>
+            <h2 className="t-cta-h2">Ready to write your own transformation?</h2>
+            <p className="t-cta-sub">A free, no-obligation conversation is the first step.</p>
+            <a href="/contact" className="btn btn-primary">Book a Free Consultation →</a>
+          </div>
+        </div>
+      </section>
 
       <style jsx>{`
-        .pt-32 { padding-top: 8rem; }
-        .pb-24 { padding-bottom: 6rem; }
-        .mb-16 { margin-bottom: 4rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mt-auto { margin-top: auto; }
-        .mt-16 { margin-top: 4rem; }
-        .text-center { text-align: center; }
-        .hero-sub { font-size: 1.25rem; color: var(--color-text-muted); max-width: 800px; line-height: 1.6; }
-        .mx-auto { margin-left: auto; margin-right: auto; }
-        .max-w-6xl { max-width: 72rem; }
-        .flex { display: flex; }
-        .flex-col { flex-direction: column; }
-        .justify-center { justify-content: center; }
-        .items-center { align-items: center; }
-        .gap-3 { gap: 0.75rem; }
+        .t-page { background: #fafaf9; }
 
-        .testimonial-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: var(--space-8);
-          padding: 0 1rem;
+        /* Hero */
+        .t-hero {
+          background: #0C1B2E;
+          padding: 8rem 1rem 4rem;
+          position: relative;
+          overflow: hidden;
+        }
+        .t-hero::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 70% 40%, rgba(107,174,138,0.08) 0%, transparent 60%);
+          pointer-events: none;
+        }
+        .t-hero-inner {
+          text-align: center;
+          max-width: 700px;
+          margin: 0 auto 3rem;
+        }
+        .t-hero-inner .eyebrow { color: #C4906A; }
+        .t-hero-h1 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+          font-weight: 500;
+          color: #f5f0e8;
+          letter-spacing: -0.02em;
+          line-height: 1.08;
+          margin: 0.5rem 0 1.1rem;
+        }
+        .t-hero-sub {
+          color: rgba(245,240,232,0.6);
+          font-size: 1.1rem;
+          line-height: 1.72;
+          margin: 0;
+          max-width: 560px;
+          margin-inline: auto;
         }
 
-        .testimonial-card {
-          padding: var(--space-8);
+        /* Stats row */
+        .t-stats {
           display: flex;
-          flex-direction: column;
-          height: 100%;
-          border: 1px solid rgba(255,255,255,0.05);
-          transition: transform 0.3s ease, border-color 0.3s ease;
+          align-items: center;
+          justify-content: center;
+          gap: 0;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
+          max-width: 580px;
+          margin: 0 auto;
+          overflow: hidden;
         }
-        
-        .testimonial-card:hover {
-          transform: translateY(-5px);
-          border-color: rgba(244,162,97,0.3);
+        .t-stat {
+          flex: 1;
+          display: flex; flex-direction: column; align-items: center;
+          padding: 1.4rem 1rem;
+          gap: 0.2rem;
+        }
+        .t-stat-n {
+          font-family: 'Playfair Display', serif;
+          font-size: 2rem; font-weight: 500;
+          color: #f5f0e8;
+          line-height: 1;
+        }
+        .t-stat-stars {
+          font-size: 0.7rem; letter-spacing: 2px;
+          color: #C4906A;
+        }
+        .t-stat-label {
+          font-size: 0.72rem; font-weight: 600;
+          text-transform: uppercase; letter-spacing: 0.08em;
+          color: rgba(245,240,232,0.38);
+        }
+        .t-stat-divider {
+          width: 1px; height: 50px;
+          background: rgba(255,255,255,0.1);
+          flex-shrink: 0;
         }
 
-        .stars { color: var(--color-accent-gold); font-size: 1.25rem; margin-bottom: var(--space-4); letter-spacing: 2px; }
-        .text { font-size: 1.125rem; font-style: italic; margin-bottom: var(--space-8); flex-grow: 1; line-height: 1.8; color: var(--color-text-main); font-weight: 300; }
-        
-        .client-meta {
-          border-top: 1px solid rgba(255,255,255,0.1);
-          padding-top: var(--space-4);
+        /* Body */
+        .t-body { padding: 4rem 1rem 5rem; }
+
+        /* Masonry */
+        .t-masonry {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.25rem;
+          align-items: start;
+        }
+        .t-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        /* Card */
+        .t-card {
+          background: #fff;
+          border: 1px solid rgba(107,174,138,0.14);
+          border-radius: 16px;
+          padding: 1.75rem;
+          transition: border-color 0.22s, box-shadow 0.22s;
+        }
+        .t-card:hover {
+          border-color: rgba(107,174,138,0.35);
+          box-shadow: 0 6px 28px rgba(107,174,138,0.09);
+        }
+        .t-card-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+        }
+        .t-card-stars {
+          color: #C4906A;
+          font-size: 0.85rem;
+          letter-spacing: 2px;
+        }
+        .t-card-issue {
+          font-size: 0.67rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #6BAE8A;
+          background: rgba(107,174,138,0.08);
+          border: 1px solid rgba(107,174,138,0.22);
+          padding: 0.18rem 0.6rem;
+          border-radius: 9999px;
+        }
+        .t-card-quote {
+          margin: 0 0 1.25rem;
+          padding: 0;
+        }
+        .t-card-quote p {
+          font-size: 0.975rem;
+          line-height: 1.78;
+          color: #4a6275;
+          margin: 0;
+          font-style: italic;
+        }
+        .t-card-footer {
+          padding-top: 1rem;
+          border-top: 1px solid rgba(107,174,138,0.1);
+        }
+        .t-card-name {
           font-size: 0.875rem;
+          font-weight: 600;
+          color: #1a2b3c;
         }
-        
-        .name { font-weight: 600; color: white; display: block; margin-bottom: 0.25rem; font-size: 1.1rem; }
-        .issue { color: var(--color-accent-gold); text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.7rem; font-weight: 700; }
 
-        @media (max-width: 768px) {
-          .testimonial-grid { grid-template-columns: 1fr; }
-          .pt-32 { padding-top: 6rem; }
-          .text { font-size: 1rem; }
+        /* Bottom CTA */
+        .t-cta {
+          background: #0C1B2E;
+          padding: 5rem 1rem;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+        .t-cta::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 50% 50%, rgba(107,174,138,0.09) 0%, transparent 60%);
+          pointer-events: none;
+        }
+        .t-cta-inner { max-width: 600px; margin: 0 auto; position: relative; }
+        .t-cta-inner .eyebrow { color: #C4906A; }
+        .t-cta-h2 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+          font-weight: 500;
+          color: #f5f0e8;
+          margin: 0.5rem 0 0.9rem;
+          line-height: 1.2;
+        }
+        .t-cta-sub {
+          color: rgba(245,240,232,0.55);
+          font-size: 1.05rem;
+          margin: 0 0 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 860px) {
+          .t-masonry { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+          .t-hero { padding: 7rem 1rem 3rem; }
+          .t-masonry { grid-template-columns: 1fr; }
+          .t-stats { flex-direction: column; gap: 0; }
+          .t-stat-divider { width: 60px; height: 1px; }
         }
       `}</style>
-    </main>
+    </div>
   );
 }

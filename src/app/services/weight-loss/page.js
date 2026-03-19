@@ -1,9 +1,26 @@
 import Link from "next/link";
 import Script from "next/script";
+import FaqAccordion from "@/app/components/FaqAccordion";
+
+const FAQS = [
+  { q: "How does hypnotherapy work for weight loss?", a: "Hypnotherapy targets the root emotional and subconscious causes of overeating. Rather than relying on restrictive dieting, it naturally shifts your desires towards healthier choices and smaller portions." },
+  { q: "Is this a 'hypnotic gastric band'?", a: "We utilize techniques similar to the hypnotic gastric band, convincing the subconscious mind that the stomach is smaller, leading to feeling full much faster." },
+  { q: "How quickly will I start to lose weight?", a: "Most clients notice changes in their eating behaviours within the first week — reduced cravings, smaller portions feeling satisfying, and less emotional eating. Sustained weight loss typically follows naturally." },
+  { q: "Do I need to follow a specific diet alongside it?", a: "No restrictive diet is required. Hypnotherapy is designed to change your natural preferences so that eating well becomes effortless rather than a battle of willpower." },
+  { q: "Is this suitable if I have a complicated relationship with food?", a: "Yes — in fact, hypnotherapy is particularly suited to those who have struggled with food emotionally. We work gently with the root causes rather than adding more rules and restrictions." },
+];
 
 export const metadata = {
-  title: "Weight Management Hypnotherapy UK | Elevate Hypnotherapy",
-  description: "End emotional eating, master portion control, and reshape your relationship with food through advanced weight loss hypnotherapy.",
+  title: "Weight Loss Hypnotherapy UK | End Emotional Eating | Piers Day",
+  description: "End emotional eating, master portion control, and reshape your relationship with food through advanced weight loss hypnotherapy. Online & in-person.",
+  alternates: { canonical: "https://www.piersday.com/services/weight-loss" },
+  openGraph: {
+    title: "Weight Loss Hypnotherapy UK | End Emotional Eating",
+    description: "End emotional eating and reshape your relationship with food through advanced weight loss hypnotherapy.",
+    url: "https://www.piersday.com/services/weight-loss",
+    type: "website",
+  },
+  twitter: { card: "summary", title: "Weight Loss Hypnotherapy UK", description: "End emotional eating and reshape your relationship with food through hypnotherapy." },
 };
 
 export default function WeightLossPage() {
@@ -80,10 +97,25 @@ export default function WeightLossPage() {
               </div>
             </aside>
           </div>
+
+          {/* FAQ Section */}
+          <div className="faq-section">
+            <h2 className="faq-heading">Frequently Asked Questions</h2>
+            <FaqAccordion items={FAQS} />
+          </div>
         </div>
       </main>
 
       <style>{`
+        .faq-section { margin-top: 4rem; max-width: 760px; margin-left: auto; margin-right: auto; }
+        .faq-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.4rem, 3vw, 1.9rem);
+          font-weight: 500;
+          color: #f5f0e8;
+          margin: 0 0 1.5rem;
+          text-align: center;
+        }
         .pt-32 { padding-top: 8rem; }
         .pb-24 { padding-bottom: 6rem; }
         .mb-16 { margin-bottom: 4rem; }

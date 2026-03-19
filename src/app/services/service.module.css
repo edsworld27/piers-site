@@ -1,0 +1,212 @@
+/* ── Shared styles for service sub-pages ─────────────────────── */
+
+.page { background: #fafaf9; }
+
+/* ── Hero ──────────────────────────────────────────────────────── */
+.hero {
+  background: #0C1B2E;
+  padding: 7.5rem 1rem 4.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 65% 50%, rgba(107,174,138,0.09) 0%, transparent 58%);
+  pointer-events: none;
+}
+.heroInner {
+  max-width: 640px;
+  position: relative;
+}
+.heroH1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  color: #f5f0e8;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0.5rem 0 1.1rem;
+}
+.heroSub {
+  color: rgba(245,240,232,0.68);
+  font-size: 1.08rem;
+  line-height: 1.75;
+  margin: 0 0 2rem;
+  max-width: 500px;
+}
+.heroEyebrow {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #C4906A;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Body ──────────────────────────────────────────────────────── */
+.body { padding: 4rem 1rem 5.5rem; }
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 296px;
+  gap: 2.75rem;
+  align-items: start;
+}
+
+/* ── Article (main column) ─────────────────────────────────────── */
+.article {}
+
+.sectionHeading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  color: #1a2b3c;
+  font-weight: 500;
+  margin: 0 0 0.7rem;
+  line-height: 1.25;
+}
+.sectionGap { margin-top: 2.25rem; }
+
+.article p {
+  color: #5c7080;
+  line-height: 1.78;
+  margin-bottom: 1rem;
+  font-size: 1.01rem;
+}
+
+/* Benefit list */
+.benefitList {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.benefitList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: #4a6275;
+  font-size: 0.99rem;
+  line-height: 1.55;
+}
+.checkIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* CTA box inside article */
+.ctaBox {
+  margin-top: 2.5rem;
+  background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 100%);
+  border-radius: 14px;
+  padding: 2rem 2.25rem 2.25rem;
+  text-align: center;
+}
+.ctaBox h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #f5f0e8;
+  font-weight: 500;
+  margin: 0 0 0.6rem;
+}
+.ctaBox p {
+  color: rgba(245,240,232,0.62);
+  font-size: 0.955rem;
+  margin: 0 0 1.5rem;
+  line-height: 1.6;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  position: sticky;
+  top: 108px;
+}
+.sideCard {
+  background: #fff;
+  border: 1px solid rgba(107,174,138,0.15);
+  border-radius: 12px;
+  padding: 1.4rem 1.5rem;
+}
+.sideCard h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.98rem;
+  color: #1a2b3c;
+  font-weight: 500;
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(107,174,138,0.1);
+}
+.testimonialQuote {
+  font-style: italic;
+  color: #5c7080;
+  font-size: 0.945rem;
+  line-height: 1.72;
+  margin: 0 0 0.75rem;
+  position: relative;
+  padding-left: 1.1rem;
+}
+.testimonialQuote::before {
+  content: '"';
+  position: absolute;
+  left: 0; top: -2px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: rgba(107,174,138,0.4);
+  line-height: 1;
+}
+.testimonialName {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #1a2b3c;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+.tagList {
+  list-style: none;
+  padding: 0; margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.tagList li {
+  font-size: 0.77rem;
+  font-weight: 500;
+  color: #4a6275;
+  background: rgba(107,174,138,0.07);
+  border: 1px solid rgba(107,174,138,0.18);
+  padding: 0.22rem 0.6rem;
+  border-radius: 9999px;
+}
+
+/* Info card (no testimonial — e.g. stop-smoking stat card) */
+.infoText {
+  color: #5c7080;
+  font-size: 0.945rem;
+  line-height: 1.7;
+  margin: 0;
+}
+.infoHighlight {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: #1a2b3c;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+/* ── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 820px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 6.5rem 1rem 3.5rem; }
+  .ctaBox { padding: 1.5rem 1.25rem; }
+}

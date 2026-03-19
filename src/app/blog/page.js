@@ -1,39 +1,252 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import PodcastSection from "@/app/components/PodcastSection";
+import { useVideoPlayer } from "../components/VideoPlayerContext";
 
-function FAQAccordion({ faq }) {
-  const [isOpen, setIsOpen] = useState(false);
+function VideoEmbed({ videoId, title, tag }) {
+  const { playVideo, activeVideo, dismissVideo, enterMiniMode, exitMiniMode, isFloating } = useVideoPlayer();
+  const isActive = activeVideo?.videoId === videoId;
+  const placeholderRef = useRef(null);
+  const [anchorInView, setAnchorInView] = useState(false);
+
+  useEffect(() => {
+    if (!isActive) { setAnchorInView(false); return; }
+    const el = placeholderRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setAnchorInView(entry.isIntersecting);
+        if (!entry.isIntersecting) enterMiniMode();
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isActive, enterMiniMode]);
+
+  if (isActive) {
+    // Scrolled back while mini player active → resume banner
+    if (isFloating && anchorInView) {
+      return (
+        <div ref={placeholderRef} className="video-anchor-placeholder video-anchor-resume">
+          <div className="video-anchor-banner">
+            <span className="video-anchor-banner-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="4" width="20" height="14" rx="2"/>
+                <path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <p className="video-anchor-banner-text">Video is playing in the mini player.</p>
+            <button className="video-anchor-resume-btn" onClick={exitMiniMode}>Resume here →</button>
+          </div>
+        </div>
+      );
+    }
+
+    // Mini player active, anchor off-screen → preserve layout space
+    if (isFloating) return <div ref={placeholderRef} className="video-anchor-placeholder" />;
+
+    // Inline player — lives naturally in page flow, no fixed overlay
+    return (
+      <div ref={placeholderRef} className="video-anchor-inline">
+        <div className="video-anchor-bar">
+          {title && <span className="video-anchor-title">{title}</span>}
+          <button className="video-anchor-btn" onClick={enterMiniMode} title="Pop out to mini player">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <rect x="13" y="8" width="8" height="7" rx="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </button>
+          <button className="video-anchor-btn" onClick={dismissVideo} title="Close video">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div className="video-anchor-iframe-wrap">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={title}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="faq-accordion-wrapper">
+    <button className="video-thumb-btn" onClick={() => playVideo(videoId, title, tag)} aria-label={`Play: ${title}`}>
+      <img src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`} alt={title} className="video-thumb-img" loading="lazy" />
+      <span className="video-thumb-play" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </span>
+      {tag && <span className="video-thumb-tag">{tag}</span>}
+    </button>
+  );
+}
+
+function FAQAccordion({ question, answer }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={`faq-item${open ? ' faq-item--open' : ''}`}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`faq-question-btn ${isOpen ? 'is-open' : ''}`}
+        className="faq-trigger"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
       >
-        <div className="faq-question-content">
-          <span className="faq-q-badge">Q</span>
-          <span className="faq-question-text">{faq.question}</span>
-        </div>
-        <span className={`faq-chevron ${isOpen ? 'rotated' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
+        <span className="faq-q-text">{question}</span>
+        <span className="faq-chevron" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
           </svg>
         </span>
       </button>
-
-      {isOpen && (
-        <div className="faq-answer-panel fade-in-up">
-          <div className="faq-answer-content">
-            <span className="faq-a-badge">A</span>
-            <p className="faq-answer-text">{faq.answer}</p>
-          </div>
+      <div className="faq-panel">
+        <div className="faq-panel-inner">
+          <p className="faq-a-text">{answer}</p>
         </div>
-      )}
+      </div>
     </div>
   );
 }
+
+const faqData = [
+  {
+    category: "About Hypnotherapy",
+    items: [
+      {
+        q: "What is clinical hypnotherapy and how does it work?",
+        a: "Clinical hypnotherapy uses guided relaxation to bring your mind into a focused, receptive state — similar to deep daydreaming. In this state, the critical, analytical part of the mind steps aside, allowing us to work directly with the subconscious beliefs and patterns that drive your behaviour. Unlike stage hypnosis, you remain fully aware and in control at all times."
+      },
+      {
+        q: "Is hypnotherapy scientifically proven?",
+        a: "Yes. Clinical hypnotherapy is recognised by the British Medical Association and is backed by decades of peer-reviewed research. Neuroimaging studies show measurable changes in brain activity during hypnotic states, and clinical trials support its effectiveness for anxiety, chronic pain, IBS, smoking cessation, and more."
+      },
+      {
+        q: "Will I be unconscious or out of control during hypnosis?",
+        a: "Not at all. Hypnosis is not sleep. You are aware of everything around you and can open your eyes and end the session whenever you choose. You retain complete control throughout. No one can make you do or say anything against your values or will."
+      },
+      {
+        q: "Can everyone be hypnotised?",
+        a: "Almost everyone can be hypnotised. The only requirements are a willingness to participate and the ability to follow simple instructions. People who are resistant or sceptical can still benefit — often just experiencing it as a very deep relaxation from which the therapeutic work still proceeds effectively."
+      },
+      {
+        q: "How is hypnotherapy different from counselling or CBT?",
+        a: "Counselling and CBT primarily work at the conscious level — analysing thoughts and behaviours. Hypnotherapy works directly with the subconscious, where the root beliefs and emotional responses are stored. This often means faster, more lasting change without years of talk therapy. Rather than managing symptoms, we aim to remove the underlying cause."
+      }
+    ]
+  },
+  {
+    category: "Anxiety & Panic Attacks",
+    items: [
+      {
+        q: "Can hypnotherapy cure anxiety?",
+        a: "Hypnotherapy can produce profound and lasting reductions in anxiety — often described by clients as a complete resolution rather than just management. By identifying and rewriting the subconscious beliefs that trigger the anxiety response, the mind stops interpreting safe situations as threatening. Results vary, but many clients experience significant relief within 2–4 sessions."
+      },
+      {
+        q: "Can hypnotherapy help with panic attacks?",
+        a: "Yes. Panic attacks are a subconscious emergency response that has been misfired. Hypnotherapy works to recalibrate this response — teaching the nervous system that the trigger is safe and interrupting the cycle before it escalates. Clients typically learn to reduce or eliminate panic attacks within a handful of sessions."
+      },
+      {
+        q: "Does hypnotherapy work for social anxiety?",
+        a: "Social anxiety is rooted in subconscious beliefs about judgement, rejection, and self-worth. Hypnotherapy is particularly effective here because it addresses those core beliefs directly, rather than trying to override them with conscious affirmations. Many clients report a genuine shift in how they feel in social situations, not just coping strategies."
+      },
+      {
+        q: "Can hypnotherapy help with trauma and PTSD?",
+        a: "Yes. Hypnotherapy is one of the most effective tools for trauma processing. It allows us to access the stored memory safely, reduce the emotional charge attached to it, and update how the mind has filed that experience. This is not about forgetting — it is about no longer being controlled by the past."
+      },
+      {
+        q: "What causes anxiety at the subconscious level?",
+        a: "Anxiety is typically rooted in a subconscious belief formed during a past experience — often in childhood — that something is dangerous or that you are not safe, capable, or worthy. The conscious mind may know logically that a situation is fine, but the subconscious overrides it with the old survival programme. Hypnotherapy finds and updates that programme."
+      }
+    ]
+  },
+  {
+    category: "Stop Smoking & Vaping",
+    items: [
+      {
+        q: "Can I stop smoking in a single hypnotherapy session?",
+        a: "Yes — and this is the standard approach for most clients. A single, focused stop-smoking session typically lasts around 90 minutes and addresses both the physical habit loop and the emotional dependency. The majority of clients leave as non-smokers and do not return for further sessions."
+      },
+      {
+        q: "What is the success rate for hypnotherapy to quit smoking?",
+        a: "Studies consistently show hypnotherapy outperforms nicotine patches, gum, and willpower alone. A widely cited New Scientist meta-analysis ranked hypnotherapy as the most effective method for smoking cessation. Individual results depend on motivation, but clients who genuinely want to stop have very high success rates."
+      },
+      {
+        q: "Does hypnotherapy work for vaping and e-cigarette addiction?",
+        a: "Yes. Vaping creates the same psychological dependency patterns as cigarettes — the habit loop, the trigger responses, the emotional association with the device. The approach is identical: we target the subconscious programming that keeps you reaching for it."
+      },
+      {
+        q: "Will I get cravings or withdrawal symptoms after the session?",
+        a: "Most clients report little to no cravings because the session works on the part of the mind generating the desire. Physical nicotine withdrawal is typically mild and brief. The key is that after the session, you simply don't want to smoke — the craving has been addressed at the source."
+      }
+    ]
+  },
+  {
+    category: "Weight Management",
+    items: [
+      {
+        q: "How does hypnotherapy help with weight loss?",
+        a: "Most weight issues are not about information (everyone knows vegetables are healthier than crisps) — they are about emotional eating, subconscious comfort associations, and self-image beliefs. Hypnotherapy addresses these root drivers: stress eating, boredom eating, reward patterns, and the internal story you hold about your body and worth."
+      },
+      {
+        q: "What is virtual gastric band hypnotherapy?",
+        a: "Virtual gastric band is a hypnotherapy programme that uses guided visualisation to create the psychological experience of having a gastric band fitted. The subconscious treats this as real, reducing portion-size comfort and appetite responses. It is non-invasive, carries none of the surgical risks, and works for clients who need help reducing quantity rather than changing emotional patterns."
+      },
+      {
+        q: "How many sessions do I need for weight management?",
+        a: "This varies by individual. Some clients see significant shifts in just 2–3 sessions. Others benefit from a longer programme addressing emotional eating, motivation, and body image over 4–6 sessions. We discuss this in the initial consultation based on your specific relationship with food and your body."
+      },
+      {
+        q: "Can hypnotherapy change my relationship with food long-term?",
+        a: "Yes — this is exactly the goal. Rather than willpower-based dieting (which requires constant conscious effort), we aim to change what you want at a subconscious level. When you genuinely no longer desire a nightly biscuit habit or emotional snacking, no effort is required to resist it."
+      }
+    ]
+  },
+  {
+    category: "Sessions, Pricing & Location",
+    items: [
+      {
+        q: "Where are sessions held — online or in person?",
+        a: "The majority of sessions are held online via Zoom. This is just as effective as in-person therapy and allows you to work from the safety and comfort of your own home, anywhere in the UK. Face-to-face sessions are available at the clinic in Bury St Edmunds, Suffolk, by arrangement."
+      },
+      {
+        q: "How long is a hypnotherapy session?",
+        a: "Initial sessions typically run 75–90 minutes to allow time for thorough discussion, history-taking, and the therapeutic work itself. Follow-up sessions are usually 60 minutes. Stop-smoking sessions are a dedicated 90-minute single appointment."
+      },
+      {
+        q: "How many sessions will I need?",
+        a: "Piers' approach aims for rapid, lasting results — not open-ended therapy. Smoking and many phobias: 1 session. Anxiety, confidence, and weight management: typically 2–4 sessions. Complex trauma or PTSD: 3–6 sessions. You will always be given an honest assessment at your first consultation."
+      },
+      {
+        q: "Do you offer a free initial consultation?",
+        a: "Yes. Piers offers a no-obligation initial consultation to understand what you want to change, answer your questions honestly, and confirm that hypnotherapy is the right approach for you. There is no pressure and no hard sell. Book through the contact page."
+      },
+      {
+        q: "Is hypnotherapy covered by private health insurance?",
+        a: "Some private health insurers do cover clinical hypnotherapy, particularly for anxiety, IBS, and pain management. It is worth checking your policy or speaking with your provider. Piers can provide receipts and session notes to support a claim where required."
+      }
+    ]
+  }
+];
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Piers Day Hypnotherapy Resources",
+  "description": "Evidence-based articles and FAQs on hypnotherapy, anxiety, smoking cessation, weight loss, and subconscious change.",
+  "url": "https://www.piersday.com/blog",
+  "publisher": {
+    "@type": "Person",
+    "name": "Piers Day",
+    "jobTitle": "Clinical Hypnotherapist",
+    "url": "https://www.piersday.com/about"
+  }
+};
 
 export default function BlogIndex() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -855,607 +1068,1042 @@ export default function BlogIndex() {
   }
 ];
 
-  // State for pagination
+
+  // State
   const [visibleLimit, setVisibleLimit] = useState(8);
-  const incrementCount = 8;
-
-  // State to track which cards are showing the full article view
-  const [activeArticleViews, setActiveArticleViews] = useState({});
-
-  // New state to track which cards are expanded (summary view vs collapsed view)
+  const [videoVisible, setVideoVisible] = useState(12);
   const [expandedCards, setExpandedCards] = useState({});
+  const [articleModal, setArticleModal] = useState(null);
+  const [contentFilter, setContentFilter] = useState('all');
+  const [faqCategory, setFaqCategory] = useState('all');
 
-  const toggleCardExpansion = (id) => {
-    setExpandedCards(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
+  const toggleCard = (id) => setExpandedCards(prev => ({ ...prev, [id]: !prev[id] }));
+  const openArticleModal  = (topic) => { setArticleModal(topic); document.body.style.overflow = 'hidden'; };
+  const closeArticleModal = ()      => { setArticleModal(null);  document.body.style.overflow = ''; };
 
-  const toggleArticleView = (id) => {
-    setActiveArticleViews(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') closeArticleModal(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
-  // Filter topics based on search input
-  const filteredTopics = topics.filter(t => 
-    t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+  const filteredTopics = topics.filter(t =>
+    !searchQuery ||
+    t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     t.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (t.article && t.article.headline.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (t.article && t.article.content.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (t.faqs && t.faqs.some(faq => faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(searchQuery.toLowerCase())))
+    (t.article?.headline.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (t.article?.content.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (t.faqs?.some(faq =>
+      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+    ))
   );
 
-  // Pagination logic
-  const currentItems = filteredTopics.slice(0, visibleLimit);
+  const videos   = filteredTopics.filter(t => t.videoId);
+  const articles = filteredTopics.filter(t => t.article);
 
-  // If search query changes, reset to page 1
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setVisibleLimit(8);
+    setVideoVisible(12);
+    setFaqCategory('all');
+  };
+
+  const TAG_GRAD = {
+    'The Foundation':     ['#0C1B2E', '#1A3448'],
+    'Overcoming Phobias': ['#18204a', '#2d3a70'],
+    'Positive Thinking':  ['#0e3028', '#1a5040'],
+    'Trauma Relief':      ['#241030', '#3a1a50'],
+    'The Science':        ['#0a2038', '#0e3060'],
+    'Anxiety & Panic':    ['#2e1808', '#4a280e'],
+    'Quit Smoking':       ['#102808', '#1e440e'],
+    'Weight Loss':        ['#0e2828', '#104444'],
+  };
+  const tagGrad = (tag) => {
+    const c = TAG_GRAD[tag] || ['#0C1B2E', '#1A3448'];
+    return `linear-gradient(135deg, ${c[0]} 0%, ${c[1]} 100%)`;
   };
 
   return (
-    <main className="pt-32 pb-24 relative z-10">
-      <div className="container max-w-5xl">
-        <div className="text-center mb-16 fade-in-up">
-          <h1 className="mb-4 text-gradient-gold">Resources & Freebies</h1>
-          <p className="hero-sub mx-auto">
-            Explore our extensive library of hypnotherapy and NLP resources.
-          </p>
-        </div>
+    <div className="res-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
 
-        {/* Search Bar */}
-        <div className="search-container mb-16 fade-in-up" style={{animationDelay: "0.1s"}}>
-          <div className="search-wrapper glass-panel">
-            <span className="search-icon">🔍</span>
-            <input 
-              type="text" 
-              placeholder="Search for 'anxiety', 'phobia', 'nlp'..." 
-              className="search-input"
+      {/* ── Article modal ── */}
+      {articleModal && (
+        <>
+          <div className="art-modal-backdrop" onClick={closeArticleModal} />
+          <div className="art-modal-wrap" onClick={closeArticleModal}>
+            <div className="art-modal-card" onClick={e => e.stopPropagation()}>
+              <button className="art-modal-close" onClick={closeArticleModal} aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+              {/* Gradient header */}
+              <div className="art-modal-header" style={{ background: tagGrad(articleModal.tag) }}>
+                <div className="art-header-deco" aria-hidden="true" />
+                <span className="art-card-tag">{articleModal.tag}</span>
+                <h2 className="art-modal-headline">{articleModal.article.headline}</h2>
+                <p className="art-modal-topic">{articleModal.title}</p>
+              </div>
+              {/* Scrollable body */}
+              <div className="art-modal-body">
+                <div className="art-modal-article">
+                  {articleModal.article.content.split('\n\n').map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+                {articleModal.faqs?.length > 0 && (
+                  <div className="art-modal-faqs">
+                    <h3 className="art-modal-faqs-heading">Questions on this topic</h3>
+                    {articleModal.faqs.map((faq, i) => (
+                      <FAQAccordion key={i} question={faq.question} answer={faq.answer} />
+                    ))}
+                  </div>
+                )}
+                <div className="art-modal-cta">
+                  <h4>Ready to take the next step?</h4>
+                  <p>If you related to anything in this article, a free conversation is the best place to start.</p>
+                  <Link href="/contact" className="btn btn-primary" onClick={closeArticleModal}>Talk to Piers Today →</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── Hero ── */}
+      <section className="res-hero">
+        <div className="container">
+          <div className="res-hero-inner fade-in-up">
+            <span className="eyebrow">Resources &amp; Insights</span>
+            <h1 className="res-hero-h1">Mind, Method<br/>&amp; Meaning</h1>
+            <p className="res-hero-sub">Videos, articles, podcasts and answers on hypnotherapy, NLP, and the science of lasting change.</p>
+          </div>
+          <div className="res-search fade-in-up" style={{ transitionDelay: "0.2s" }}>
+            <span className="res-search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              placeholder="Search topics, questions, tags…"
+              className="res-search-input"
               value={searchQuery}
               onChange={handleSearchChange}
             />
           </div>
         </div>
+      </section>
 
-        {/* Results Stream (Mega Cards) */}
-        <div className="topic-stream fade-in-up" style={{animationDelay: "0.2s"}}>
-          {currentItems.length > 0 ? (
-            currentItems.map((item) => (
-              <div key={item.id} className={`mega-card glass-panel mb-8 transition-all duration-500 ${expandedCards[item.id] ? 'expanded' : 'collapsed'}`}>
-                <div 
-                  className={`card-header border-b pb-6 mb-2 cursor-pointer transition-all duration-500 flex justify-between items-center group ${expandedCards[item.id] ? 'items-start' : 'items-center'}`}
-                  onClick={() => toggleCardExpansion(item.id)}
-                >
-                  <div className={`flex transition-all duration-500 ${expandedCards[item.id] ? 'flex-col items-start gap-3' : 'flex-row items-center gap-3'}`}>
-                    <span className="tag-badge text-[10px] md:text-xs py-1 px-3 bg-accent-gold/5 border-accent-gold/20 leading-none">{item.tag}</span>
-                    {!expandedCards[item.id] && <span className="text-gray-500 font-light opacity-50 hidden md:inline">—</span>}
-                    <h2 className={`title text-gradient-light m-0 group-hover:text-gold transition-all duration-500 leading-tight ${expandedCards[item.id] ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg lg:text-xl'}`}>
-                      {item.title}
-                    </h2>
-                  </div>
-                  <div className={`expand-indicator text-accent-gold transition-transform duration-300 ${expandedCards[item.id] ? 'rotate-180' : ''}`}>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
+      {/* ── Body ── */}
+      <section className="res-body">
+        <div className={`res-container${contentFilter === 'video' ? ' res-container--wide' : ''}`}>
+
+          {/* Tabs */}
+          <div className="res-tabs fade-in-up">
+            {[
+              { key: 'all',     icon: '✦', label: 'All'      },
+              { key: 'video',   icon: '▶', label: 'Videos'   },
+              { key: 'article', icon: '✎', label: 'Articles' },
+              { key: 'faq',     icon: '?', label: 'FAQs'     },
+              { key: 'podcast', icon: '◎', label: 'Podcast'  },
+            ].map(({ key, icon, label }) => (
+              <button
+                key={key}
+                onClick={() => setContentFilter(key)}
+                className={`res-tab${contentFilter === key ? ' res-tab--active' : ''}`}
+              >
+                <span className="res-tab-icon" aria-hidden="true">{icon}</span>
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* ALL — topic cards grid                                   */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'all' && (
+            <>
+              {filteredTopics.length === 0 ? (
+                <div className="res-no-results fade-in-up">
+                  <div className="res-no-results-inner">
+                    <h2>No results found</h2>
+                    <p>Can&apos;t find what you&apos;re looking for? Ask Piers directly.</p>
+                    <Link href="/contact" className="btn btn-primary">Contact Piers →</Link>
                   </div>
                 </div>
-                
-                {expandedCards[item.id] && (
-                  <div className="card-body-content pt-4 fade-in-up">
-                    {/* CONDITIONAL RENDERING: Article View vs Video/FAQ View */}
-                    {activeArticleViews[item.id] && item.article ? (
-                      <div className="article-view">
-                         <button 
-                           onClick={() => toggleArticleView(item.id)}
-                           className="back-btn mb-6 flex items-center gap-2"
-                         >
-                           <span className="text-xl">←</span> Back to Summary
-                         </button>
-                         <div className="article-content max-w-3xl mx-auto text-left">
-                            <h3 className="text-2xl text-gradient-gold mb-6">{item.article.headline}</h3>
-                            <div className="prose text-gray leading-relaxed space-y-4">
-                              {item.article.content.split('\n\n').map((paragraph, idx) => (
-                                 <p key={idx} className="mb-4 text-base md:text-lg">{paragraph}</p>
-                              ))}
-                            </div>
-                            
-                            {/* Inline Conversion CTA */}
-                            <div className="article-cta mt-12 p-8 rounded-xl border border-accent-gold/20 bg-accent-gold/5 flex flex-col items-center text-center">
-                              <h4 className="text-2xl text-gradient-gold mb-3">Ready to take control?</h4>
-                              <p className="text-gray mb-8 max-w-lg">If you related to anything in this article, you don't have to keep struggling alone.</p>
-                              <Link href="/contact" className="btn-primary inline-flex items-center gap-2 px-8 py-4 font-bold tracking-wide">
-                                Talk To Piers Today →
-                              </Link>
-                            </div>
-                         </div>
-                      </div>
-                    ) : (
-                      <div className="layered-summary-view">
-                        {/* Layer 1: Video (Conditional) */}
-                        {item.videoId && (
-                          <div className="video-section mb-10 max-w-4xl mx-auto text-left">
-                            <div className="video-embed rounded-xl overflow-hidden border border-white/10" style={{ position: 'relative', paddingBottom: '56.25%', height: 0, boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.5)' }}>
-                              <iframe 
-                                src={`https://www.youtube.com/embed/${item.videoId}?rel=0`}
-                                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                                frameBorder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowFullScreen
-                                loading="lazy"
-                              ></iframe>
-                            </div>
+              ) : (
+                <>
+                  <div className="topic-grid">
+                    {filteredTopics.slice(0, visibleLimit).map((item) => (
+                      <div
+                        key={item.id}
+                        className={`topic-card${expandedCards[item.id] ? ' topic-card--open' : ''}`}
+                      >
+                        <button
+                          className="topic-card-header"
+                          onClick={() => toggleCard(item.id)}
+                          aria-expanded={!!expandedCards[item.id]}
+                        >
+                          <div className="topic-card-meta">
+                            <span className="topic-tag">{item.tag}</span>
+                            <h2 className="topic-title">{item.title}</h2>
                           </div>
-                        )}
-                        
-                        {/* Layer 2: Article Excerpt (Conditional) */}
-                        {item.article && (
-                          <div className="article-section mb-12 text-left max-w-4xl mx-auto">
-                             <h3 className="text-xl text-white mb-4">{item.article.headline}</h3>
-                             <p className="text-gray text-base mb-8 leading-relaxed max-w-3xl">
-                               {item.article.content.substring(0, 240)}...
-                             </p>
-                             <button 
-                               onClick={() => toggleArticleView(item.id)}
-                               className="read-more-btn"
-                              >
-                               Read Full Article →
-                             </button>
-                          </div>
-                        )}
-                        
-                        {/* Layer 3: FAQs (Conditional) */}
-                        {item.faqs && item.faqs.length > 0 && (
-                          <div className="faq-section-container">
-                            <div className="faq-section-header">
-                              <div className="faq-section-icon">?</div>
-                              <div className="faq-section-title-group">
-                                <h4 className="faq-section-title">Frequently Asked Questions</h4>
-                                <p className="faq-section-subtitle">Quick answers about this topic</p>
+                          <div className="topic-card-right">
+                            {!expandedCards[item.id] && (
+                              <div className="topic-chips">
+                                {item.videoId         && <span className="t-chip t-chip--v">▶</span>}
+                                {item.article         && <span className="t-chip t-chip--a">✎</span>}
+                                {item.faqs?.length > 0 && <span className="t-chip t-chip--f">?</span>}
                               </div>
-                            </div>
-                            <div className="faq-list">
-                              {item.faqs.map((faq, idx) => (
-                                 <FAQAccordion key={idx} faq={faq} />
-                              ))}
-                            </div>
+                            )}
+                            <span className={`topic-chevron${expandedCards[item.id] ? ' topic-chevron--open' : ''}`} aria-hidden="true">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                              </svg>
+                            </span>
+                          </div>
+                        </button>
+
+                        {expandedCards[item.id] && (
+                          <div className="topic-card-body">
+
+                            {/* ── Video ── */}
+                            {item.videoId && (
+                              <div className="topic-section-block">
+                                <span className="topic-section-label">
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                  Watch
+                                </span>
+                                <div className="topic-video-embed">
+                                  <VideoEmbed videoId={item.videoId} title={item.title} tag={item.tag} />
+                                </div>
+                              </div>
+                            )}
+
+                            {/* ── Article ── */}
+                            {item.article && (
+                              <div className="topic-section-block">
+                                <span className="topic-section-label">
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                  Article
+                                </span>
+                                <h3 className="topic-article-title">{item.article.headline}</h3>
+                                <p className="topic-article-text">{item.article.content.substring(0, 200)}…</p>
+                                <button onClick={() => openArticleModal(item)} className="topic-read-btn">
+                                  Read full article →
+                                </button>
+                              </div>
+                            )}
+
+                            {/* ── FAQs ── */}
+                            {item.faqs?.length > 0 && (
+                              <div className="topic-section-block">
+                                <span className="topic-section-label">
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                  FAQs
+                                </span>
+                                <div className="topic-faq-list">
+                                  {item.faqs.map((faq, i) => (
+                                    <FAQAccordion key={i} question={faq.question} answer={faq.answer} />
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            <Link href="/contact" className="topic-cta-link">Book a free consultation →</Link>
                           </div>
                         )}
                       </div>
-                    )}
+                    ))}
                   </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <div className="no-results max-w-3xl mx-auto mt-12 p-10 rounded-2xl border border-accent-gold/30 bg-[rgba(10,17,40,0.8)] flex flex-col items-center text-center fade-in-up">
-              <span className="text-4xl mb-6">🔍</span>
-              <h3 className="text-3xl text-gradient-light mb-4">No specific resources found.</h3>
-              <p className="text-gray text-lg mb-8 max-w-xl leading-relaxed">If you can't find the exact topic you're looking for, contact Piers directly below.</p>
-              <Link href="/contact" className="btn-primary inline-flex items-center gap-2 px-8 py-4 font-bold tracking-wide">
-                Ask Piers Directly
-              </Link>
-            </div>
+                  {visibleLimit < filteredTopics.length && (
+                    <div className="res-load-more">
+                      <button onClick={() => setVisibleLimit(v => v + 8)} className="btn btn-primary">
+                        Load More →
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
           )}
-        </div>
 
-        {/* Load More Control */}
-        {visibleLimit < filteredTopics.length && (
-          <div className="load-more-container flex justify-center mt-12 pb-12 fade-in-up">
-            <button 
-              onClick={() => setVisibleLimit(prev => prev + incrementCount)}
-              className="btn-primary px-10 py-4 font-bold tracking-widest text-sm uppercase flex items-center gap-3 active:scale-95 transition-all shadow-[0_0_20px_rgba(244,162,97,0.2)]"
-            >
-              Load More Resources
-              <span className="text-lg">↓</span>
-            </button>
-          </div>
-        )}
-      </div>
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* VIDEOS — embedded grid                                   */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'video' && (
+            <>
+              {videos.length === 0 ? (
+                <p className="res-empty">No videos match your search.</p>
+              ) : (
+                <>
+                  <div className="video-grid">
+                    {videos.slice(0, videoVisible).map((item) => (
+                      <div key={item.id} className="video-item">
+                        <div className="video-embed">
+                          <VideoEmbed videoId={item.videoId} title={item.title} tag={item.tag} />
+                        </div>
+                        <div className="video-item-meta">
+                          <span className="video-item-tag">{item.tag}</span>
+                          <h3 className="video-item-title">{item.title}</h3>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {videoVisible < videos.length && (
+                    <div className="res-load-more">
+                      <button onClick={() => setVideoVisible(v => v + 12)} className="btn btn-primary">
+                        Load More Videos →
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+          )}
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* ARTICLES — cards with gradient header                    */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'article' && (
+            <>
+              {articles.length === 0 ? (
+                <p className="res-empty">No articles match your search.</p>
+              ) : (
+                <div className="article-list">
+                  {articles.map((item) => (
+                    <div key={item.id} className={`art-card${expandedArticles[item.id] ? ' art-card--open' : ''}`}>
+                      <div className="art-card-header" style={{ background: tagGrad(item.tag) }}>
+                        <div className="art-header-deco" aria-hidden="true" />
+                        <span className="art-card-tag">{item.tag}</span>
+                        <h2 className="art-card-headline">{item.article.headline}</h2>
+                        <p className="art-card-topic-title">{item.title}</p>
+                      </div>
+                      <div className="art-card-body">
+                        <p className="art-excerpt">{item.article.content.substring(0, 260)}…</p>
+                        <button
+                          onClick={() => openArticleModal(item)}
+                          className="art-toggle-btn"
+                        >
+                          Read full article →
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* FAQs — grouped by topic                                  */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'faq' && (() => {
+            const shownCategories = faqCategory === 'all'
+              ? faqData
+              : faqData.filter(c => c.category === faqCategory);
+            const totalCount = faqData.reduce((s, c) => s + c.items.length, 0);
+            return (
+              <div className="faq-layout">
+
+                {/* ── Category nav ── */}
+                <aside className="faq-nav">
+                  <p className="faq-nav-label">Topics</p>
+                  <button
+                    onClick={() => setFaqCategory('all')}
+                    className={`faq-nav-btn${faqCategory === 'all' ? ' faq-nav-btn--active' : ''}`}
+                  >
+                    <span>All Questions</span>
+                    <span className="faq-nav-count">{totalCount}</span>
+                  </button>
+                  {faqData.map(cat => (
+                    <button
+                      key={cat.category}
+                      onClick={() => setFaqCategory(cat.category)}
+                      className={`faq-nav-btn${faqCategory === cat.category ? ' faq-nav-btn--active' : ''}`}
+                    >
+                      <span>{cat.category}</span>
+                      <span className="faq-nav-count">{cat.items.length}</span>
+                    </button>
+                  ))}
+                </aside>
+
+                {/* ── FAQ content ── */}
+                <div className="faq-content">
+                  {shownCategories.map(cat => (
+                    <div key={cat.category} className="faq-section">
+                      <div className="faq-section-hd">
+                        <h2 className="faq-section-title">{cat.category}</h2>
+                      </div>
+                      {cat.items.map((item, idx) => (
+                        <FAQAccordion key={idx} question={item.q} answer={item.a} />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            );
+          })()}
+
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {/* PODCAST — placeholder ready for embeds                   */}
+          {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+          {contentFilter === 'podcast' && (
+            <PodcastSection />
+          )}
+
+        </div>
+      </section>
 
       <style jsx>{`
-        .pt-32 { padding-top: 8rem; }
-        .pb-24 { padding-bottom: 6rem; }
-        .mb-2 { margin-bottom: 0.5rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mb-8 { margin-bottom: 2rem; }
-        .mb-10 { margin-bottom: 2.5rem; }
-        .mb-12 { margin-bottom: 3rem; }
-        .mb-16 { margin-bottom: 4rem; }
-        .mt-12 { margin-top: 3rem; }
-        .pb-6 { padding-bottom: 1.5rem; }
-        .pt-10 { padding-top: 2.5rem; }
-        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-        .px-8 { padding-left: 2rem; padding-right: 2rem; }
-        .border-b { border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .border-t { border-top: 1px solid rgba(255,255,255,0.05); }
-        .m-0 { margin: 0; }
-        .text-center { text-align: center; }
-        .text-3xl { font-size: 2rem; }
-        .text-xl { font-size: 1.25rem; }
-        .text-sm { font-size: 0.875rem; }
-        .text-white { color: white; }
-        .text-gray { color: var(--color-text-muted); }
-        .text-accent-gold { color: var(--color-accent-gold); }
-        .hero-sub { font-size: 1.25rem; color: var(--color-text-muted); max-width: 800px; line-height: 1.6; }
-        .mx-auto { margin-left: auto; margin-right: auto; }
-        .max-w-xl { max-width: 36rem; }
-        .max-w-lg { max-width: 32rem; }
-        .max-w-3xl { max-width: 48rem; }
-        .max-w-4xl { max-width: 56rem; }
-        .max-w-5xl { max-width: 64rem; }
-        .p-4 { padding: 1rem; }
-        .p-5 { padding: 1.25rem; }
-        .p-6 { padding: 1.5rem; }
-        .p-8 { padding: 2rem; }
-        .p-10 { padding: 2.5rem; }
-        .flex { display: flex; }
-        .flex-1 { flex: 1 1 0%; }
-        .flex-col { flex-direction: column; }
-        .justify-between { justify-content: space-between; }
-        .justify-start { justify-content: flex-start; }
-        .items-center { align-items: center; }
-        .gap-2 { gap: 0.5rem; }
-        .gap-4 { gap: 1rem; }
-        .rounded-md { border-radius: 0.5rem; }
-        .rounded-xl { border-radius: 0.75rem; }
-        .rounded-2xl { border-radius: 1rem; }
-        .border { border-width: 1px; }
-        .border-white\\/10 { border-color: rgba(255, 255, 255, 0.1); }
-        .border-gray-200 { border-color: #E5E7EB; }
-        .border-accent-gold\\/20 { border-color: rgba(244,162,97,0.2); }
-        .border-accent-gold\\/30 { border-color: rgba(244,162,97,0.3); }
-        .bg-white\\/5 { background-color: rgba(255, 255, 255, 0.05); }
-        .bg-accent-gold\\/5 { background-color: rgba(244,162,97,0.05); }
-        .bg-\\[\\#f8f9fc\\] { background-color: #f8f9fc; }
-        .text-\\[\\#1A202C\\] { color: #1A202C; }
-        .text-gray-600 { color: #4B5563; }
-        .text-gray-700 { color: #374151; }
-        .tracking-widest { letter-spacing: 0.1em; }
-        .tracking-wide { letter-spacing: 0.025em; }
-        .uppercase { text-transform: uppercase; }
-        .font-bold { font-weight: 700; }
-        .font-medium { font-weight: 500; }
-        .inline-block { display: inline-block; }
-        .inline-flex { display: inline-flex; }
-        .text-left { text-align: left; }
-        .pr-4 { padding-right: 1rem; }
-        .pt-0 { padding-top: 0; }
-        .pt-4 { padding-top: 1rem; }
-        .mt-2 { margin-top: 0.5rem; }
-        .leading-relaxed { line-height: 1.625; }
-        .flex-shrink-0 { flex-shrink: 0; }
-        .cursor-pointer { cursor: pointer; }
-        .focus\\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
-        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-        .transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-        .duration-300 { transition-duration: 300ms; }
+        /* ── PAGE ──────────────────────────────────────────────── */
+        .res-page { background: #fafaf9; min-height: 100vh; }
 
-        .search-container {
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .search-wrapper {
-          display: flex;
-          align-items: center;
-          padding: 0.5rem 1rem;
-          border-radius: var(--radius-full);
-          border: 1px solid var(--glass-border);
-          background: rgba(255, 255, 255, 0.05);
-          transition: border-color 0.3s ease, background 0.3s ease;
-        }
-        .search-wrapper:focus-within {
-          border-color: var(--color-accent-gold);
-          background: rgba(255, 255, 255, 0.1);
-        }
-        .search-icon { font-size: 1.25rem; margin-right: 0.75rem; opacity: 0.7; }
-        .search-input { flex-grow: 1; background: transparent; border: none; color: white; font-size: 1.125rem; padding: 0.75rem 0; outline: none; font-family: inherit; }
-        .search-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-
-        .bg-gold { background-color: var(--color-accent-gold); }
-        .text-navy-deep { color: var(--color-bg-deep); }
-        .rotate-180 { transform: rotate(180deg); }
-        .scale-110 { transform: scale(1.1); }
-        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-
-        .topic-stream {
-          display: flex;
-          flex-direction: column;
-        }
-        .mega-card {
-          padding: var(--space-8);
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .mega-card.collapsed {
-          padding-bottom: 1.5rem;
-        }
-        .mega-card.collapsed .card-header {
-           border-bottom: none;
-           margin-bottom: 0;
-           padding-bottom: 0;
-        }
-        .mega-card.collapsed .title {
-           font-size: 1.125rem;
-           letter-spacing: 0.5px;
-        }
-        .mega-card:hover {
-          border-color: rgba(244, 162, 97, 0.4);
-        }
-        .tag-badge {
-          background: rgba(244, 162, 97, 0.1);
-          color: var(--color-accent-gold);
-          padding: 0.25rem 0.75rem;
-          border-radius: var(--radius-full);
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          border: 1px solid rgba(244, 162, 97, 0.2);
-        }
-        
-        .read-more-btn {
-          background: transparent;
-          color: var(--color-text-main);
-          font-weight: 600;
-          font-size: 0.875rem;
-          border: none;
-          border-bottom: 1px solid rgba(255,255,255,0.3);
-          padding: 0 0 2px 0;
-          cursor: pointer;
-          transition: color 0.2s ease, border-color 0.2s ease;
-        }
-        .read-more-btn:hover {
-          color: var(--color-accent-gold);
-          border-color: var(--color-accent-gold);
-        }
-
-        .back-btn {
-          background: transparent;
-          color: var(--color-text-muted);
-          border: none;
-          font-weight: 500;
-          cursor: pointer;
-          transition: color 0.2s ease;
-        }
-        .back-btn:hover {
-          color: white;
-        }
-        
-        .prose p {
-          color: var(--color-text-muted);
-        }
-
-        .pagination-btn:disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
-        }
-        .pagination-btn:not(:disabled):hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: var(--color-accent-gold);
-        }
-
-        /* ===== FAQ SECTION CONTAINER ===== */
-        .faq-section-container {
-          max-width: 56rem;
-          margin: 3rem auto 0;
-          padding: 2rem;
-          background: rgba(10, 17, 40, 0.5);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 16px;
-        }
-
-        .faq-section-header {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-          padding-bottom: 1.5rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .faq-section-icon {
-          width: 48px;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.2), rgba(244, 162, 97, 0.1));
-          border: 1px solid rgba(244, 162, 97, 0.3);
-          border-radius: 12px;
-          color: #f4a261;
-          font-size: 1.5rem;
-          font-weight: 700;
-        }
-
-        .faq-section-title-group {
-          flex: 1;
-        }
-
-        .faq-section-title {
-          margin: 0 0 0.25rem 0;
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: #ffffff;
-          letter-spacing: 0.02em;
-        }
-
-        .faq-section-subtitle {
-          margin: 0;
-          font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.5);
-        }
-
-        .faq-list {
-          display: flex;
-          flex-direction: column;
-        }
-
-        /* ===== REDESIGNED FAQ STYLES ===== */
-        .faq-accordion-wrapper {
-          margin-bottom: 1rem;
-          border-radius: 12px;
+        /* ── HERO ──────────────────────────────────────────────── */
+        .res-hero {
+          background: #0C1B2E;
+          padding: 8rem 1rem 3.5rem;
+          position: relative;
           overflow: hidden;
-          background: rgba(15, 23, 42, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          transition: all 0.3s ease;
         }
-        .faq-accordion-wrapper:hover {
-          border-color: rgba(244, 162, 97, 0.3);
-          background: rgba(15, 23, 42, 0.8);
+        .res-hero::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 70% 40%, rgba(107,174,138,0.09) 0%, transparent 60%);
+          pointer-events: none;
         }
-        .faq-accordion-wrapper:last-child {
-          margin-bottom: 0;
+        .res-hero-inner {
+          text-align: center;
+          max-width: 680px;
+          margin: 0 auto 2.5rem;
         }
-
-        .faq-question-btn {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.25rem 1.5rem;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          text-align: left;
-          gap: 1rem;
-          transition: background 0.2s ease;
-        }
-        .faq-question-btn:hover {
-          background: rgba(255, 255, 255, 0.03);
-        }
-        .faq-question-btn.is-open {
-          background: rgba(244, 162, 97, 0.05);
-          border-bottom: 1px solid rgba(244, 162, 97, 0.15);
-        }
-
-        .faq-question-content {
-          display: flex;
-          align-items: flex-start;
-          gap: 1rem;
-          flex: 1;
-        }
-
-        .faq-q-badge {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-          min-width: 28px;
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.2), rgba(244, 162, 97, 0.1));
-          border: 1px solid rgba(244, 162, 97, 0.4);
-          border-radius: 6px;
-          color: #f4a261;
-          font-weight: 700;
-          font-size: 0.8rem;
-          margin-top: 2px;
-        }
-
-        .faq-question-text {
-          color: #ffffff;
-          font-size: 1.05rem;
+        .res-hero-inner .eyebrow { color: #C4906A; }
+        .res-hero-h1 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2.6rem, 5vw, 4rem);
           font-weight: 500;
-          line-height: 1.5;
-          letter-spacing: 0.01em;
+          color: #f5f0e8;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          margin: 0.5rem 0 1rem;
         }
-
-        .faq-chevron {
-          color: rgba(244, 162, 97, 0.8);
-          flex-shrink: 0;
-          transition: transform 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: rgba(244, 162, 97, 0.1);
-        }
-        .faq-chevron.rotated {
-          transform: rotate(180deg);
-          background: rgba(244, 162, 97, 0.2);
-        }
-
-        .faq-answer-panel {
-          padding: 0 1.5rem 1.5rem 1.5rem;
-          animation: fadeInAnswer 0.3s ease;
-        }
-        @keyframes fadeInAnswer {
-          from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .faq-answer-content {
-          display: flex;
-          align-items: flex-start;
-          gap: 1rem;
-          padding: 1.25rem;
-          background: rgba(0, 0, 0, 0.25);
-          border-radius: 10px;
-          border-left: 3px solid rgba(244, 162, 97, 0.5);
-        }
-
-        .faq-a-badge {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-          min-width: 28px;
-          background: rgba(100, 180, 255, 0.15);
-          border: 1px solid rgba(100, 180, 255, 0.3);
-          border-radius: 6px;
-          color: #64b4ff;
-          font-weight: 700;
-          font-size: 0.8rem;
-          margin-top: 2px;
-        }
-
-        .faq-answer-text {
-          color: #e2e8f0;
-          font-size: 1rem;
-          line-height: 1.75;
+        .res-hero-sub {
+          color: rgba(245,240,232,0.65);
+          font-size: 1.08rem;
+          line-height: 1.7;
           margin: 0;
-          font-weight: 400;
-          letter-spacing: 0.01em;
         }
 
-        /* FAQ Section Header */
-        .faq-header-box {
-          background: linear-gradient(135deg, rgba(244, 162, 97, 0.1), rgba(244, 162, 97, 0.05));
-          border: 1px solid rgba(244, 162, 97, 0.25);
+        /* ── SEARCH ────────────────────────────────────────────── */
+        .res-search {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          max-width: 540px;
+          margin: 0 auto;
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.14);
+          border-radius: 9999px;
+          padding: 0.55rem 1.25rem;
+          transition: border-color 0.25s, background 0.25s;
         }
+        .res-search:focus-within {
+          border-color: rgba(107,174,138,0.65);
+          background: rgba(255,255,255,0.1);
+        }
+        .res-search-icon { color: rgba(245,240,232,0.4); display: flex; align-items: center; flex-shrink: 0; }
+        .res-search-input {
+          flex: 1; background: transparent; border: none; outline: none;
+          color: #f5f0e8; font-size: 1rem; font-family: inherit; padding: 0.6rem 0;
+        }
+        .res-search-input::placeholder { color: rgba(245,240,232,0.38); }
+
+        /* ── BODY ──────────────────────────────────────────────── */
+        .res-body { padding: 3rem 1rem 6rem; }
+        .res-container { max-width: 900px; margin: 0 auto; }
+        .res-container--wide { max-width: 1100px; }
+
+        /* ── TABS ──────────────────────────────────────────────── */
+        .res-tabs {
+          display: flex; justify-content: center; gap: 0.5rem;
+          margin-bottom: 2.5rem; flex-wrap: wrap;
+        }
+        .res-tab {
+          display: inline-flex; align-items: center; gap: 0.45rem;
+          padding: 0.55rem 1.2rem; border-radius: 9999px;
+          border: 1px solid rgba(107,174,138,0.2); background: #fff;
+          color: #6b7f8e; font-size: 0.82rem; font-weight: 600;
+          letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer;
+          transition: border-color 0.2s, background 0.2s, color 0.2s;
+        }
+        .res-tab:hover { border-color: rgba(107,174,138,0.45); color: #1a2b3c; }
+        .res-tab--active {
+          border-color: rgba(107,174,138,0.55);
+          background: rgba(107,174,138,0.1); color: #1a2b3c;
+        }
+        .res-tab-icon { opacity: 0.8; }
+
+        /* ── SHARED UTILS ──────────────────────────────────────── */
+        .res-load-more { display: flex; justify-content: center; margin-top: 2.5rem; }
+        .res-empty { text-align: center; color: #9ab0be; padding: 4rem 0; font-size: 1rem; }
+        .res-no-results { text-align: center; padding: 2rem 0; }
+        .res-no-results-inner {
+          display: inline-flex; flex-direction: column; align-items: center; gap: 0.75rem;
+          max-width: 380px; padding: 2.5rem 2rem;
+          background: #fff; border: 1px solid rgba(107,174,138,0.2); border-radius: 16px;
+        }
+        .res-no-results-inner h2 {
+          font-family: 'Playfair Display', serif; font-size: 1.35rem;
+          color: #1a2b3c; margin: 0; font-weight: 500;
+        }
+        .res-no-results-inner p { color: #6b7f8e; font-size: 0.95rem; margin: 0; }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* ALL TAB — topic cards                                    */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .topic-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+        .topic-card {
+          background: #fff;
+          border: 1px solid rgba(107,174,138,0.16);
+          border-radius: 14px;
+          overflow: hidden;
+          transition: border-color 0.22s, box-shadow 0.22s;
+        }
+        .topic-card:hover {
+          border-color: rgba(107,174,138,0.38);
+          box-shadow: 0 4px 20px rgba(107,174,138,0.08);
+        }
+        .topic-card--open {
+          border-color: rgba(107,174,138,0.4);
+          box-shadow: 0 6px 30px rgba(107,174,138,0.1);
+          grid-column: 1 / -1;
+        }
+        .topic-card-header {
+          width: 100%; display: flex; align-items: center; justify-content: space-between;
+          gap: 1rem; padding: 1.25rem 1.5rem;
+          background: transparent; border: none; cursor: pointer; text-align: left;
+        }
+        .topic-card-meta { flex: 1; min-width: 0; }
+        .topic-tag {
+          display: inline-block;
+          font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.1em; color: #C4906A;
+          background: rgba(196,144,106,0.09); border: 1px solid rgba(196,144,106,0.24);
+          padding: 0.22rem 0.65rem; border-radius: 9999px;
+          margin-bottom: 0.5rem;
+        }
+        .topic-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.15rem; font-weight: 500; color: #1a2b3c;
+          margin: 0; line-height: 1.3;
+        }
+        .topic-card-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+        .topic-chips { display: flex; gap: 0.3rem; }
+        .t-chip {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 30px; height: 30px; border-radius: 8px;
+          font-size: 0.75rem;
+        }
+        .t-chip--v { background: rgba(94,155,181,0.1);  color: #4a8eaa; border: 1px solid rgba(94,155,181,0.25); }
+        .t-chip--a { background: rgba(196,144,106,0.1); color: #b8835a; border: 1px solid rgba(196,144,106,0.25); }
+        .t-chip--f { background: rgba(107,174,138,0.1); color: #4e9e74; border: 1px solid rgba(107,174,138,0.25); }
+        .topic-chevron {
+          color: #9ab0be; display: flex; align-items: center;
+          transition: transform 0.3s, color 0.2s;
+        }
+        .topic-chevron--open { transform: rotate(180deg); color: #6BAE8A; }
+
+        .topic-card-body { padding: 0 1.5rem 1.75rem; }
+        .topic-video-wrap { margin-bottom: 1.5rem; }
+        .topic-video-embed {
+          position: relative; padding-bottom: 56.25%; height: 0;
+          border-radius: 10px; overflow: hidden;
+          box-shadow: 0 6px 28px rgba(26,43,60,0.1);
+        }
+        .topic-video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .topic-section-label {
+          display: inline-block; font-size: 0.7rem; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.12em;
+          color: #6BAE8A; margin-bottom: 0.35rem;
+        }
+        .topic-article-excerpt {
+          background: #f8fbf9; border-radius: 10px;
+          border: 1px solid rgba(107,174,138,0.13);
+          padding: 1.2rem 1.3rem; margin-bottom: 1rem;
+        }
+        .topic-article-title {
+          font-family: 'Playfair Display', serif; font-size: 1.1rem;
+          font-weight: 500; color: #1a2b3c; margin: 0.2rem 0 0.5rem; line-height: 1.3;
+        }
+        .topic-article-text { color: #6b7f8e; font-size: 0.975rem; line-height: 1.72; margin: 0; }
+        .topic-faq-summary {
+          background: #f4f9f6; border-radius: 10px;
+          border: 1px solid rgba(107,174,138,0.13);
+          padding: 1rem 1.3rem; margin-bottom: 1rem;
+        }
+        .topic-faq-count { color: #6b7f8e; font-size: 0.975rem; margin: 0.2rem 0 0; }
+        .topic-cta-link {
+          display: inline-block; font-size: 0.9rem; font-weight: 600; color: #4e9e74;
+          text-decoration: none; border-bottom: 1.5px solid rgba(107,174,138,0.4);
+          padding-bottom: 1px; transition: color 0.2s, border-color 0.2s;
+        }
+        .topic-cta-link:hover { color: #1a2b3c; border-color: #1a2b3c; }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* VIDEO TAB — embedded grid                                */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .video-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.75rem;
+        }
+        .video-embed {
+          position: relative; padding-bottom: 56.25%; height: 0;
+          border-radius: 12px; overflow: hidden;
+          box-shadow: 0 6px 28px rgba(26,43,60,0.1);
+          border: 1px solid rgba(107,174,138,0.1);
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-item-meta { padding: 0.8rem 0.25rem 0; }
+        .video-item-tag {
+          font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.1em; color: #C4906A; display: block; margin-bottom: 0.3rem;
+        }
+        .video-item-title {
+          font-family: 'Playfair Display', serif; font-size: 1.05rem;
+          font-weight: 500; color: #1a2b3c; margin: 0; line-height: 1.35;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* ARTICLE TAB — cards with gradient image header           */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .article-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .art-card {
+          background: #fff;
+          border: 1px solid rgba(107,174,138,0.15);
+          border-radius: 16px; overflow: hidden;
+          transition: border-color 0.22s, box-shadow 0.22s;
+        }
+        .art-card:hover {
+          border-color: rgba(107,174,138,0.35);
+          box-shadow: 0 4px 22px rgba(107,174,138,0.08);
+        }
+        .art-card--open { border-color: rgba(107,174,138,0.4); }
+
+        /* gradient "image" header */
+        .art-card-header {
+          padding: 2.25rem 2.25rem 2rem;
+          position: relative; overflow: hidden; min-height: 140px;
+          display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .art-header-deco {
+          position: absolute;
+          top: -50px; right: -50px;
+          width: 200px; height: 200px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.04);
+          pointer-events: none;
+        }
+        .art-header-deco::after {
+          content: '';
+          position: absolute;
+          bottom: -80px; left: -40px;
+          width: 130px; height: 130px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.03);
+        }
+        .art-card-tag {
+          display: inline-block;
+          font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.12em; color: rgba(255,255,255,0.7);
+          border: 1px solid rgba(255,255,255,0.22);
+          padding: 0.22rem 0.65rem; border-radius: 9999px; margin-bottom: 0.75rem;
+          position: relative;
+        }
+        .art-card-headline {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+          font-weight: 500; color: #f5f0e8;
+          margin: 0 0 0.4rem; line-height: 1.2;
+          position: relative;
+        }
+        .art-card-topic-title {
+          color: rgba(245,240,232,0.5); font-size: 0.875rem;
+          margin: 0; font-style: italic; position: relative;
+        }
+
+        /* card body */
+        .art-card-body { padding: 1.6rem 2.25rem 2rem; }
+        .art-excerpt {
+          color: #5c7080; font-size: 1.02rem; line-height: 1.8;
+          margin: 0 0 1.2rem;
+        }
+        .art-toggle-btn {
+          background: transparent; border: none;
+          border-bottom: 1.5px solid rgba(107,174,138,0.45);
+          color: #1a2b3c; font-size: 0.9rem; font-weight: 600;
+          cursor: pointer; padding: 0 0 2px; font-family: inherit;
+          transition: color 0.2s, border-color 0.2s;
+        }
+        .art-toggle-btn:hover { color: #4e9e74; border-color: #6BAE8A; }
+        .art-full {
+          margin-top: 1.75rem; padding-top: 1.75rem;
+          border-top: 1px solid rgba(107,174,138,0.12);
+        }
+        .art-full p { color: #4a6275; font-size: 1.02rem; line-height: 1.82; margin-bottom: 1rem; }
+        .art-cta {
+          margin-top: 2rem;
+          background: linear-gradient(135deg, #0C1B2E 0%, #1A3448 100%);
+          border-radius: 14px; padding: 2rem 2.25rem 2.25rem; text-align: center;
+        }
+        .art-cta h4 {
+          font-family: 'Playfair Display', serif; font-size: 1.3rem;
+          color: #f5f0e8; margin: 0 0 0.6rem; font-weight: 500;
+        }
+        .art-cta p { color: rgba(245,240,232,0.65); font-size: 0.975rem; margin: 0 0 1.5rem; }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* FAQ TAB                                                  */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+        .faq-layout {
+          display: grid;
+          grid-template-columns: 220px 1fr;
+          gap: 3rem;
+          align-items: start;
+        }
+
+        /* ── Left: sticky category nav ── */
+        .faq-nav {
+          position: sticky;
+          top: 100px;
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+        }
+        .faq-nav-label {
+          font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.14em; color: #9ab0be;
+          margin: 0 0 0.65rem 0.75rem;
+        }
+        .faq-nav-btn {
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 0.5rem;
+          width: 100%; padding: 0.58rem 0.75rem;
+          background: transparent; border: none; border-radius: 10px;
+          text-align: left; cursor: pointer;
+          font-size: 0.88rem; font-weight: 500; color: #5c7080;
+          transition: background 0.18s, color 0.18s;
+        }
+        .faq-nav-btn:hover { background: rgba(107,174,138,0.08); color: #1a2b3c; }
+        .faq-nav-btn--active { background: #0C1B2E; color: #f5f0e8; }
+        .faq-nav-btn--active:hover { background: #142638; color: #f5f0e8; }
+        .faq-nav-count {
+          font-size: 0.7rem; font-weight: 600;
+          color: inherit; opacity: 0.5;
+          background: rgba(0,0,0,0.06);
+          padding: 0.1rem 0.42rem;
+          border-radius: 9999px; flex-shrink: 0;
+        }
+        .faq-nav-btn--active .faq-nav-count { background: rgba(255,255,255,0.15); opacity: 0.8; }
+
+        /* ── Right: FAQ sections ── */
+        .faq-content { display: flex; flex-direction: column; gap: 2.75rem; }
+
+        .faq-section-hd {
+          padding-bottom: 1rem;
+          border-bottom: 1.5px solid #e8eff4;
+          margin-bottom: 0.75rem;
+        }
+        .faq-section-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.45rem; font-weight: 500; color: #1a2b3c;
+          margin: 0; line-height: 1.2;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* ARTICLE MODAL                                            */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .art-modal-backdrop {
+          position: fixed; inset: 0;
+          background: rgba(10,14,20,0.62);
+          backdrop-filter: blur(7px);
+          -webkit-backdrop-filter: blur(7px);
+          z-index: 200;
+          animation: artBackdropIn 0.25s ease forwards;
+        }
+        @keyframes artBackdropIn {
+          from { opacity: 0; backdrop-filter: blur(0px); }
+          to   { opacity: 1; backdrop-filter: blur(7px); }
+        }
+        .art-modal-wrap {
+          position: fixed; inset: 0;
+          z-index: 201;
+          display: flex; align-items: center; justify-content: center;
+          padding: 24px 16px;
+        }
+        .art-modal-card {
+          background: #fff;
+          border-radius: 22px;
+          width: 100%; max-width: 780px;
+          max-height: calc(100dvh - 48px);
+          display: flex; flex-direction: column;
+          overflow: hidden;
+          box-shadow: 0 32px 80px rgba(0,0,0,0.28), 0 4px 16px rgba(0,0,0,0.1);
+          position: relative;
+          animation: artModalIn 0.28s cubic-bezier(0.34,1.3,0.64,1) forwards;
+        }
+        @keyframes artModalIn {
+          from { opacity: 0; transform: scale(0.93) translateY(16px); }
+          to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .art-modal-close {
+          position: absolute; top: 14px; right: 14px; z-index: 10;
+          background: rgba(255,255,255,0.85);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(26,43,60,0.12);
+          border-radius: 50%;
+          width: 36px; height: 36px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; color: #555;
+          transition: background 0.18s, color 0.18s;
+        }
+        .art-modal-close:hover { background: #fff; color: #111; }
+        .art-modal-header {
+          padding: 2.5rem 2rem 2rem;
+          flex-shrink: 0;
+          position: relative; overflow: hidden;
+        }
+        .art-modal-headline {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.3rem, 3vw, 1.8rem);
+          font-weight: 600; color: #fff;
+          margin: 0.5rem 0 0.4rem; line-height: 1.25;
+        }
+        .art-modal-topic {
+          font-size: 0.85rem; color: rgba(255,255,255,0.65);
+          margin: 0; font-style: italic;
+        }
+        .art-modal-body {
+          overflow-y: auto; flex: 1; min-height: 0;
+          padding: 1.75rem 2rem 2rem;
+          display: flex; flex-direction: column; gap: 1.75rem;
+        }
+        .art-modal-article p {
+          font-size: 0.95rem; line-height: 1.82;
+          color: rgba(26,43,60,0.72); margin: 0 0 1rem;
+        }
+        .art-modal-article p:last-child { margin-bottom: 0; }
+        .art-modal-faqs-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.15rem; font-weight: 500; color: #1a2b3c;
+          margin: 0 0 1rem;
+        }
+        .art-modal-cta {
+          background: #f7faf9;
+          border: 1px solid rgba(107,174,138,0.18);
+          border-radius: 14px; padding: 1.5rem;
+          text-align: center;
+        }
+        .art-modal-cta h4 {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.1rem; color: #1a2b3c; margin: 0 0 0.4rem;
+        }
+        .art-modal-cta p {
+          font-size: 0.875rem; color: rgba(26,43,60,0.55);
+          margin: 0 0 1.1rem;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* TOPIC CARD SECTIONS (video / article / faqs)             */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .topic-section-block {
+          padding-bottom: 1.5rem;
+          border-bottom: 1px solid rgba(26,43,60,0.07);
+        }
+        .topic-section-block:last-of-type { border-bottom: none; padding-bottom: 0; }
+        .topic-section-label {
+          display: inline-flex; align-items: center; gap: 5px;
+          font-size: 0.68rem; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.12em;
+          color: #6BAE8A; margin-bottom: 0.75rem;
+        }
+        .topic-faq-list { display: flex; flex-direction: column; gap: 0; margin-top: 0; }
+        .topic-read-btn {
+          margin-top: 0.85rem;
+          background: none; border: none; padding: 0; cursor: pointer;
+          font-size: 0.875rem; font-weight: 600; color: #6BAE8A;
+          transition: color 0.18s;
+        }
+        .topic-read-btn:hover { color: #3d8a63; }
 
         @media (max-width: 640px) {
-          .faq-question-btn {
-            padding: 1rem 1.25rem;
-          }
-          .faq-question-text {
-            font-size: 0.95rem;
-          }
-          .faq-answer-text {
-            font-size: 0.9rem;
-            line-height: 1.7;
-          }
-          .faq-q-badge, .faq-a-badge {
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            font-size: 0.7rem;
-          }
+          .art-modal-wrap { padding: 0; align-items: flex-end; }
+          .art-modal-card { max-width: 100%; max-height: 94dvh; border-radius: 20px 20px 0 0; }
+          .art-modal-body { padding: 1.25rem 1.25rem 1.75rem; }
+          .art-modal-header { padding: 2rem 1.25rem 1.5rem; }
         }
 
-        @media (min-width: 768px) {
-          .md\\:p-6 { padding: 1.5rem; }
-          .md\\:text-base { font-size: 1rem; }
-          .md\\:text-lg { font-size: 1.125rem; }
+        /* ── Individual FAQ card ── */
+        .faq-item {
+          border: 1.5px solid #e8eff4;
+          border-radius: 14px;
+          margin-bottom: 0.75rem;
+          overflow: hidden;
+          transition: border-color 0.22s, box-shadow 0.22s;
+        }
+        .faq-item:hover {
+          border-color: rgba(107,174,138,0.35);
+          box-shadow: 0 2px 14px rgba(107,174,138,0.07);
+        }
+        .faq-item.faq-item--open {
+          border-color: rgba(107,174,138,0.5);
+          box-shadow: 0 4px 20px rgba(107,174,138,0.1);
+          background: rgba(107,174,138,0.03);
+        }
+
+        .faq-trigger {
+          width: 100%;
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 1.25rem;
+          padding: 1.25rem 1.5rem;
+          background: transparent; border: none; cursor: pointer; text-align: left;
+        }
+
+        .faq-q-text {
+          font-size: 1rem; font-weight: 600;
+          color: #1a2b3c; line-height: 1.45; flex: 1;
+          transition: color 0.18s;
+        }
+        .faq-item.faq-item--open .faq-q-text { color: #6BAE8A; }
+
+        .faq-chevron {
+          flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          color: rgba(42,63,84,0.35);
+          transition: color 0.18s, transform 0.25s ease;
+        }
+        .faq-item.faq-item--open .faq-chevron {
+          transform: rotate(180deg);
+          color: #6BAE8A;
+        }
+
+        .faq-panel {
+          max-height: 0; overflow: hidden;
+          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .faq-item.faq-item--open .faq-panel { max-height: 600px; }
+
+        .faq-panel-inner {
+          padding: 0 1.5rem 1.3rem;
+        }
+        .faq-a-text {
+          font-size: 0.95rem; line-height: 1.8;
+          color: #5c7080; margin: 0;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* PODCAST TAB — placeholder                                */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .podcast-section { padding: 1rem 0 2rem; }
+        .podcast-header { text-align: center; max-width: 560px; margin: 0 auto 3rem; }
+        .podcast-eyebrow {
+          display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.14em; color: #C4906A;
+          background: rgba(196,144,106,0.08); border: 1px solid rgba(196,144,106,0.2);
+          padding: 0.22rem 0.75rem; border-radius: 9999px; margin-bottom: 0.9rem;
+        }
+        .podcast-title {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(1.8rem, 4vw, 2.6rem);
+          font-weight: 500; color: #1a2b3c; margin: 0 0 0.9rem; line-height: 1.15;
+        }
+        .podcast-sub { color: #6b7f8e; font-size: 1.05rem; line-height: 1.7; margin: 0; }
+        .podcast-placeholder-grid {
+          display: grid; grid-template-columns: repeat(2, 1fr);
+          gap: 1.25rem; margin-bottom: 2rem;
+        }
+        .podcast-placeholder-card {
+          background: #fff; border: 1px solid rgba(107,174,138,0.15);
+          border-radius: 14px; overflow: hidden;
+        }
+        .podcast-placeholder-thumb {
+          height: 130px;
+          background: linear-gradient(90deg, #e8edf2 25%, #d4dde6 50%, #e8edf2 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.8s infinite linear;
+        }
+        @keyframes shimmer {
+          0%   { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+        .podcast-placeholder-lines {
+          padding: 1.1rem 1.25rem 1.3rem;
+          display: flex; flex-direction: column; gap: 0.55rem;
+        }
+        .pph-line {
+          height: 11px; border-radius: 6px;
+          background: linear-gradient(90deg, #e8edf2 25%, #d4dde6 50%, #e8edf2 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.8s infinite linear;
+        }
+        .pph-line--short  { width: 38%; }
+        .pph-line--medium { width: 62%; }
+        .pph-line--long   { width: 90%; }
+        .podcast-notice {
+          text-align: center; color: #7a94a8; font-size: 0.975rem; line-height: 1.65;
+        }
+        .podcast-contact-link {
+          color: #4e9e74; font-weight: 600; text-decoration: none;
+          border-bottom: 1px solid rgba(107,174,138,0.4);
+        }
+        .podcast-contact-link:hover { color: #1a2b3c; }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        /* RESPONSIVE                                               */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        @media (max-width: 760px) {
+          .faq-layout {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+          .faq-nav {
+            position: static;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+          }
+          .faq-nav-label { display: none; }
+          .faq-nav-btn {
+            width: auto;
+            padding: 0.4rem 0.85rem;
+            border: 1px solid #dce8f0;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+          }
+          .faq-nav-btn--active { border-color: transparent; }
+        }
+        @media (max-width: 720px) {
+          .topic-grid { grid-template-columns: 1fr; }
+          .topic-card--open { grid-column: auto; }
+          .video-grid { grid-template-columns: 1fr; }
+          .podcast-placeholder-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+          .res-hero { padding: 7rem 1rem 2.5rem; }
+          .art-card-header { padding: 1.5rem 1.25rem 1.25rem; min-height: 110px; }
+          .art-card-body { padding: 1.25rem 1.25rem 1.5rem; }
+          .topic-card-header { padding: 1rem 1.1rem; }
+          .topic-card-body { padding: 0 1.1rem 1.25rem; }
+          .faq-trigger { padding: 1rem 1rem; }
         }
       `}</style>
-    </main>
+    </div>
   );
 }
