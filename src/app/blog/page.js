@@ -1934,7 +1934,7 @@ export default function BlogIndex() {
           text-transform: uppercase; letter-spacing: 0.12em;
           color: #6BAE8A; margin-bottom: 0.75rem;
         }
-        .topic-faq-list { display: flex; flex-direction: column; gap: 0; margin-top: 0; }
+        .topic-faq-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0; }
         .topic-read-btn {
           margin-top: 0.85rem;
           background: none; border: none; padding: 0; cursor: pointer;
@@ -1952,20 +1952,20 @@ export default function BlogIndex() {
 
         /* ── Individual FAQ card ── */
         .faq-item {
-          border: 1.5px solid #e8eff4;
+          background: #fff;
+          border: 1.5px solid #e2e8f0;
           border-radius: 14px;
-          margin-bottom: 0.75rem;
+          margin-bottom: 0.6rem;
           overflow: hidden;
           transition: border-color 0.22s, box-shadow 0.22s;
         }
         .faq-item:hover {
-          border-color: rgba(107,174,138,0.35);
-          box-shadow: 0 2px 14px rgba(107,174,138,0.07);
+          border-color: #b0c8d8;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
         .faq-item.faq-item--open {
-          border-color: rgba(107,174,138,0.5);
-          box-shadow: 0 4px 20px rgba(107,174,138,0.1);
-          background: rgba(107,174,138,0.03);
+          border-color: #6BAE8A;
+          box-shadow: 0 4px 18px rgba(107,174,138,0.12);
         }
 
         .faq-trigger {
@@ -1977,17 +1977,15 @@ export default function BlogIndex() {
         }
 
         .faq-q-text {
-          font-size: 1rem; font-weight: 600;
+          font-size: 0.975rem; font-weight: 600;
           color: #1a2b3c; line-height: 1.45; flex: 1;
-          transition: color 0.18s;
         }
-        .faq-item.faq-item--open .faq-q-text { color: #6BAE8A; }
 
         .faq-chevron {
           flex-shrink: 0;
           display: flex; align-items: center; justify-content: center;
-          color: rgba(42,63,84,0.35);
-          transition: color 0.18s, transform 0.25s ease;
+          color: #9ab0be;
+          transition: color 0.2s, transform 0.25s ease;
         }
         .faq-item.faq-item--open .faq-chevron {
           transform: rotate(180deg);
